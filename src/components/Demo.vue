@@ -113,7 +113,7 @@
     #demo .container {
         display: grid;
         grid-template-columns: 4fr 5fr;
-        grid-template-rows: 40px auto auto;
+        grid-template-rows: 40px 1fr auto;
         align-items: stretch;
         height: 500px;
         width: 1100px;
