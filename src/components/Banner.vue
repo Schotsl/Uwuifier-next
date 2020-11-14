@@ -1,20 +1,22 @@
 <template>
-    <section id="banner">
-        <div class="container">
-            <div class="image">
-                <picture>
-                    <source type="image/webp" srcset="/exploding-face.webp">
-                    <img src="/exploding-face.png" alt="Exploding face">
-                </picture>
-            </div>
-            <div class="content">
-                <span><b>Uwuifier</b> allows you to uwuify any sentence or word.</span>
-                <div id="buttons">
-                    <a href="https://github.com/Schotsl/Uwuifier#quick-start" title="Go to the the quickstart section">GET STARTED</a>
-                </div>
-            </div>
+  <section id="banner">
+    <div class="container">
+      <div class="image">
+        <picture>
+          <source type="image/webp" srcset="/exploding-face.webp">
+          <img src="/exploding-face.png" alt="Exploding face">
+        </picture>
+      </div>
+
+      <div class="content">
+        <span><b>Uwuifier</b> allows you to uwuify any sentence or word.</span>
+
+        <div id="buttons">
+          <a href="https://github.com/Schotsl/Uwuifier#quick-start" title="Go to the the quickstart section">GET STARTED</a>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style scoped>

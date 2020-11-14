@@ -3,20 +3,37 @@
         <div class="container">
             <label for="input">Input</label>
             <label for="output">Output</label>
-            <textarea id="input" spellcheck="false" v-model="inputValue"></textarea>
-            <textarea id="output" spellcheck="false" readonly v-model="outputValue"></textarea>
+            <textarea style="background: var(--demo-io-background); color: white;" id="input" spellcheck="false" v-model="inputValue"></textarea>
+
+            <div style="position:relative;">
+            <textarea style="width: 100%; height: 100%;" id="output" spellcheck="false" readonly v-model="outputValue"></textarea>
+          
+          <div style="position: absolute; left: 15px; bottom: 15px">
+<div class="dropdown">
+  <button class="dropbtn">Dropdown</button>
+  <div class="dropdown-content">
+    <a href="#">Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+  </div>
+</div>
+</div>
+
+            </div>
         </div>
     </section>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
+  import { Vue, Prop, Watch, Component } from 'vue-property-decorator';
   import { Uwuifier } from 'uwuifier';
-
-  const uwuifier = new Uwuifier();
 
   @Component
   export default class Demo extends Vue {
+    @Prop() settings: any;
+
+    private uwuifier = new Uwuifier();
+
     private input = `Hey! This site can help you make any old boring text nice and uwu. We can't imagine anyone would actually use this, but you gotta do what you gotta do.`;
 
     get inputValue() {
@@ -28,14 +45,75 @@
     }
 
     get outputValue() {
-      return uwuifier.uwuifySentence(this.input);
+      return this.uwuifier.uwuifySentence(this.input);
+    }
+
+    @Watch('settings', { deep: true })
+    onMyPropChanged(val: any, oldVal: any) {
+      console.log(`Faces parameter: ${val.spaces.faces}`);
+      console.log(`Actions parameter: ${val.spaces.actions}`);
+      console.log(`Stutters parameter: ${val.spaces.stutters}`);
+      this.uwuifier = new Uwuifier(val);
     }
   }
 </script>
 
 <style scoped>
+
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  z-index: 100;
+  /* display: none; */
+    display: block;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+
+
+
+
     #demo {
         display: flex;
+        padding: 80px 0px 60px 0px;
         justify-content: center;
     }
     
@@ -78,7 +156,7 @@
         color: #000;
     }
 
-    #demo textarea {
+    textarea {
         font-family: inherit;
         border: none;
         outline: none;

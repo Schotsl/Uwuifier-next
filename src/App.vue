@@ -4,70 +4,38 @@
 
     <main>
       <Banner></Banner>
-      <Demo></Demo>
-      <Sample :title="javascriptObject.title" :subtitle="javascriptObject.subtitle" :sample="javascriptObject.sample"></Sample>
-
-      <section id="ad" class="darker">
-        <div class="container">
-          <div id="637711063"></div>
-        </div>
-      </section>
-
-      <Sample :title="denoObject.title" :subtitle="denoObject.subtitle" :sample="denoObject.sample"></Sample>
+      <Demo :settings="settings"></Demo>
+      <Settings @updatedSettings="updatedSettings"></Settings>
     </main>
   </div>
 </template>
 
 <script lang="ts">
-  declare global {
-    interface Window {
-      // eslint-disable-next-line
-      _mNHandle: any;
-      // eslint-disable-next-line
-      _mNDetails: any;
-    }
-  }
-
   // Import Vue properties
   import { Component, Vue } from 'vue-property-decorator';
-  
+  import { Uwuifier } from 'uwuifier';
+
   // Import Vue components
+  import Settings from './components/Settings.vue';
   import Header from './components/Header.vue';
   import Banner from './components/Banner.vue';
-  import Sample from './components/Sample.vue';
   import Demo from './components/Demo.vue';
-
-  // Import sample data
-  import sampleData from './sample.json';
 
   @Component({
     components: {
+      Settings,
       Header,
       Banner,
-      Sample,
       Demo,
     }
   })
   export default class App extends Vue {
-    mounted() {
-      console.log(`Mounted is called`);
+    settings: any = {};
 
-      window._mNHandle.queue.push(function() {
-        console.log(`Pushing to the array`);
-        window._mNDetails.loadTag("637711063", "728x90", "637711063");
-      });
-    }
-
-    get denoObject() {
-      return sampleData.deno;
-    }
-
-    get javascriptObject() {
-      return sampleData.javascript;
-    }
-
-    get readmeObject() {
-      return sampleData.readme;
+    updatedSettings(settings: any) {
+      console.log('Change recieved');
+      console.log(settings);
+      this.settings = settings;
     }
   }
 </script>
@@ -129,10 +97,6 @@
     img {
         display: block;
         width: 100%;
-    }
-
-    main > section {
-        padding: 80px 0;
     }
 
     .container {
