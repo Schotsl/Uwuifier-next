@@ -3,22 +3,15 @@
         <div class="container">
             <label for="input">Input</label>
             <label for="output">Output</label>
-            <textarea style="background: var(--demo-io-background); color: white;" id="input" spellcheck="false" v-model="inputValue"></textarea>
-
-            <div style="position:relative;">
-            <textarea style="width: 100%; height: 100%;" id="output" spellcheck="false" readonly v-model="outputValue"></textarea>
-          
-          <div style="position: absolute; left: 15px; bottom: 15px">
-<div class="dropdown">
-  <button class="dropbtn">Dropdown</button>
-  <div class="dropdown-content">
-    <a href="#">Link 1</a>
-    <a href="#">Link 2</a>
-    <a href="#">Link 3</a>
-  </div>
-</div>
-</div>
-
+            <textarea id="input" spellcheck="false" v-model="inputValue"></textarea>
+            <textarea id="output" spellcheck="false" readonly v-model="outputValue"></textarea>
+            <div class="dropdown">
+                <button class="dropbtn">Dropdown</button>
+                <div class="dropdown-content">
+                    <a href="#">Link 1</a>
+                    <a href="#">Link 2</a>
+                    <a href="#">Link 3</a>
+                </div>
             </div>
         </div>
     </section>
@@ -120,9 +113,8 @@
     #demo .container {
         display: grid;
         grid-template-columns: 4fr 5fr;
-        grid-template-rows: 40px;
+        grid-template-rows: 40px auto auto;
         align-items: stretch;
-        justify-items: stretch;
         height: 500px;
         width: 1100px;
         box-shadow: 0 20px 25px 10px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -171,6 +163,7 @@
 
     #demo textarea:first-of-type {
         background: var(--demo-io-background);
+        grid-area: span 2;
     }
 
     #demo textarea:last-of-type {
