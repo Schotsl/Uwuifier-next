@@ -2,21 +2,26 @@
   <section class="banner">
     <div class="container">
       <picture>
-        <source type="image/webp" srcset="/playstore.svg" />
+        <source type="image/webp" srcset="/appstore.svg" />
         <img
-          width="196"
-          height="190"
-          src="/playstore.svg"
-          alt="Google Play Store logo"
+          width="175"
+          height="175"
+          src="/appstore.svg"
+          alt="App Store logo"
         />
       </picture>
       <div class="content">
-        <span><b>Uwuifier</b> is now available for every Android device.</span>
+        <span><b>Uwuifier</b> is now available for every Apple and Android device.</span>
         <div class="buttons">
           <a
+            href="https://apps.apple.com/app/uwuifier/id1623454749"
+            title="Go to the App Store Uwuifier app"
+            >APP STORE DOWNLOAD</a
+          >
+          <a
             href="https://play.google.com/store/apps/details?id=com.sjorsvanholst.uwuifier"
-            title="Go to the PlayStore Uwuifier app"
-            >DOWNLOAD NOW</a
+            title="Go to the Google Play Uwuifier app"
+            >PLAY STORE DOWNLOAD</a
           >
         </div>
       </div>
@@ -36,12 +41,18 @@
     justify-content: center;
 
     picture img {
-      width: 196px;
-      height: 190px;
+      width: 175px;
+      height: 175px;
+      margin-top: 35px;
     }
 
     .content {
       margin: 30px 0 0 60px;
+
+      .buttons {
+        gap: 30px;
+        display: flex;
+      }
     }
 
     span {
@@ -88,7 +99,6 @@
       }
 
       .buttons {
-        display: flex;
         justify-content: center;
       }
     }
@@ -97,8 +107,12 @@
 
 @media screen and (max-width: 700px) {
   .banner picture img {
-    width: 155px;
-    height: 150px;
+    width: 145px;
+    height: 145px;
+  }
+
+  .buttons {
+    flex-direction: column;
   }
 }
 </style>
