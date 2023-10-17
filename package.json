@@ -22,6 +22,7 @@
     "react-hook-form": "^7.46.2",
     "sass": "^1.68.0",
     "typescript": "<5.2.0",
+    "uwuifier": "^4.0.5",
     "zod": "^3.22.2"
   },
   "devDependencies": {
