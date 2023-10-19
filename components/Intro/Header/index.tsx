@@ -17,7 +17,7 @@ type HeaderProps = {
 
 export default function Header({ offset, initial, personal }: HeaderProps) {
   const [count, setCount] = useState(initial);
-  
+
   const reference = useRef(offset);
 
   const supabase = createClientComponentClient();
@@ -57,8 +57,14 @@ export default function Header({ offset, initial, personal }: HeaderProps) {
   }, []);
 
   return (
-    <h2>
-      {startSentence} {formatNumber(count + offset)} {endSentence}
-    </h2>
+    <>
+      <h1>
+        This month we've <b>Uwuified</b> over {formatNumber(count + offset)}{" "}
+        sentences!
+      </h1>
+      <h2>
+        {startSentence} {formatNumber(personal)} {endSentence}
+      </h2>
+    </>
   );
 }

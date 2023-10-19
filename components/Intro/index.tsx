@@ -11,12 +11,28 @@ type IntroProps = {
 
 export default function Intro({ initial }: IntroProps) {
   const [offset, setOffset] = useState(0);
+  const [personal, setPersonal] = useState(() => {
+    const personalRaw = localStorage.getItem("personal") || "0";
+    const personalParsed = parseInt(personalRaw);
+
+    return personalParsed;
+  });
+
+  function onUwuified() {
+    setOffset((offset) => offset + 1);
+    setPersonal((personal) => personal + 1);
+
+    const personalIncreased = personal + 1;
+    const personalStringified = personalIncreased.toString();
+
+    localStorage.setItem("personal", personalStringified);
+  }
 
   return (
     <>
-      <IntroHeader offset={offset} initial={initial} personal={10} />
+      <IntroHeader offset={offset} initial={initial} personal={personal} />
 
-      <IntroDemo onUwuified={() => setOffset(offset + 1)} />
+      <IntroDemo onUwuified={onUwuified} />
     </>
   );
 }
