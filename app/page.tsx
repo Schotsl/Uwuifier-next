@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Intro from "@/components/Intro";
 
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -27,7 +27,7 @@ export default async function Page() {
 
   return (
     <>
-      <Header offset={0} initial={initial} personal={10} />
+      <Intro initial={initial} />
     </>
   );
 }

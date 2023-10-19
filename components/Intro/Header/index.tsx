@@ -16,15 +16,15 @@ type HeaderProps = {
 };
 
 export default function Header({ offset, initial, personal }: HeaderProps) {
+  const [count, setCount] = useState(initial);
+  
+  const reference = useRef(offset);
+
   const supabase = createClientComponentClient();
   const uwuifier = new Uwuifier();
 
-  const [count, setCount] = useState(initial);
-
   const startSentence = uwuifier.uwuifySentence("And ");
   const endSentence = uwuifier.uwuifySentence(" of those were your fault!");
-
-  const reference = useRef(offset);
 
   useEffect(() => {
     // Adjust the offset to prevent double counting
@@ -58,7 +58,7 @@ export default function Header({ offset, initial, personal }: HeaderProps) {
 
   return (
     <h2>
-      {startSentence} {formatNumber(count)} {endSentence}
+      {startSentence} {formatNumber(count + offset)} {endSentence}
     </h2>
   );
 }
