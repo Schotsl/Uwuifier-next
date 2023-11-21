@@ -1,5 +1,7 @@
 "use client";
 
+import styles from "./Header.module.scss";
+
 import React from "react";
 import Uwuifier from "uwuifier";
 
@@ -57,7 +59,7 @@ export default function Header({ offset, initial, personal }: HeaderProps) {
   }, []);
 
   return (
-    <>
+    <header className={styles.header}>
       <h1>
         This month we've <b>Uwuified</b> over {formatNumber(count + offset)}{" "}
         sentences!
@@ -65,6 +67,6 @@ export default function Header({ offset, initial, personal }: HeaderProps) {
       <h2>
         {startSentence} {formatNumber(personal)} {endSentence}
       </h2>
-    </>
+    </header>
   );
 }

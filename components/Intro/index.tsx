@@ -1,5 +1,7 @@
 "use client";
 
+import styles from "./Intro.module.scss";
+
 import IntroDemo from "@/components/Intro/Demo";
 import IntroHeader from "@/components/Intro/Header";
 
@@ -38,10 +40,10 @@ export default function Intro({ initial }: IntroProps) {
   }
 
   return (
-    <>
+    <main className={styles.intro}>
       <IntroHeader offset={offset} initial={initial} personal={personal} />
 
       <IntroDemo onUwuified={onUwuified} />
-    </>
+    </main>
   );
 }

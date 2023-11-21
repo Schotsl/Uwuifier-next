@@ -1,3 +1,5 @@
+@import "@/styles/variables.scss";
+
 body,
 html {
   width: 100vw;
@@ -25,7 +27,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #161616;
+  color: $color-white;
   margin: 0px;
 
   font-weight: 600;
