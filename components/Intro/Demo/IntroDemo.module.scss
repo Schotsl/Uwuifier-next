@@ -12,10 +12,14 @@
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
   &__wrapper {
+    padding: $spacing-editor-horizontal $spacing-editor-vertical;
+    padding-top: 0;
+
+    color: $color-white;
+    background: $color-grey;
+
     width: 50%;
-    color: $color-grey;
     display: flex;
-    background: $color-yellow;
 
     align-items: center;
     flex-direction: column;
@@ -27,6 +31,7 @@
       height: 50px;
       display: flex;
       position: relative;
+      font-weight: 600;
       align-items: center;
 
       &::after {
@@ -36,26 +41,25 @@
         content: "";
         display: block;
         position: absolute;
-        background: $color-grey;
+        background: $color-white;
       }
     }
 
     &__input {
-      margin: $spacing-editor-horizontal $spacing-editor-vertical;
-
       color: inherit;
-      width: calc(100% - #{$spacing-editor-horizontal * 2});
+      width: 100%;
       border: none;
       resize: none;
       background: transparent;
+      margin-top: $spacing-editor-horizontal;
 
       min-height: 8rem;
       font-family: inherit;
     }
 
     &:last-of-type {
-      color: $color-white;
-      background: $color-grey;
+      color: $color-grey;
+      background: $color-yellow;
 
       border-top-left-radius: 0;
       border-top-right-radius: $radius;
@@ -65,9 +69,35 @@
 
       .demo__wrapper__label {
         &::after {
-          background: $color-white;
+          background: $color-grey;
         }
       }
     }
+
+    &__buttons {
+      gap: $spacing-default;
+      width: 100%;
+      margin-top: auto;
+      display: flex;
+    }
+  }
+
+  button {
+    gap: $spacing-default;
+    color: $color-white;
+    display: flex;
+    padding: 16px 32px;
+    background: $color-background;
+
+    min-width: 56.5px;
+    font-size: $font-body;
+    justify-content: center;
+
+    border-color: $border-color;
+    border-width: $border-width;
+    border-style: $border-style;
+    border-radius: $radius;
+
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.01);
   }
 }

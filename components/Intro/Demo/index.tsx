@@ -6,7 +6,8 @@ import React from "react";
 import Uwuifier from "uwuifier";
 
 import { MutableRefObject } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy, faShare } from "@fortawesome/free-solid-svg-icons";
 
 import { usePlausible } from "next-plausible";
 import { useState } from "react";
@@ -102,6 +103,25 @@ export default function Demo({ onUwuified }: DemoProps) {
           className={styles.demo__wrapper__input}
           readOnly
         />
+
+        <menu className={styles.demo__wrapper__buttons}>
+          <button>
+            <FontAwesomeIcon
+              icon={faShare}
+              className="fas fa-check"
+              style={{ color: "#fff", fontSize: 18 }}
+            />
+          </button>
+
+          <button>
+            <FontAwesomeIcon
+              icon={faCopy}
+              className="fas fa-check"
+              style={{ color: "#fff", fontSize: 18 }}
+            />
+            Copy text
+          </button>
+        </menu>
       </div>
     </div>
   );
