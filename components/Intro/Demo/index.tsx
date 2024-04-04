@@ -18,20 +18,28 @@ import { useState } from "react";
 import { formatNumber } from "@/helper";
 import { useEffect, useRef } from "react";
 import Button from "@/components/Button";
+import Loader from "@/components/Loader";
 
 type DemoProps = {
+  loading?: boolean;
   onUwuified: () => void;
 };
 
-export default function Demo({ onUwuified }: DemoProps) {
-  const [output, setOutput] = useState("");
-  const [typed, setTyped] = useState(false);
-  const [input, setText] = useState(
-    "According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground."
-  );
+enum State {
+  UWU_TO_ENG = "UWU_TO_ENG",
+  ENG_TO_UWU = "ENG_TO_UWU",
+}
 
+export default function Demo({ loading = false, onUwuified }: DemoProps) {
   const plausible = usePlausible();
   const uwuifier = new Uwuifier();
+
+  const [state, setState] = useState<State>(State.ENG_TO_UWU);
+  const [typed, setTyped] = useState(false);
+
+  // prettier-ignore
+  const [input, setInput] = useState("According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground.");
+  const [output, setOutput] = useState(uwuifier.uwuifySentence(input));
 
   // We'll use this over-typed ref to store the timeout
   const timeout: MutableRefObject<NodeJS.Timeout | null> = useRef(null);
@@ -64,15 +72,13 @@ export default function Demo({ onUwuified }: DemoProps) {
     return () => clearTimeout(timeout.current!);
   }, [input]);
 
-  useEffect(() => {
+  function handleInput(text: string) {
+    setTyped(true);
+    setInput(text);
+
     const uwuified = uwuifier.uwuifySentence(input);
 
     setOutput(uwuified);
-  }, [input]);
-
-  function handleInput(text: string) {
-    setTyped(true);
-    setText(text);
   }
 
   function handleFocus() {
@@ -80,7 +86,21 @@ export default function Demo({ onUwuified }: DemoProps) {
       return;
     }
 
-    setText("");
+    setInput("");
+  }
+
+  function handleSwitch() {
+    const updated =
+      state === State.ENG_TO_UWU ? State.UWU_TO_ENG : State.ENG_TO_UWU;
+
+    setState(updated);
+
+    if (updated === State.UWU_TO_ENG) {
+      const copy = input;
+
+      setInput(output);
+      setOutput(copy);
+    }
   }
 
   return (
@@ -89,13 +109,16 @@ export default function Demo({ onUwuified }: DemoProps) {
         <label className={styles.demo__wrapper__label} htmlFor="input">
           Input
         </label>
-        <textarea
-          id="input"
-          value={input}
-          onFocus={handleFocus}
-          onChange={(e) => handleInput(e.target.value)}
-          className={styles.demo__wrapper__input}
-        />
+
+        <div className={styles.demo__wrapper__wrapper}>
+          <textarea
+            id="input"
+            value={input}
+            onFocus={handleFocus}
+            onChange={(e) => handleInput(e.target.value)}
+            className={styles.demo__wrapper__wrapper__input}
+          />
+        </div>
       </div>
 
       <div className={styles.demo__wrapper}>
@@ -103,24 +126,34 @@ export default function Demo({ onUwuified }: DemoProps) {
           Output
         </label>
 
-        <FontAwesomeIcon
-          icon={faRepeat}
-          style={{
-            top: 20,
-            left: 24,
-            color: "#000",
-            fontSize: 16,
-            position: "absolute",
-          }}
-          className="fas fa-check"
-        />
+        <button onClick={handleSwitch}>
+          <FontAwesomeIcon
+            icon={faRepeat}
+            style={{
+              top: 20,
+              left: 24,
+              color: "#000",
+              fontSize: 16,
+              position: "absolute",
+            }}
+            className="fas fa-check"
+          />
+        </button>
 
-        <textarea
-          id="output"
-          value={output}
-          className={styles.demo__wrapper__input}
-          readOnly
-        />
+        <div className={styles.demo__wrapper__wrapper}>
+          <textarea
+            id="output"
+            value={output}
+            className={
+              loading
+                ? `${styles.demo__wrapper__wrapper__input} ${styles.demo__wrapper__wrapper__input__loading}`
+                : `${styles.demo__wrapper__wrapper__input}`
+            }
+            readOnly
+          />
+
+          {loading && <Loader />}
+        </div>
 
         <menu className={styles.demo__wrapper__buttons}>
           <Button icon={faShareFromSquare} />

@@ -46,16 +46,27 @@
       }
     }
 
-    &__input {
-      color: inherit;
+    &__wrapper {
       width: 100%;
-      border: none;
-      resize: none;
-      background: transparent;
-      margin-top: $spacing-editor-horizontal;
+      height: 100%;
+      position: relative;
 
-      min-height: 8rem;
-      font-family: inherit;
+      &__input {
+        color: inherit;
+        width: 100%;
+        border: none;
+        resize: none;
+        background: transparent;
+        margin-top: $spacing-editor-horizontal;
+
+        min-height: 8rem;
+        font-family: inherit;
+
+        &__loading {
+          opacity: 0.5;
+          filter: blur(2px);
+        }
+      }
     }
 
     &:last-of-type {

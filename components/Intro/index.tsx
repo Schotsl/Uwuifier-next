@@ -16,7 +16,7 @@ export default function Intro({ initial }: IntroProps) {
   const [offset, setOffset] = useState(0);
   const [personal, setPersonal] = useState(() => {
     const isClient = typeof window !== "undefined";
-    
+
     const personalRaw = isClient
       ? localStorage.getItem("personal") || "0"
       : "0";
@@ -47,7 +47,7 @@ export default function Intro({ initial }: IntroProps) {
     <main className={styles.intro}>
       <IntroHeader offset={offset} initial={initial} personal={personal} />
 
-      <IntroDemo onUwuified={onUwuified} />
+      <IntroDemo onUwuified={onUwuified} loading={true} />
     </main>
   );
 }
