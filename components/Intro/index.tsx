@@ -15,9 +15,13 @@ type IntroProps = {
 export default function Intro({ initial }: IntroProps) {
   const [offset, setOffset] = useState(0);
   const [personal, setPersonal] = useState(() => {
-    const personalRaw = localStorage.getItem("personal") || "0";
-    const personalParsed = parseInt(personalRaw);
+    const isClient = typeof window !== "undefined";
+    
+    const personalRaw = isClient
+      ? localStorage.getItem("personal") || "0"
+      : "0";
 
+    const personalParsed = parseInt(personalRaw);
     return personalParsed;
   });
 

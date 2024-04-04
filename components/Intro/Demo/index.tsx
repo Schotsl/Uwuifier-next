@@ -1,5 +1,7 @@
 "use client";
 
+import styles from "./IntroDemo.module.scss";
+
 import React from "react";
 import Uwuifier from "uwuifier";
 
@@ -76,13 +78,31 @@ export default function Demo({ onUwuified }: DemoProps) {
   }
 
   return (
-    <div>
-      <textarea
-        value={input}
-        onChange={(e) => handleInput(e.target.value)}
-        onFocus={handleFocus}
-      />
-      <textarea value={output} readOnly />
+    <div className={styles.demo}>
+      <div className={styles.demo__wrapper}>
+        <label className={styles.demo__wrapper__label} htmlFor="input">
+          Input
+        </label>
+        <textarea
+          id="input"
+          value={input}
+          onFocus={handleFocus}
+          onChange={(e) => handleInput(e.target.value)}
+          className={styles.demo__wrapper__input}
+        />
+      </div>
+
+      <div className={styles.demo__wrapper}>
+        <label className={styles.demo__wrapper__label} htmlFor="output">
+          Output
+        </label>
+        <textarea
+          id="output"
+          value={output}
+          className={styles.demo__wrapper__input}
+          readOnly
+        />
+      </div>
     </div>
   );
 }

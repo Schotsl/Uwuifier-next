@@ -15,10 +15,12 @@ main {
 }
 
 body {
+  margin: 0;
   display: flex;
 
   font-size: 16px;
   flex-direction: row;
+  font-family: "Open Sans";
 }
 
 h1,

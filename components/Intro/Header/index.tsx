@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./Header.module.scss";
+import styles from "./IntroHeader.module.scss";
 
 import React from "react";
 import Uwuifier from "uwuifier";
