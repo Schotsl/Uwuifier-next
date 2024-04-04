@@ -1,0 +1,29 @@
+@import "@/styles/variables.scss";
+
+.button {
+  gap: $spacing-default;
+  color: $color-white;
+  display: flex;
+  padding: 16px 32px;
+  overflow: hidden;
+  background: $color-background;
+
+  min-width: 56.5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.01);
+  font-size: $font-body;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  justify-content: center;
+
+  border-color: $border-color;
+  border-width: $border-width;
+  border-style: $border-style;
+  border-radius: $radius;
+
+  &__yellow {
+    color: $color-grey;
+    border-color: $color-yellow;
+    background: $color-yellow;
+  }
+}

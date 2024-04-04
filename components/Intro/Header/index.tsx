@@ -1,7 +1,9 @@
 "use client";
 
+import image from "@/public/side.webp";
 import styles from "./IntroHeader.module.scss";
 
+import Image from "next/image";
 import React from "react";
 import Uwuifier from "uwuifier";
 
@@ -9,7 +11,12 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 import { useState } from "react";
 import { formatNumber } from "@/helper";
+import {
+  faAppStoreIos,
+  faGooglePlay,
+} from "@fortawesome/free-brands-svg-icons";
 import { useEffect, useRef } from "react";
+import Button from "@/components/Button";
 
 type HeaderProps = {
   offset: number;
@@ -60,13 +67,31 @@ export default function Header({ offset, initial, personal }: HeaderProps) {
 
   return (
     <header className={styles.header}>
-      <h1>
-        This month we've <b>Uwuified</b> over {formatNumber(count + offset)}{" "}
-        sentences!
-      </h1>
-      <h2>
-        {startSentence} {formatNumber(personal)} {endSentence}
-      </h2>
+      <Image className={styles.header__image} src={image} alt="Uwuifier" />
+
+      <div className={styles.header__content}>
+        <h1>
+          This month we've <b>Uwuified</b> over {formatNumber(count + offset)}{" "}
+          sentences!
+        </h1>
+        <h2>
+          {startSentence} {formatNumber(personal)} {endSentence}
+        </h2>
+
+        <div className={styles.header__content__buttons}>
+          <Button
+            label="Get on the App Store"
+            color="yellow"
+            icon={faAppStoreIos}
+          />
+
+          <Button
+            label="Get on the Play Store"
+            color="yellow"
+            icon={faGooglePlay}
+          />
+        </div>
+      </div>
     </header>
   );
 }

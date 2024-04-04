@@ -4,4 +4,23 @@
   color: $color-white;
   padding: 4rem 8rem;
   background: $color-grey;
+  display: flex;
+  gap: 32px;
+
+  &__image {
+    width: 12rem;
+    height: 12rem;
+  }
+
+  &__content {
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+
+    &__buttons {
+      gap: 16px;
+      margin-top: 32px;
+      display: flex;
+    }
+  }
 }

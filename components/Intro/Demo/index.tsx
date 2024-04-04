@@ -7,12 +7,17 @@ import Uwuifier from "uwuifier";
 
 import { MutableRefObject } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy, faShare } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCopy,
+  faShareFromSquare,
+  faRepeat,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { usePlausible } from "next-plausible";
 import { useState } from "react";
 import { formatNumber } from "@/helper";
 import { useEffect, useRef } from "react";
+import Button from "@/components/Button";
 
 type DemoProps = {
   onUwuified: () => void;
@@ -97,6 +102,19 @@ export default function Demo({ onUwuified }: DemoProps) {
         <label className={styles.demo__wrapper__label} htmlFor="output">
           Output
         </label>
+
+        <FontAwesomeIcon
+          icon={faRepeat}
+          style={{
+            top: 20,
+            left: 24,
+            color: "#000",
+            fontSize: 16,
+            position: "absolute",
+          }}
+          className="fas fa-check"
+        />
+
         <textarea
           id="output"
           value={output}
@@ -105,22 +123,8 @@ export default function Demo({ onUwuified }: DemoProps) {
         />
 
         <menu className={styles.demo__wrapper__buttons}>
-          <button>
-            <FontAwesomeIcon
-              icon={faShare}
-              className="fas fa-check"
-              style={{ color: "#fff", fontSize: 18 }}
-            />
-          </button>
-
-          <button>
-            <FontAwesomeIcon
-              icon={faCopy}
-              className="fas fa-check"
-              style={{ color: "#fff", fontSize: 18 }}
-            />
-            Copy text
-          </button>
+          <Button icon={faShareFromSquare} />
+          <Button icon={faCopy} label="Share text" />
         </menu>
       </div>
     </div>
