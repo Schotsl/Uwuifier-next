@@ -89,7 +89,7 @@ export default function Demo({ onUwuified }: DemoProps) {
             return;
           }
 
-          setState(State.LOADING);
+          setState(State.SUCCESS);
           setOutput(responseJSON.output);
         }
       }
@@ -121,12 +121,10 @@ export default function Demo({ onUwuified }: DemoProps) {
     setState(State.SUCCESS);
     setTranslation(updated);
 
-    if (updated === Translation.UWU_TO_ENG) {
-      const copy = input;
+    const copy = input;
 
-      setInput(output);
-      setOutput(copy);
-    }
+    setInput(output);
+    setOutput(copy);
   }
 
   return (
@@ -135,6 +133,7 @@ export default function Demo({ onUwuified }: DemoProps) {
         id="input"
         label="Input"
         value={input}
+        language={translation === Translation.ENG_TO_UWU ? "English" : "UwU"}
         onChange={handleInput}
       />
 
@@ -144,20 +143,18 @@ export default function Demo({ onUwuified }: DemoProps) {
         error={error}
         state={state}
         value={output}
+        language={translation === Translation.ENG_TO_UWU ? "UwU" : "English"}
         readonly={true}
         headerButtons={[
           <button
             key={0}
             onClick={handleSwitch}
-            style={{
-              top: 20,
-              left: 24,
-              color: "#000",
-              fontSize: 16,
-              position: "absolute",
-            }}
+            className={styles.demo__switch}
           >
-            <FontAwesomeIcon icon={faRepeat} />
+            <FontAwesomeIcon
+              icon={faRepeat}
+              className={styles.demo__switch__icon}
+            />
           </button>,
         ]}
         footerButtons={[

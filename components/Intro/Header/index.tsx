@@ -83,12 +83,16 @@ export default function Header({ offset, initial, personal }: HeaderProps) {
             label="Get on the App Store"
             color="yellow"
             icon={faAppStoreIos}
+            href="https://apps.apple.com/us/app/uwuifier/id1623454749"
+            className={styles.header__content__buttons__button}
           />
 
           <Button
             label="Get on the Play Store"
             color="yellow"
             icon={faGooglePlay}
+            href="https://play.google.com/store/apps/details?id=com.sjorsvanholst.uwuifier"
+            className={styles.header__content__buttons__button}
           />
         </div>
       </div>

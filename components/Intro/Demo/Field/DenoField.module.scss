@@ -1,29 +1,62 @@
 @import "@/styles/variables.scss";
+@import "@/styles/mixins.scss";
 
 .field {
   gap: $spacing-editor-horizontal;
+  flex: 1;
   padding: $spacing-editor-horizontal $spacing-editor-vertical;
   position: relative;
   padding-top: 0;
 
   color: $color-white;
-  background: $color-grey;
-
-  width: 50%;
   display: flex;
+  background: $color-grey;
 
   align-items: center;
   flex-direction: column;
 
   border-top-left-radius: $radius;
-  border-bottom-left-radius: $radius;
+  border-top-right-radius: $radius;
+
+  @include respond-to-lg {
+    width: 50%;
+
+    border-top-left-radius: $radius;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: $radius;
+  }
 
   &__label {
-    height: 50px;
     display: flex;
     position: relative;
-    font-weight: 600;
+
+    min-height: 50px;
     align-items: center;
+
+    &__wrapper {
+      gap: 4px;
+      display: flex;
+
+      font-weight: 600;
+
+      &__language {
+        opacity: 0.5;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        margin-top: auto;
+        margin-bottom: 1px;
+
+        &::before {
+          content: "(";
+        }
+
+        &::after {
+          content: ")";
+        }
+      }
+    }
 
     &::after {
       width: 100%;
@@ -79,10 +112,15 @@
     background: $color-yellow;
 
     border-top-left-radius: 0;
-    border-top-right-radius: $radius;
+    border-top-right-radius: 0;
 
-    border-bottom-left-radius: 0;
+    border-bottom-left-radius: $radius;
     border-bottom-right-radius: $radius;
+
+    @include respond-to-lg {
+      border-top-right-radius: $radius;
+      border-bottom-left-radius: 0;
+    }
 
     .field__label {
       &::after {

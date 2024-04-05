@@ -1,15 +1,24 @@
 @import "@/styles/variables.scss";
+@import "@/styles/mixins.scss";
 
 .header {
+  gap: 24px;
   color: $color-white;
-  padding: 4rem 8rem;
-  background: $color-grey;
   display: flex;
-  gap: 32px;
+  padding: 6rem 2rem;
+  background: $color-grey;
+  flex-direction: column;
 
   &__image {
-    width: 12rem;
-    height: 12rem;
+    width: 84px;
+    height: 84px;
+    // display: none;
+
+    @include respond-to-xl {
+      // display: block;
+      width: 244px;
+      height: 244px;
+    }
   }
 
   &__content {
@@ -18,9 +27,29 @@
     flex-direction: column;
 
     &__buttons {
-      gap: 16px;
-      margin-top: 32px;
+      gap: 24px;
       display: flex;
+      margin-top: 24px;
+      flex-direction: column;
+
+      @include respond-to-md {
+        flex-direction: row;
+      }
     }
+  }
+
+  @include respond-to-md {
+    padding: 6rem 4rem;
+  }
+
+  @include respond-to-lg {
+    padding: 6rem 8rem;
+  }
+
+  @include respond-to-xl {
+    gap: 84px;
+
+    padding: 6rem 12rem;
+    flex-direction: row;
   }
 }

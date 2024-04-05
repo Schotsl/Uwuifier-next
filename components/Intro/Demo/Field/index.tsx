@@ -8,6 +8,8 @@ type DemoFieldProps = {
   id: string;
   value: string;
   label: string;
+  language: string;
+
   error?: string;
   state?: State;
 
@@ -21,6 +23,7 @@ export default function DemoField({
   id,
   value,
   label,
+  language,
   error = "",
   state = State.SUCCESS,
   readonly,
@@ -31,7 +34,13 @@ export default function DemoField({
   return (
     <div className={styles.field}>
       <label className={styles.field__label} htmlFor={id}>
-        {label}
+        <div className={styles.field__label__wrapper}>
+          {label}
+
+          <label className={styles.field__label__wrapper__language}>
+            {language}
+          </label>
+        </div>
       </label>
 
       {headerButtons}

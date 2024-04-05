@@ -15,15 +15,25 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   justify-content: center;
+  align-items: center;
 
   border-color: $border-color;
   border-width: $border-width;
   border-style: $border-style;
   border-radius: $radius;
 
+  text-decoration: none;
+
   &__yellow {
     color: $color-grey;
     border-color: $color-yellow;
     background: $color-yellow;
+  }
+
+  &:hover {
+    background: $color-grey;
+    color: $color-white;
+    border-color: $color-white;
+    text-decoration: underline;
   }
 }

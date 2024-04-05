@@ -6,27 +6,47 @@ import styles from "./Button.module.scss";
 import React from "react";
 
 type ButtonProps = {
+  href?: string;
   icon?: IconDefinition;
   label?: string;
   color?: "yellow" | "grey";
+  className?: string;
 };
 
-export default function Button({ icon, label, color = "grey" }: ButtonProps) {
+const Button = ({
+  href,
+  icon,
+  label,
+  color = "grey",
+  className,
+}: ButtonProps) => {
   const buttonClass =
     color === "yellow"
-      ? `${styles.button} ${styles.button__yellow}`
-      : `${styles.button}`;
+      ? `${styles.button} ${styles.button__yellow} ${className}`
+      : `${styles.button} ${className}`;
 
-  return (
-    <button className={buttonClass}>
+  const buttonContent = (
+    <>
       {icon && (
         <FontAwesomeIcon
           icon={icon}
           style={{ color: "inherit", fontSize: 18 }}
         />
       )}
-
       {label}
-    </button>
+    </>
   );
-}
+
+  // Conditionally render <a> or <button>
+  if (href) {
+    return (
+      <a className={buttonClass} href={href} target="_blank">
+        {buttonContent}
+      </a>
+    );
+  }
+
+  return <button className={buttonClass}>{buttonContent}</button>;
+};
+
+export default Button;

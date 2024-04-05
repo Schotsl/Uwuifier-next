@@ -1,13 +1,52 @@
+@import "@/styles/mixins.scss";
 @import "@/styles/variables.scss";
 
 .demo {
   flex: 1;
   display: flex;
-  padding: 4rem 8rem;
+  padding: 4rem 2rem;
   background: $color-background;
+  flex-direction: column;
 
-  min-height: 500px;
+  min-height: 750px;
   box-shadow:
     0 20px 25px 10px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  &__switch {
+    top: 12px;
+    left: 18px;
+    color: $color-background;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    position: absolute;
+
+    font-size: 16px;
+    align-items: center;
+    justify-content: center;
+
+    &__icon {
+      color: inherit;
+    }
+
+    &:hover {
+      color: $color-grey;
+      transform: scale(1.15);
+    }
+  }
+
+  @include respond-to-md {
+    padding: 4rem 4rem;
+  }
+
+  @include respond-to-lg {
+    padding: 4rem 8rem;
+    min-height: 500px;
+    flex-direction: row;
+  }
+
+  @include respond-to-xl {
+    padding: 4rem 12rem;
+  }
 }
