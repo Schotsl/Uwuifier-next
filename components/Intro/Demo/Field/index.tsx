@@ -2,12 +2,15 @@ import React, { ReactNode } from "react";
 
 import Loader from "@/components/Loader";
 import styles from "./DenoField.module.scss";
+import { State } from "@/types";
 
 type DemoFieldProps = {
   id: string;
   value: string;
   label: string;
-  loading?: boolean;
+  error?: string;
+  state?: State;
+
   readonly?: boolean;
   headerButtons?: ReactNode[];
   footerButtons?: ReactNode[];
@@ -18,7 +21,8 @@ export default function DemoField({
   id,
   value,
   label,
-  loading,
+  error = "",
+  state = State.SUCCESS,
   readonly,
   headerButtons,
   footerButtons,
@@ -37,7 +41,7 @@ export default function DemoField({
           id={id}
           value={value}
           className={
-            loading
+            state === State.LOADING || state === State.ERROR
               ? `${styles.field__wrapper__input} ${styles.field__wrapper__input__loading}`
               : `${styles.field__wrapper__input}`
           }
@@ -45,7 +49,10 @@ export default function DemoField({
           onChange={(event) => onChange && onChange(event.target.value)}
         />
 
-        {loading && <Loader />}
+        {state === State.LOADING && <Loader />}
+        {state === State.ERROR && (
+          <span className={styles.field__wrapper__error}>{error}</span>
+        )}
       </div>
 
       <menu className={styles.field__buttons}>{footerButtons}</menu>

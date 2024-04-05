@@ -1,6 +1,7 @@
 @import "@/styles/variables.scss";
 
 .field {
+  gap: $spacing-editor-horizontal;
   padding: $spacing-editor-horizontal $spacing-editor-vertical;
   position: relative;
   padding-top: 0;
@@ -38,6 +39,7 @@
   &__wrapper {
     width: 100%;
     height: 100%;
+    display: flex;
     position: relative;
 
     &__input {
@@ -46,20 +48,29 @@
       border: none;
       resize: none;
       background: transparent;
-      margin-top: $spacing-editor-horizontal;
 
       min-height: 8rem;
       font-family: inherit;
 
       &__loading {
+        filter: blur(5px);
         opacity: 0.5;
-        filter: blur(2px);
+        overflow: hidden;
       }
 
-      // Remove active styling
       &:focus {
         outline: none;
       }
+    }
+
+    &__error {
+      top: 50%;
+      left: 50%;
+      position: absolute;
+      transform: translate(-50%, -50%);
+
+      text-align: center;
+      font-weight: 600;
     }
   }
 
@@ -83,7 +94,7 @@
   &__buttons {
     gap: $spacing-default;
     width: 100%;
-    margin-top: auto;
     display: flex;
+    margin-top: auto;
   }
 }

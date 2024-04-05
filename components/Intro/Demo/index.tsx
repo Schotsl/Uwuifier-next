@@ -5,6 +5,7 @@ import styles from "./IntroDemo.module.scss";
 import React from "react";
 import Uwuifier from "uwuifier";
 
+import { State } from "@/types";
 import { MutableRefObject } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -18,6 +19,7 @@ import { useState } from "react";
 import { useEffect, useRef } from "react";
 import Button from "@/components/Button";
 import DemoField from "./Field";
+import { set } from "react-hook-form";
 
 type DemoProps = {
   onUwuified: () => void;
@@ -33,12 +35,13 @@ export default function Demo({ onUwuified }: DemoProps) {
   const uwuifier = new Uwuifier();
 
   const [typed, setTyped] = useState(false);
+  const [state, setState] = useState<State>(State.IDLE);
+  const [error, setError] = useState("");
 
   // prettier-ignore
   const [input, setInput] = useState("According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground.");
   const [output, setOutput] = useState(uwuifier.uwuifySentence(input));
 
-  const [loading, setLoading] = useState(false);
   const [translation, setTranslation] = useState<Translation>(
     Translation.ENG_TO_UWU
   );
@@ -79,7 +82,14 @@ export default function Demo({ onUwuified }: DemoProps) {
           const response = await fetch(url, { body, method, headers });
           const responseJSON = await response.json();
 
-          setLoading(false);
+          if (responseJSON.error) {
+            setError(responseJSON.error);
+            setState(State.ERROR);
+
+            return;
+          }
+
+          setState(State.LOADING);
           setOutput(responseJSON.output);
         }
       }
@@ -98,7 +108,7 @@ export default function Demo({ onUwuified }: DemoProps) {
 
       setOutput(uwuified);
     } else {
-      setLoading(true);
+      setState(State.LOADING);
     }
   }
 
@@ -108,7 +118,7 @@ export default function Demo({ onUwuified }: DemoProps) {
         ? Translation.UWU_TO_ENG
         : Translation.ENG_TO_UWU;
 
-    setLoading(false);
+    setState(State.SUCCESS);
     setTranslation(updated);
 
     if (updated === Translation.UWU_TO_ENG) {
@@ -131,22 +141,23 @@ export default function Demo({ onUwuified }: DemoProps) {
       <DemoField
         id="output"
         label="Output"
+        error={error}
+        state={state}
         value={output}
-        loading={loading}
         readonly={true}
         headerButtons={[
-          <button key={0} onClick={handleSwitch}>
-            <FontAwesomeIcon
-              icon={faRepeat}
-              style={{
-                top: 20,
-                left: 24,
-                color: "#000",
-                fontSize: 16,
-                position: "absolute",
-              }}
-              className="fas fa-check"
-            />
+          <button
+            key={0}
+            onClick={handleSwitch}
+            style={{
+              top: 20,
+              left: 24,
+              color: "#000",
+              fontSize: 16,
+              position: "absolute",
+            }}
+          >
+            <FontAwesomeIcon icon={faRepeat} />
           </button>,
         ]}
         footerButtons={[
