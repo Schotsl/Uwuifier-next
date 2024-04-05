@@ -5,25 +5,18 @@ import styles from "./Intro.module.scss";
 import IntroDemo from "@/components/Intro/Demo";
 import IntroHeader from "@/components/Intro/Header";
 
+import { setCookie } from "cookies-next";
 import { useState } from "react";
 import { usePlausible } from "next-plausible";
 
 type IntroProps = {
-  initial: number;
+  initialTotal: number;
+  initialPersonal: number;
 };
 
-export default function Intro({ initial }: IntroProps) {
+export default function Intro({ initialTotal, initialPersonal }: IntroProps) {
   const [offset, setOffset] = useState(0);
-  const [personal, setPersonal] = useState(() => {
-    const isClient = typeof window !== "undefined";
-
-    const personalRaw = isClient
-      ? localStorage.getItem("personal") || "0"
-      : "0";
-
-    const personalParsed = parseInt(personalRaw);
-    return personalParsed;
-  });
+  const [personal, setPersonal] = useState(initialPersonal);
 
   const plausible = usePlausible();
 
@@ -34,7 +27,10 @@ export default function Intro({ initial }: IntroProps) {
     const personalIncreased = personal + 1;
     const personalStringified = personalIncreased.toString();
 
-    localStorage.setItem("personal", personalStringified);
+    // Set personal count to cookie
+    setCookie("personal", personalStringified, {
+      sameSite: "strict",
+    });
 
     if (personalIncreased == 25) plausible("Uwuified 25 sentences");
     if (personalIncreased == 50) plausible("Uwuified 50 sentences");
@@ -45,7 +41,7 @@ export default function Intro({ initial }: IntroProps) {
 
   return (
     <main className={styles.intro}>
-      <IntroHeader offset={offset} initial={initial} personal={personal} />
+      <IntroHeader offset={offset} initial={initialTotal} personal={personal} />
 
       <IntroDemo onUwuified={onUwuified} />
     </main>

@@ -89,9 +89,9 @@ export default function Demo({ onUwuified }: DemoProps) {
     return () => clearTimeout(timeout.current!);
   }, [input]);
 
-  async function handleInput(text: string) {
+  async function handleInput(input: string) {
     setTyped(true);
-    setInput(text);
+    setInput(input);
 
     if (translation === Translation.ENG_TO_UWU) {
       const uwuified = uwuifier.uwuifySentence(input);
@@ -135,7 +135,7 @@ export default function Demo({ onUwuified }: DemoProps) {
         loading={loading}
         readonly={true}
         headerButtons={[
-          <button onClick={handleSwitch}>
+          <button key={0} onClick={handleSwitch}>
             <FontAwesomeIcon
               icon={faRepeat}
               style={{
@@ -150,8 +150,8 @@ export default function Demo({ onUwuified }: DemoProps) {
           </button>,
         ]}
         footerButtons={[
-          <Button icon={faShareFromSquare} />,
-          <Button icon={faCopy} label="Share text" />,
+          <Button key={0} icon={faShareFromSquare} />,
+          <Button key={1} icon={faCopy} label="Share text" />,
         ]}
       />
     </div>

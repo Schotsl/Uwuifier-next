@@ -22,12 +22,22 @@ async function loadStatistics() {
   }
 }
 
+function loadPersonal() {
+  const store = cookies();
+
+  const personal = store.get("personal")?.value || "0";
+  const personalParsed = parseInt(personal);
+
+  return personalParsed;
+}
+
 export default async function Page() {
-  const initial = await loadStatistics();
+  const initialTotal = await loadStatistics();
+  const initialPersonal = loadPersonal();
 
   return (
     <>
-      <Intro initial={initial} />
+      <Intro initialTotal={initialTotal} initialPersonal={initialPersonal} />
     </>
   );
 }
