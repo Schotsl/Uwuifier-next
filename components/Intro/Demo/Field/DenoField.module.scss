@@ -1,0 +1,89 @@
+@import "@/styles/variables.scss";
+
+.field {
+  padding: $spacing-editor-horizontal $spacing-editor-vertical;
+  position: relative;
+  padding-top: 0;
+
+  color: $color-white;
+  background: $color-grey;
+
+  width: 50%;
+  display: flex;
+
+  align-items: center;
+  flex-direction: column;
+
+  border-top-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+
+  &__label {
+    height: 50px;
+    display: flex;
+    position: relative;
+    font-weight: 600;
+    align-items: center;
+
+    &::after {
+      width: 100%;
+      height: 3px;
+      bottom: 0;
+      content: "";
+      display: block;
+      position: absolute;
+      background: $color-white;
+    }
+  }
+
+  &__wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    &__input {
+      color: inherit;
+      width: 100%;
+      border: none;
+      resize: none;
+      background: transparent;
+      margin-top: $spacing-editor-horizontal;
+
+      min-height: 8rem;
+      font-family: inherit;
+
+      &__loading {
+        opacity: 0.5;
+        filter: blur(2px);
+      }
+
+      // Remove active styling
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &:last-of-type {
+    color: $color-grey;
+    background: $color-yellow;
+
+    border-top-left-radius: 0;
+    border-top-right-radius: $radius;
+
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: $radius;
+
+    .field__label {
+      &::after {
+        background: $color-grey;
+      }
+    }
+  }
+
+  &__buttons {
+    gap: $spacing-default;
+    width: 100%;
+    margin-top: auto;
+    display: flex;
+  }
+}

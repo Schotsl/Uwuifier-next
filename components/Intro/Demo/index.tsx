@@ -15,31 +15,33 @@ import {
 
 import { usePlausible } from "next-plausible";
 import { useState } from "react";
-import { formatNumber } from "@/helper";
 import { useEffect, useRef } from "react";
 import Button from "@/components/Button";
-import Loader from "@/components/Loader";
+import DemoField from "./Field";
 
 type DemoProps = {
-  loading?: boolean;
   onUwuified: () => void;
 };
 
-enum State {
+enum Translation {
   UWU_TO_ENG = "UWU_TO_ENG",
   ENG_TO_UWU = "ENG_TO_UWU",
 }
 
-export default function Demo({ loading = false, onUwuified }: DemoProps) {
+export default function Demo({ onUwuified }: DemoProps) {
   const plausible = usePlausible();
   const uwuifier = new Uwuifier();
 
-  const [state, setState] = useState<State>(State.ENG_TO_UWU);
   const [typed, setTyped] = useState(false);
 
   // prettier-ignore
   const [input, setInput] = useState("According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground.");
   const [output, setOutput] = useState(uwuifier.uwuifySentence(input));
+
+  const [loading, setLoading] = useState(false);
+  const [translation, setTranslation] = useState<Translation>(
+    Translation.ENG_TO_UWU
+  );
 
   // We'll use this over-typed ref to store the timeout
   const timeout: MutableRefObject<NodeJS.Timeout | null> = useRef(null);
@@ -56,7 +58,7 @@ export default function Demo({ loading = false, onUwuified }: DemoProps) {
     }
 
     // Set a new timer for 1 second
-    timeout.current = setTimeout(() => {
+    timeout.current = setTimeout(async () => {
       // Only increase the counter if the input is not empty
       const inputTrimmed = input.trim();
       const inputLength = inputTrimmed.length;
@@ -65,6 +67,21 @@ export default function Demo({ loading = false, onUwuified }: DemoProps) {
         onUwuified();
 
         plausible("Uwuified sentence");
+
+        if (translation === Translation.UWU_TO_ENG) {
+          const url =
+            "https://rqautahsvsoneozemjth.supabase.co/functions/v1/un-uwuifier";
+
+          const body = JSON.stringify({ input: inputTrimmed });
+          const method = "POST";
+          const headers = { "Content-Type": "application/json" };
+
+          const response = await fetch(url, { body, method, headers });
+          const responseJSON = await response.json();
+
+          setLoading(false);
+          setOutput(responseJSON.output);
+        }
       }
     }, 1000);
 
@@ -72,30 +89,29 @@ export default function Demo({ loading = false, onUwuified }: DemoProps) {
     return () => clearTimeout(timeout.current!);
   }, [input]);
 
-  function handleInput(text: string) {
+  async function handleInput(text: string) {
     setTyped(true);
     setInput(text);
 
-    const uwuified = uwuifier.uwuifySentence(input);
+    if (translation === Translation.ENG_TO_UWU) {
+      const uwuified = uwuifier.uwuifySentence(input);
 
-    setOutput(uwuified);
-  }
-
-  function handleFocus() {
-    if (typed) {
-      return;
+      setOutput(uwuified);
+    } else {
+      setLoading(true);
     }
-
-    setInput("");
   }
 
   function handleSwitch() {
     const updated =
-      state === State.ENG_TO_UWU ? State.UWU_TO_ENG : State.ENG_TO_UWU;
+      translation === Translation.ENG_TO_UWU
+        ? Translation.UWU_TO_ENG
+        : Translation.ENG_TO_UWU;
 
-    setState(updated);
+    setLoading(false);
+    setTranslation(updated);
 
-    if (updated === State.UWU_TO_ENG) {
+    if (updated === Translation.UWU_TO_ENG) {
       const copy = input;
 
       setInput(output);
@@ -105,61 +121,39 @@ export default function Demo({ loading = false, onUwuified }: DemoProps) {
 
   return (
     <div className={styles.demo}>
-      <div className={styles.demo__wrapper}>
-        <label className={styles.demo__wrapper__label} htmlFor="input">
-          Input
-        </label>
+      <DemoField
+        id="input"
+        label="Input"
+        value={input}
+        onChange={handleInput}
+      />
 
-        <div className={styles.demo__wrapper__wrapper}>
-          <textarea
-            id="input"
-            value={input}
-            onFocus={handleFocus}
-            onChange={(e) => handleInput(e.target.value)}
-            className={styles.demo__wrapper__wrapper__input}
-          />
-        </div>
-      </div>
-
-      <div className={styles.demo__wrapper}>
-        <label className={styles.demo__wrapper__label} htmlFor="output">
-          Output
-        </label>
-
-        <button onClick={handleSwitch}>
-          <FontAwesomeIcon
-            icon={faRepeat}
-            style={{
-              top: 20,
-              left: 24,
-              color: "#000",
-              fontSize: 16,
-              position: "absolute",
-            }}
-            className="fas fa-check"
-          />
-        </button>
-
-        <div className={styles.demo__wrapper__wrapper}>
-          <textarea
-            id="output"
-            value={output}
-            className={
-              loading
-                ? `${styles.demo__wrapper__wrapper__input} ${styles.demo__wrapper__wrapper__input__loading}`
-                : `${styles.demo__wrapper__wrapper__input}`
-            }
-            readOnly
-          />
-
-          {loading && <Loader />}
-        </div>
-
-        <menu className={styles.demo__wrapper__buttons}>
-          <Button icon={faShareFromSquare} />
-          <Button icon={faCopy} label="Share text" />
-        </menu>
-      </div>
+      <DemoField
+        id="output"
+        label="Output"
+        value={output}
+        loading={loading}
+        readonly={true}
+        headerButtons={[
+          <button onClick={handleSwitch}>
+            <FontAwesomeIcon
+              icon={faRepeat}
+              style={{
+                top: 20,
+                left: 24,
+                color: "#000",
+                fontSize: 16,
+                position: "absolute",
+              }}
+              className="fas fa-check"
+            />
+          </button>,
+        ]}
+        footerButtons={[
+          <Button icon={faShareFromSquare} />,
+          <Button icon={faCopy} label="Share text" />,
+        ]}
+      />
     </div>
   );
 }

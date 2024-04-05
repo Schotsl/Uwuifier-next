@@ -47,7 +47,7 @@ export default function Intro({ initial }: IntroProps) {
     <main className={styles.intro}>
       <IntroHeader offset={offset} initial={initial} personal={personal} />
 
-      <IntroDemo onUwuified={onUwuified} loading={true} />
+      <IntroDemo onUwuified={onUwuified} />
     </main>
   );
 }
