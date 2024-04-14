@@ -34,6 +34,11 @@
       color: $color-grey;
       transform: scale(1.15);
     }
+
+    &:last-of-type {
+      left: auto;
+      right: 18px;
+    }
   }
 
   @include respond-to-md {

@@ -12,6 +12,7 @@ import {
   faCopy,
   faShareFromSquare,
   faRepeat,
+  faGear,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { usePlausible } from "next-plausible";
@@ -19,7 +20,6 @@ import { useState } from "react";
 import { useEffect, useRef } from "react";
 import Button from "@/components/Button";
 import DemoField from "./Field";
-import { set } from "react-hook-form";
 
 type DemoProps = {
   onUwuified: () => void;
@@ -153,6 +153,16 @@ export default function Demo({ onUwuified }: DemoProps) {
           >
             <FontAwesomeIcon
               icon={faRepeat}
+              className={styles.demo__switch__icon}
+            />
+          </button>,
+          <button
+            key={0}
+            onClick={handleSwitch}
+            className={styles.demo__switch}
+          >
+            <FontAwesomeIcon
+              icon={faGear}
               className={styles.demo__switch__icon}
             />
           </button>,
