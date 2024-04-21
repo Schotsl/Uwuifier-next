@@ -1,8 +1,9 @@
-import React, { ReactNode } from "react";
-
-import Loader from "@/components/Loader";
 import styles from "./DenoField.module.scss";
+
 import { State } from "@/types";
+import { ReactNode } from "react";
+
+import DemoFieldLoader from "./Loader";
 
 type DemoFieldProps = {
   id: string;
@@ -58,7 +59,7 @@ export default function DemoField({
           onChange={(event) => onChange && onChange(event.target.value)}
         />
 
-        {state === State.LOADING && <Loader />}
+        {state === State.LOADING && <DemoFieldLoader />}
         {state === State.ERROR && (
           <span className={styles.field__wrapper__error}>{error}</span>
         )}

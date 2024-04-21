@@ -6,6 +6,7 @@ import React from "react";
 import Uwuifier from "uwuifier";
 
 import { State } from "@/types";
+import { useCount } from "@/context/CountContext";
 import { MutableRefObject } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -21,17 +22,14 @@ import { useEffect, useRef } from "react";
 import Button from "@/components/Button";
 import DemoField from "./Field";
 
-type DemoProps = {
-  onUwuified: () => void;
-};
-
 enum Translation {
   UWU_TO_ENG = "UWU_TO_ENG",
   ENG_TO_UWU = "ENG_TO_UWU",
 }
 
-export default function Demo({ onUwuified }: DemoProps) {
-  const plausible = usePlausible();
+export default function Demo() {
+  const { onUwuified } = useCount();
+
   const uwuifier = new Uwuifier();
 
   const [typed, setTyped] = useState(false);
@@ -43,7 +41,7 @@ export default function Demo({ onUwuified }: DemoProps) {
   const [output, setOutput] = useState(uwuifier.uwuifySentence(input));
 
   const [translation, setTranslation] = useState<Translation>(
-    Translation.ENG_TO_UWU
+    Translation.ENG_TO_UWU,
   );
 
   // We'll use this over-typed ref to store the timeout
@@ -68,8 +66,6 @@ export default function Demo({ onUwuified }: DemoProps) {
 
       if (inputLength > 0) {
         onUwuified();
-
-        plausible("Uwuified sentence");
 
         if (translation === Translation.UWU_TO_ENG) {
           const url =

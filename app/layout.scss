@@ -10,17 +10,9 @@ html {
   background: #eaeaea;
 }
 
-main {
-  width: 100%;
-  display: flex;
-}
-
 body {
   margin: 0;
-  display: flex;
-
   font-size: 16px;
-  flex-direction: row;
   font-family: "Open Sans";
 }
 
@@ -34,7 +26,7 @@ h6 {
   margin: 0px;
 
   font-weight: 400;
-  font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
 h1 {
