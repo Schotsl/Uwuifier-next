@@ -4,7 +4,6 @@
 .demo {
   flex: 1;
   display: flex;
-  padding: 4rem 2rem;
   background: $color-background;
   flex-direction: column;
 
@@ -41,17 +40,8 @@
     }
   }
 
-  @include respond-to-md {
-    padding: 4rem 4rem;
-  }
-
   @include respond-to-lg {
-    padding: 4rem 8rem;
     min-height: 500px;
     flex-direction: row;
-  }
-
-  @include respond-to-xl {
-    padding: 4rem 12rem;
   }
 }

@@ -7,8 +7,9 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import { cookies } from "next/headers";
 import { Metadata } from "next";
 import { ReactNode } from "react";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { CountProvider } from "@/context/CountContext";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Open_Sans } from "next/font/google";
 
 config.autoAddCss = false;
 
@@ -17,6 +18,10 @@ export const metadata: Metadata = {
 };
 
 const supabase = createServerComponentClient({ cookies });
+const openSans = Open_Sans({
+  weight: ["400", "700", "600"],
+  subsets: ["latin"],
+});
 
 async function loadStatistics() {
   try {
@@ -63,7 +68,7 @@ export default async function RootLayout({
         initialGlobal={initialTotal}
         initialPersonal={initialPersonal}
       >
-        <html lang="en">
+        <html lang="en" className={openSans.className}>
           <head>
             <link
               rel="apple-touch-icon"

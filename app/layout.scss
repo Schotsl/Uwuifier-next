@@ -13,7 +13,6 @@ html {
 body {
   margin: 0;
   font-size: 16px;
-  font-family: "Open Sans";
 }
 
 h1,
@@ -64,4 +63,22 @@ menu {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+main > div,
+main > header,
+main > section {
+  padding: 4rem 2rem;
+
+  @include respond-to-md {
+    padding: 4rem 4rem;
+  }
+
+  @include respond-to-lg {
+    padding: 4rem 8rem;
+  }
+
+  @include respond-to-xl {
+    padding: 4rem 12rem;
+  }
 }

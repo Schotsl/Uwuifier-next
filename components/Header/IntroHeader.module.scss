@@ -5,17 +5,17 @@
   gap: 24px;
   color: $color-white;
   display: flex;
-  padding: 6rem 2rem;
   background: $color-grey;
   flex-direction: column;
+
+  padding-top: 6rem;
+  padding-bottom: 6rem;
 
   &__image {
     width: 84px;
     height: 84px;
-    // display: none;
 
     @include respond-to-xl {
-      // display: block;
       width: 244px;
       height: 244px;
     }
@@ -38,18 +38,9 @@
     }
   }
 
-  @include respond-to-md {
-    padding: 6rem 4rem;
-  }
-
-  @include respond-to-lg {
-    padding: 6rem 8rem;
-  }
-
   @include respond-to-xl {
     gap: 84px;
 
-    padding: 6rem 12rem;
     flex-direction: row;
   }
 }
