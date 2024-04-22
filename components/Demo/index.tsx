@@ -2,6 +2,7 @@
 
 import styles from "./IntroDemo.module.scss";
 
+import Link from "next/link";
 import React from "react";
 import Uwuifier from "uwuifier";
 
@@ -9,6 +10,7 @@ import { State } from "@/types";
 import { useCount } from "@/context/CountContext";
 import { MutableRefObject } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSearchParams, usePathname } from "next/navigation";
 import {
   faCopy,
   faShareFromSquare,
@@ -16,7 +18,6 @@ import {
   faGear,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { usePlausible } from "next-plausible";
 import { useState } from "react";
 import { useEffect, useRef } from "react";
 import Button from "@/components/Button";
@@ -28,9 +29,42 @@ enum Translation {
 }
 
 export default function Demo() {
-  const { onUwuified } = useCount();
+  const [uwuifier, setUwuifier] = useState(new Uwuifier());
 
-  const uwuifier = new Uwuifier();
+  const params = useSearchParams();
+
+  const mode = params.get("mode");
+
+  const stringFaces = params.get("faces");
+  const stringWords = params.get("words");
+  const stringActions = params.get("actions");
+  const stringStutters = params.get("stutters");
+  const stringExclamation = params.get("exclamations");
+
+  const faces = stringFaces ? parseFloat(stringFaces) : 0.5;
+  const words = stringWords ? parseFloat(stringWords) : 1;
+  const actions = stringActions ? parseFloat(stringActions) : 0.075;
+  const stutters = stringStutters ? parseFloat(stringStutters) : 0.1;
+  const exclamations = stringExclamation ? parseFloat(stringExclamation) : 0.5;
+
+  const translation =
+    mode === "eng-to-uwu" ? Translation.ENG_TO_UWU : Translation.UWU_TO_ENG;
+
+  useEffect(() => {
+    const uwuifier = new Uwuifier({
+      spaces: {
+        faces,
+        actions,
+        stutters,
+      },
+      words,
+      exclamations,
+    });
+
+    setUwuifier(uwuifier);
+  }, [words, faces, actions, stutters, exclamations]);
+
+  const { onUwuified } = useCount();
 
   const [typed, setTyped] = useState(false);
   const [state, setState] = useState<State>(State.IDLE);
@@ -40,88 +74,88 @@ export default function Demo() {
   const [input, setInput] = useState("According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground.");
   const [output, setOutput] = useState(uwuifier.uwuifySentence(input));
 
-  const [translation, setTranslation] = useState<Translation>(
-    Translation.ENG_TO_UWU,
-  );
-
   // We'll use this over-typed ref to store the timeout
   const timeout: MutableRefObject<NodeJS.Timeout | null> = useRef(null);
 
-  useEffect(() => {
-    // We don't want too send a event when the app starts
-    if (!typed) {
-      return;
-    }
+  // useEffect(() => {
+  //   // We don't want too send a event when the app starts
+  //   if (!typed) {
+  //     return;
+  //   }
 
-    // Clear any existing timer whenever input changes
-    if (timeout.current) {
-      clearTimeout(timeout.current);
-    }
+  //   // Clear any existing timer whenever input changes
+  //   if (timeout.current) {
+  //     clearTimeout(timeout.current);
+  //   }
 
-    // Set a new timer for 1 second
-    timeout.current = setTimeout(async () => {
-      // Only increase the counter if the input is not empty
-      const inputTrimmed = input.trim();
-      const inputLength = inputTrimmed.length;
+  //   // Set a new timer for 1 second
+  //   timeout.current = setTimeout(async () => {
+  //     // Only increase the counter if the input is not empty
+  //     const inputTrimmed = input.trim();
+  //     const inputLength = inputTrimmed.length;
 
-      if (inputLength > 0) {
-        onUwuified();
+  //     if (inputLength > 0) {
+  //       onUwuified();
 
-        if (translation === Translation.UWU_TO_ENG) {
-          const url =
-            "https://rqautahsvsoneozemjth.supabase.co/functions/v1/un-uwuifier";
+  //       if (translation === Translation.UWU_TO_ENG) {
+  //         const url =
+  //           "https://rqautahsvsoneozemjth.supabase.co/functions/v1/un-uwuifier";
 
-          const body = JSON.stringify({ input: inputTrimmed });
-          const method = "POST";
-          const headers = { "Content-Type": "application/json" };
+  //         const body = JSON.stringify({ input: inputTrimmed });
+  //         const method = "POST";
+  //         const headers = { "Content-Type": "application/json" };
 
-          const response = await fetch(url, { body, method, headers });
-          const responseJSON = await response.json();
+  //         const response = await fetch(url, { body, method, headers });
+  //         const responseJSON = await response.json();
 
-          if (responseJSON.error) {
-            setError(responseJSON.error);
-            setState(State.ERROR);
+  //         if (responseJSON.error) {
+  //           setError(responseJSON.error);
+  //           setState(State.ERROR);
 
-            return;
-          }
+  //           return;
+  //         }
 
-          setState(State.SUCCESS);
-          setOutput(responseJSON.output);
-        }
-      }
-    }, 1000);
+  //         setState(State.SUCCESS);
+  //         setOutput(responseJSON.output);
+  //       }
+  //     }
+  //   }, 1000);
 
-    // Clear the timer on unmount or if the input changes
-    return () => clearTimeout(timeout.current!);
-  }, [input]);
+  //   // Clear the timer on unmount or if the input changes
+  //   return () => clearTimeout(timeout.current!);
+  // }, [input]);
 
   async function handleInput(input: string) {
     setTyped(true);
     setInput(input);
 
-    if (translation === Translation.ENG_TO_UWU) {
-      const uwuified = uwuifier.uwuifySentence(input);
+    //   if (translation === Translation.ENG_TO_UWU) {
+    //     const uwuified = uwuifier.uwuifySentence(input);
 
-      setOutput(uwuified);
-    } else {
-      setState(State.LOADING);
-    }
+    //     setOutput(uwuified);
+    //   } else {
+    //     setState(State.LOADING);
+    //   }
   }
 
-  function handleSwitch() {
-    const updated =
-      translation === Translation.ENG_TO_UWU
-        ? Translation.UWU_TO_ENG
-        : Translation.ENG_TO_UWU;
+  useEffect(() => {
+    if (translation === Translation.UWU_TO_ENG) {
+      return;
+    }
 
+    const uwuified = uwuifier.uwuifySentence(input);
+
+    setOutput(uwuified);
+  }, [input, uwuifier, translation]);
+
+  useEffect(() => {
     setState(State.SUCCESS);
-    setTranslation(updated);
 
     const copy = input;
 
     setInput(output);
     setOutput(copy);
-  }
+  }, [translation]);
 
   return (
     <div className={styles.demo}>
@@ -142,26 +176,28 @@ export default function Demo() {
         language={translation === Translation.ENG_TO_UWU ? "UwU" : "English"}
         readonly={true}
         headerButtons={[
-          <button
+          <Link
             key={0}
-            onClick={handleSwitch}
+            href={`?mode=${translation === Translation.ENG_TO_UWU ? "uwu-to-eng" : "eng-to-uwu"}`}
+            // onClick={handleSwitch}
             className={styles.demo__switch}
           >
             <FontAwesomeIcon
               icon={faRepeat}
               className={styles.demo__switch__icon}
             />
-          </button>,
-          <button
+          </Link>,
+          <Link
             key={0}
-            onClick={handleSwitch}
+            href="?modal=true"
+            // onClick={handleSwitch}
             className={styles.demo__switch}
           >
             <FontAwesomeIcon
               icon={faGear}
               className={styles.demo__switch__icon}
             />
-          </button>,
+          </Link>,
         ]}
         footerButtons={[
           <Button key={0} icon={faShareFromSquare} />,

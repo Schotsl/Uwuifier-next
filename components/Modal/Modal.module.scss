@@ -1,0 +1,99 @@
+@import "styles/variables.scss";
+
+.modal {
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+
+  &__form {
+    gap: 2rem;
+    color: $color-white;
+    padding: 2rem;
+    display: flex;
+    position: relative;
+    background: $color-grey;
+
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    border-radius: $radius;
+    flex-direction: column;
+
+    &__groupp {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      background-color: $color-background;
+      padding: 1.25rem;
+      padding-bottom: 1.5rem;
+      margin: 0 -1.25rem;
+      border-radius: 1rem;
+    }
+
+    &__group {
+      gap: 0.25rem;
+      display: flex;
+      flex-direction: column;
+
+      &__description {
+        margin: 0;
+        opacity: 0.75;
+        font-size: 14px;
+        padding-right: 4rem;
+      }
+
+      &__slider {
+        margin-top: 0.75rem;
+        -webkit-appearance: none;
+        width: 100%;
+        height: 6px;
+        border-radius: 8px;
+        background: $color-yellow;
+        outline: none;
+        // Innser shadow
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) inset;
+        // Add animation
+
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 25px;
+          height: 25px;
+          background: #04aa6d;
+          cursor: pointer;
+        }
+
+        &::-moz-range-thumb {
+          width: 1rem;
+          height: 1rem;
+          background: $color-grey;
+          border: 2px solid #fff;
+
+          cursor: pointer;
+          border-radius: 100%;
+          box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+        }
+      }
+
+      &__textarea {
+        color: #fff;
+        height: 6rem;
+        border: 1px solid #fff;
+        resize: none;
+        outline: none;
+        padding: 1rem 1.25rem;
+        background: $color-background;
+
+        margin-top: 0.5rem;
+        font-family: inherit;
+        border-radius: 1rem;
+      }
+    }
+  }
+}

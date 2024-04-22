@@ -5,14 +5,14 @@ body,
 html {
   width: 100vw;
   min-height: 100vh;
-
-  color: #525252;
-  background: #eaeaea;
 }
 
 body {
+  color: $color-white;
   margin: 0;
+
   font-size: 16px;
+  background: $color-background;
 }
 
 h1,
@@ -21,9 +21,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: $color-white;
   margin: 0px;
-
   font-weight: 400;
   font-family: "Helvetica Neue", Arial, sans-serif;
 }
@@ -65,6 +63,17 @@ menu {
   margin: 0;
 }
 
+main > div,
+main > header,
+main > section {
+  background: $color-background;
+
+  &:nth-child(odd) {
+    background: $color-grey;
+  }
+}
+
+dialog,
 main > div,
 main > header,
 main > section {

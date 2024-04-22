@@ -4,3 +4,12 @@ export function formatNumber(number: number) {
 
   return numberFormatted;
 }
+
+export function getValue(
+  params: URLSearchParams,
+  key: string,
+  initial: number,
+) {
+  const value = params.get(key);
+  return value ? parseFloat(value) : initial;
+}

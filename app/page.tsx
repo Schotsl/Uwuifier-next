@@ -1,4 +1,5 @@
 import Demo from "@/components/Demo";
+import Modal from "@/components/Modal";
 import Header from "@/components/Header";
 
 export default async function Page() {
@@ -23,6 +24,8 @@ export default async function Page() {
           fleeting moments when you want to escape humanity, one uwu at a time.
         </p>
       </div>
+
+      <Modal />
     </main>
   );
 }
