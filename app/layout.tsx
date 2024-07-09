@@ -7,9 +7,9 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import { cookies } from "next/headers";
 import { Metadata } from "next";
 import { ReactNode } from "react";
+import { Open_Sans } from "next/font/google";
 import { CountProvider } from "@/context/CountContext";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Open_Sans } from "next/font/google";
 
 config.autoAddCss = false;
 

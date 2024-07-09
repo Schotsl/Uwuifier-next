@@ -9,11 +9,13 @@ import { useSearchParams, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Uwuifier from "uwuifier";
 import { getValue } from "@/helper";
+import ModelTabs from "./Tabs";
 
 export default function Modal() {
   const params = useSearchParams();
   const pathname = usePathname();
 
+  const [active, setActive] = useState("words"); // 'words', 'exclamations', 'spaces
   const [output, setOutput] = useState("");
 
   const modal = params.get("modal");
@@ -24,7 +26,7 @@ export default function Modal() {
 
   const [words, setWords] = useState(getValue(params, "words", 1));
   const [exclamations, setExclamations] = useState(
-    getValue(params, "exclamations", 0.5),
+    getValue(params, "exclamations", 0.5)
   );
 
   useEffect(() => {
@@ -99,50 +101,56 @@ export default function Modal() {
   return (
     <dialog className={styles.modal} open={modal !== null}>
       <form className={styles.modal__form} method="dialog">
-        <div className={styles.modal__form__group}>
-          <label className={styles.modal__form__group__label}>Words</label>
+        <ModelTabs active={active} onActive={setActive} />
 
-          <p className={styles.modal__form__group__description}>
-            Controls the percentage of words transformed into uwu style. At full
-            setting (100%), all eligible words are uwuified, while lower
-            settings reduce this effect for subtler changes.
-          </p>
+        {active === "words" && (
+          <div className={styles.modal__form__group}>
+            <label className={styles.modal__form__group__label}>Words</label>
 
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            name="words"
-            value={words}
-            onChange={handleChange}
-            className={styles.modal__form__group__slider}
-          />
-        </div>
+            <p className={styles.modal__form__group__description}>
+              Controls the percentage of words transformed into uwu style. At
+              full setting (100%), all eligible words are uwuified, while lower
+              settings reduce this effect for subtler changes.
+            </p>
 
-        <div className={styles.modal__form__group}>
-          <label className={styles.modal__form__group__label}>
-            Exclamations
-          </label>
-          <p className={styles.modal__form__group__description}>
-            Modifies how often standard exclamations are replaced with more
-            expressive alternatives from the Uwuifier&apos;s array. A higher
-            setting leads to more varied and expressive exclamations.
-          </p>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              name="words"
+              value={words}
+              onChange={handleChange}
+              className={styles.modal__form__group__slider}
+            />
+          </div>
+        )}
 
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            name="exclamations"
-            value={exclamations}
-            onChange={handleChange}
-            className={styles.modal__form__group__slider}
-          />
-        </div>
+        {active === "exclamations" && (
+          <div className={styles.modal__form__group}>
+            <label className={styles.modal__form__group__label}>
+              Exclamations
+            </label>
+            <p className={styles.modal__form__group__description}>
+              Modifies how often standard exclamations are replaced with more
+              expressive alternatives from the Uwuifier&apos;s array. A higher
+              setting leads to more varied and expressive exclamations.
+            </p>
 
-        <div className={styles.modal__form__groupp}>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              name="exclamations"
+              value={exclamations}
+              onChange={handleChange}
+              className={styles.modal__form__group__slider}
+            />
+          </div>
+        )}
+
+        {active === "spaces" && (
           <div className={styles.modal__form__group}>
             <label className={styles.modal__form__group__label}>Faces</label>
             <p className={styles.modal__form__group__description}>
@@ -161,9 +169,7 @@ export default function Modal() {
               onChange={handleChange}
               className={styles.modal__form__group__slider}
             />
-          </div>
 
-          <div className={styles.modal__form__group}>
             <label className={styles.modal__form__group__label}>Actions</label>
             <p className={styles.modal__form__group__description}>
               Determines the likelihood of inserting playful actions, such as
@@ -181,9 +187,7 @@ export default function Modal() {
               onChange={handleChange}
               className={styles.modal__form__group__slider}
             />
-          </div>
 
-          <div className={styles.modal__form__group}>
             <label className={styles.modal__form__group__label}>Stutters</label>
             <p className={styles.modal__form__group__description}>
               Sets the rate at which words start with stutters, like
@@ -202,7 +206,7 @@ export default function Modal() {
               className={styles.modal__form__group__slider}
             />
           </div>
-        </div>
+        )}
 
         <div className={styles.modal__form__group}>
           <label className={styles.modal__form__group__label}>Example</label>
