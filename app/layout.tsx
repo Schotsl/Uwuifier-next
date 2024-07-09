@@ -25,10 +25,14 @@ const openSans = Open_Sans({
 
 async function loadStatistics() {
   try {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("statistics")
       .select("uwuified_sentence")
       .single();
+
+    if (error) {
+      throw error;
+    }
 
     if (!data) {
       return 0;
