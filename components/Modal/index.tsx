@@ -99,134 +99,150 @@ export default function Modal() {
   };
 
   return (
-    <dialog className={styles.modal} open={modal !== null}>
-      <form className={styles.modal__form} method="dialog">
-        <ModelTabs active={active} onActive={setActive} />
+    <>
+      {modal && (
+        <dialog className={styles.modal} open={modal !== null}>
+          <form className={styles.modal__form} method="dialog">
+            <ModelTabs active={active} onActive={setActive} />
 
-        {active === "words" && (
-          <div className={styles.modal__form__group}>
-            <label className={styles.modal__form__group__label}>Words</label>
+            {active === "words" && (
+              <div className={styles.modal__form__group}>
+                <label className={styles.modal__form__group__label}>
+                  Words
+                </label>
 
-            <p className={styles.modal__form__group__description}>
-              Controls the percentage of words transformed into uwu style. At
-              full setting (100%), all eligible words are uwuified, while lower
-              settings reduce this effect for subtler changes.
-            </p>
+                <p className={styles.modal__form__group__description}>
+                  Controls the percentage of words transformed into uwu style.
+                  At full setting (100%), all eligible words are uwuified, while
+                  lower settings reduce this effect for subtler changes.
+                </p>
 
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              name="words"
-              value={words}
-              onChange={handleChange}
-              className={styles.modal__form__group__slider}
-            />
-          </div>
-        )}
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  name="words"
+                  value={words}
+                  onChange={handleChange}
+                  className={styles.modal__form__group__slider}
+                />
+              </div>
+            )}
 
-        {active === "exclamations" && (
-          <div className={styles.modal__form__group}>
-            <label className={styles.modal__form__group__label}>
-              Exclamations
-            </label>
-            <p className={styles.modal__form__group__description}>
-              Modifies how often standard exclamations are replaced with more
-              expressive alternatives from the Uwuifier&apos;s array. A higher
-              setting leads to more varied and expressive exclamations.
-            </p>
+            {active === "exclamations" && (
+              <div className={styles.modal__form__group}>
+                <label className={styles.modal__form__group__label}>
+                  Exclamations
+                </label>
+                <p className={styles.modal__form__group__description}>
+                  Modifies how often standard exclamations are replaced with
+                  more expressive alternatives from the Uwuifier&apos;s array. A
+                  higher setting leads to more varied and expressive
+                  exclamations.
+                </p>
 
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              name="exclamations"
-              value={exclamations}
-              onChange={handleChange}
-              className={styles.modal__form__group__slider}
-            />
-          </div>
-        )}
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  name="exclamations"
+                  value={exclamations}
+                  onChange={handleChange}
+                  className={styles.modal__form__group__slider}
+                />
+              </div>
+            )}
 
-        {active === "spaces" && (
-          <div className={styles.modal__form__group}>
-            <label className={styles.modal__form__group__label}>Faces</label>
-            <p className={styles.modal__form__group__description}>
-              Adjusts how frequently cute emoticon faces, like UwU, appear in
-              the text. Increase the slider for more frequent faces, adding a
-              playful touch.
-            </p>
+            {active === "spaces" && (
+              <div className={styles.modal__form__group}>
+                <label className={styles.modal__form__group__label}>
+                  Faces
+                </label>
+                <p className={styles.modal__form__group__description}>
+                  Adjusts how frequently cute emoticon faces, like UwU, appear
+                  in the text. Increase the slider for more frequent faces,
+                  adding a playful touch.
+                </p>
 
-            <input
-              type="range"
-              min="0"
-              max="1"
-              name="faces"
-              step="0.01"
-              value={faces}
-              onChange={handleChange}
-              className={styles.modal__form__group__slider}
-            />
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  name="faces"
+                  step="0.01"
+                  value={faces}
+                  onChange={handleChange}
+                  className={styles.modal__form__group__slider}
+                />
 
-            <label className={styles.modal__form__group__label}>Actions</label>
-            <p className={styles.modal__form__group__description}>
-              Determines the likelihood of inserting playful actions, such as
-              notices buldge, into the text. Higher settings result in more
-              actions, enhancing the whimsical aspect.
-            </p>
+                <label className={styles.modal__form__group__label}>
+                  Actions
+                </label>
+                <p className={styles.modal__form__group__description}>
+                  Determines the likelihood of inserting playful actions, such
+                  as notices buldge, into the text. Higher settings result in
+                  more actions, enhancing the whimsical aspect.
+                </p>
 
-            <input
-              type="range"
-              min="0"
-              max="1"
-              name="actions"
-              step="0.01"
-              value={actions}
-              onChange={handleChange}
-              className={styles.modal__form__group__slider}
-            />
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  name="actions"
+                  step="0.01"
+                  value={actions}
+                  onChange={handleChange}
+                  className={styles.modal__form__group__slider}
+                />
 
-            <label className={styles.modal__form__group__label}>Stutters</label>
-            <p className={styles.modal__form__group__description}>
-              Sets the rate at which words start with stutters, like
-              s-s-stutter. Moving the slider up increases the frequency of
-              stutters, emphasizing the characteristic uwu speech pattern.
-            </p>
+                <label className={styles.modal__form__group__label}>
+                  Stutters
+                </label>
+                <p className={styles.modal__form__group__description}>
+                  Sets the rate at which words start with stutters, like
+                  s-s-stutter. Moving the slider up increases the frequency of
+                  stutters, emphasizing the characteristic uwu speech pattern.
+                </p>
 
-            <input
-              type="range"
-              min="0"
-              max="1"
-              name="stutters"
-              step="0.01"
-              value={stutters}
-              onChange={handleChange}
-              className={styles.modal__form__group__slider}
-            />
-          </div>
-        )}
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  name="stutters"
+                  step="0.01"
+                  value={stutters}
+                  onChange={handleChange}
+                  className={styles.modal__form__group__slider}
+                />
+              </div>
+            )}
 
-        <div className={styles.modal__form__group}>
-          <label className={styles.modal__form__group__label}>Example</label>
-          <textarea
-            value={output}
-            readOnly
-            className={styles.modal__form__group__textarea}
-          />
-        </div>
+            <div className={styles.modal__form__group}>
+              <label className={styles.modal__form__group__label}>
+                Example
+              </label>
+              <textarea
+                value={output}
+                readOnly
+                className={styles.modal__form__group__textarea}
+              />
+            </div>
 
-        <Link
-          href={pathname}
-          style={{ position: "absolute", right: "2rem", top: "2rem" }}
-        >
-          <FontAwesomeIcon
-            icon={faClose}
-            style={{ fontSize: 24, color: "#fff" }}
-          />
-        </Link>
-      </form>
-    </dialog>
+            <Link
+              href={pathname}
+              scroll={false}
+              style={{ position: "absolute", right: "2rem", top: "2rem" }}
+            >
+              <FontAwesomeIcon
+                icon={faClose}
+                style={{ fontSize: 24, color: "#fff" }}
+              />
+            </Link>
+          </form>
+        </dialog>
+      )}
+    </>
   );
 }

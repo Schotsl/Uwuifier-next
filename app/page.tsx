@@ -7,7 +7,7 @@ export default async function Page() {
     <main>
       <Header />
       <Demo />
-
+      {/* 
       <div>
         <h2>Tired of Human Interaction?</h2>
         <p>
@@ -23,7 +23,7 @@ export default async function Page() {
           dullness of normal English. uwuifier: the perfect tool for those
           fleeting moments when you want to escape humanity, one uwu at a time.
         </p>
-      </div>
+      </div> */}
 
       <Modal />
     </main>

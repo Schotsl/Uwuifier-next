@@ -179,7 +179,7 @@ export default function Demo() {
           <Link
             key={0}
             href={`?mode=${translation === Translation.ENG_TO_UWU ? "uwu-to-eng" : "eng-to-uwu"}`}
-            // onClick={handleSwitch}
+            scroll={false}
             className={styles.demo__switch}
           >
             <FontAwesomeIcon
@@ -190,7 +190,7 @@ export default function Demo() {
           <Link
             key={0}
             href="?modal=true"
-            // onClick={handleSwitch}
+            scroll={false}
             className={styles.demo__switch}
           >
             <FontAwesomeIcon
