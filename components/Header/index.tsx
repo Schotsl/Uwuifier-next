@@ -25,7 +25,12 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
-      <Image className={styles.header__image} src={image} alt="Uwuifier" />
+      <Image
+        src={image}
+        alt="Uwuifier"
+        priority={true}
+        className={styles.header__image}
+      />
 
       <div className={styles.header__content}>
         <h1>

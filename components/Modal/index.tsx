@@ -26,7 +26,7 @@ export default function Modal() {
 
   const [words, setWords] = useState(getValue(params, "words", 1));
   const [exclamations, setExclamations] = useState(
-    getValue(params, "exclamations", 0.5)
+    getValue(params, "exclamations", 0.5),
   );
 
   useEffect(() => {

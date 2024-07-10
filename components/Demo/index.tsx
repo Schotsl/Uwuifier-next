@@ -77,53 +77,53 @@ export default function Demo() {
   // We'll use this over-typed ref to store the timeout
   const timeout: MutableRefObject<NodeJS.Timeout | null> = useRef(null);
 
-  // useEffect(() => {
-  //   // We don't want too send a event when the app starts
-  //   if (!typed) {
-  //     return;
-  //   }
+  useEffect(() => {
+    // We don't want too send a event when the app starts
+    if (!typed) {
+      return;
+    }
 
-  //   // Clear any existing timer whenever input changes
-  //   if (timeout.current) {
-  //     clearTimeout(timeout.current);
-  //   }
+    // Clear any existing timer whenever input changes
+    if (timeout.current) {
+      clearTimeout(timeout.current);
+    }
 
-  //   // Set a new timer for 1 second
-  //   timeout.current = setTimeout(async () => {
-  //     // Only increase the counter if the input is not empty
-  //     const inputTrimmed = input.trim();
-  //     const inputLength = inputTrimmed.length;
+    // Set a new timer for 1 second
+    timeout.current = setTimeout(async () => {
+      // Only increase the counter if the input is not empty
+      const inputTrimmed = input.trim();
+      const inputLength = inputTrimmed.length;
 
-  //     if (inputLength > 0) {
-  //       onUwuified();
+      if (inputLength > 0) {
+        onUwuified();
 
-  //       if (translation === Translation.UWU_TO_ENG) {
-  //         const url =
-  //           "https://rqautahsvsoneozemjth.supabase.co/functions/v1/un-uwuifier";
+        if (translation === Translation.UWU_TO_ENG) {
+          const url =
+            "https://rqautahsvsoneozemjth.supabase.co/functions/v1/un-uwuifier";
 
-  //         const body = JSON.stringify({ input: inputTrimmed });
-  //         const method = "POST";
-  //         const headers = { "Content-Type": "application/json" };
+          const body = JSON.stringify({ input: inputTrimmed });
+          const method = "POST";
+          const headers = { "Content-Type": "application/json" };
 
-  //         const response = await fetch(url, { body, method, headers });
-  //         const responseJSON = await response.json();
+          const response = await fetch(url, { body, method, headers });
+          const responseJSON = await response.json();
 
-  //         if (responseJSON.error) {
-  //           setError(responseJSON.error);
-  //           setState(State.ERROR);
+          if (responseJSON.error) {
+            setError(responseJSON.error);
+            setState(State.ERROR);
 
-  //           return;
-  //         }
+            return;
+          }
 
-  //         setState(State.SUCCESS);
-  //         setOutput(responseJSON.output);
-  //       }
-  //     }
-  //   }, 1000);
+          setState(State.SUCCESS);
+          setOutput(responseJSON.output);
+        }
+      }
+    }, 1000);
 
-  //   // Clear the timer on unmount or if the input changes
-  //   return () => clearTimeout(timeout.current!);
-  // }, [input]);
+    // Clear the timer on unmount or if the input changes
+    return () => clearTimeout(timeout.current!);
+  }, [input]);
 
   async function handleInput(input: string) {
     setTyped(true);
@@ -177,7 +177,7 @@ export default function Demo() {
         readonly={true}
         headerButtons={[
           <Link
-            key={0}
+            key={"switch"}
             href={`?mode=${translation === Translation.ENG_TO_UWU ? "uwu-to-eng" : "eng-to-uwu"}`}
             scroll={false}
             className={styles.demo__switch}
@@ -188,7 +188,7 @@ export default function Demo() {
             />
           </Link>,
           <Link
-            key={0}
+            key={"settings"}
             href="?modal=true"
             scroll={false}
             className={styles.demo__switch}

@@ -10,8 +10,7 @@ export async function fetchPlausible(metric: string) {
 
   const encodedMetric = encodeURIComponent(metric);
 
-  const plausibleUrl =
-    `${plausibleHost}/api/v1/stats/breakdown?site_id=${plausibleDomain}&period=30d&property=event:props:method&filters=event:name%3D%3D${encodedMetric}&metrics=events`;
+  const plausibleUrl = `${plausibleHost}/api/v1/stats/breakdown?site_id=${plausibleDomain}&period=30d&property=event:props:method&filters=event:name%3D%3D${encodedMetric}&metrics=events`;
 
   const plausibleResponse = await fetch(plausibleUrl, {
     headers: {
@@ -24,9 +23,8 @@ export async function fetchPlausible(metric: string) {
   }
 
   const plausibleParsed = await plausibleResponse.json();
-  const plausibleValue = plausibleParsed.results.length > 0
-    ? plausibleParsed.results[0].events
-    : 0;
+  const plausibleValue =
+    plausibleParsed.results.length > 0 ? plausibleParsed.results[0].events : 0;
 
   return plausibleValue;
 }
