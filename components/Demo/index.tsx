@@ -10,7 +10,7 @@ import { State } from "@/types";
 import { useCount } from "@/context/CountContext";
 import { MutableRefObject } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import {
   faCopy,
   faShareFromSquare,
@@ -24,8 +24,8 @@ import Button from "@/components/Button";
 import DemoField from "./Field";
 
 enum Translation {
-  UWU_TO_ENG = "UWU_TO_ENG",
-  ENG_TO_UWU = "ENG_TO_UWU",
+  UWU_TO_ORG = "UWU_TO_ORG",
+  ORG_TO_UWU = "ORG_TO_UWU",
 }
 
 export default function Demo() {
@@ -48,7 +48,7 @@ export default function Demo() {
   const exclamations = stringExclamation ? parseFloat(stringExclamation) : 0.5;
 
   const translation =
-    mode === "eng-to-uwu" ? Translation.ENG_TO_UWU : Translation.UWU_TO_ENG;
+    mode === "eng-to-uwu" ? Translation.ORG_TO_UWU : Translation.UWU_TO_ORG;
 
   useEffect(() => {
     const uwuifier = new Uwuifier({
@@ -97,7 +97,7 @@ export default function Demo() {
       if (inputLength > 0) {
         onUwuified();
 
-        if (translation === Translation.UWU_TO_ENG) {
+        if (translation === Translation.UWU_TO_ORG) {
           const url =
             "https://rqautahsvsoneozemjth.supabase.co/functions/v1/un-uwuifier";
 
@@ -129,7 +129,7 @@ export default function Demo() {
     setTyped(true);
     setInput(input);
 
-    //   if (translation === Translation.ENG_TO_UWU) {
+    //   if (translation === Translation.ORG_TO_UWU) {
     //     const uwuified = uwuifier.uwuifySentence(input);
 
     //     setOutput(uwuified);
@@ -139,7 +139,7 @@ export default function Demo() {
   }
 
   useEffect(() => {
-    if (translation === Translation.UWU_TO_ENG) {
+    if (translation === Translation.UWU_TO_ORG) {
       return;
     }
 
@@ -163,7 +163,7 @@ export default function Demo() {
         id="input"
         label="Input"
         value={input}
-        language={translation === Translation.ENG_TO_UWU ? "English" : "UwU"}
+        language={translation === Translation.ORG_TO_UWU ? "Original" : "UwU"}
         onChange={handleInput}
       />
 
@@ -173,12 +173,12 @@ export default function Demo() {
         error={error}
         state={state}
         value={output}
-        language={translation === Translation.ENG_TO_UWU ? "UwU" : "English"}
+        language={translation === Translation.ORG_TO_UWU ? "UwU" : "Original"}
         readonly={true}
         headerButtons={[
           <Link
             key={"switch"}
-            href={`?mode=${translation === Translation.ENG_TO_UWU ? "uwu-to-eng" : "eng-to-uwu"}`}
+            href={`?mode=${translation === Translation.ORG_TO_UWU ? "uwu-to-eng" : "eng-to-uwu"}`}
             scroll={false}
             className={styles.demo__switch}
           >
