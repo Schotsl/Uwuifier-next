@@ -200,8 +200,8 @@ export default function Demo() {
           </Link>,
         ]}
         footerButtons={[
-          <Button key={0} icon={faShareFromSquare} />,
-          <Button key={1} icon={faCopy} label="Share text" />,
+          <Button key={0} icon={faCopy} />,
+          <Button key={1} icon={faShareFromSquare} label="Share text" />,
         ]}
       />
     </div>
