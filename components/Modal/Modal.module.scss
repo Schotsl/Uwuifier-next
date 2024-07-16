@@ -1,4 +1,5 @@
 @import "styles/variables.scss";
+@import "styles/mixins.scss";
 
 .modal {
   top: 0;
@@ -24,8 +25,25 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     border-radius: $radius;
     flex-direction: column;
-    width: 65rem;
-    min-height: 39rem;
+
+    // TODO: Switch to variables
+    width: calc(100vw - 4rem);
+    height: calc(100vh - 8rem);
+
+    @include respond-to-md {
+      width: calc(100vw - 8rem);
+      height: calc(100vh - 8rem);
+    }
+
+    @include respond-to-lg {
+      width: calc(100vw - 12rem);
+      height: calc(100vh - 8rem);
+    }
+
+    @include respond-to-xl {
+      width: calc(100vw - 24rem);
+      height: calc(100vh - 8rem);
+    }
 
     &__group {
       gap: 0.75rem;

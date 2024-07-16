@@ -19,8 +19,8 @@ export default function Modal() {
   const params = useSearchParams();
   const pathname = usePathname();
 
-  const [active, setActive] = useState("words"); // 'words', 'exclamations', 'spaces
   const [output, setOutput] = useState("");
+  const [active, setActive] = useState("spaces");
 
   const router = useRouter();
   const modal = params.get("modal");
