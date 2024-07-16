@@ -5,6 +5,7 @@ import styles from "./Modal.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/navigation";
 import { useSearchParams, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Uwuifier from "uwuifier";
@@ -21,6 +22,7 @@ export default function Modal() {
   const [active, setActive] = useState("words"); // 'words', 'exclamations', 'spaces
   const [output, setOutput] = useState("");
 
+  const router = useRouter();
   const modal = params.get("modal");
 
   const [faces, setFaces] = useState(getValue(params, "faces", 0.5));
@@ -101,10 +103,22 @@ export default function Modal() {
     }
   };
 
+  const handleClick = (event: React.MouseEvent) => {
+    const target = event.target as HTMLButtonElement;
+
+    if (target instanceof HTMLDialogElement) {
+      router.replace(pathname, { scroll: false });
+    }
+  };
+
   return (
     <>
       {modal && (
-        <dialog className={styles.modal} open={modal !== null}>
+        <dialog
+          open={modal !== null}
+          onClick={handleClick}
+          className={styles.modal}
+        >
           <form className={styles.modal__form} method="dialog">
             <ModelTabs active={active} onActive={setActive} />
 
