@@ -72,18 +72,23 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
   const initialActions = getValue<number>(params, "actions", 0.075);
   const initialStutters = getValue<number>(params, "stutters", 0.1);
   const initialExclamations = getValue<number>(params, "exclamations", 0.5);
+  const initialLanguage = getValue<Language>(
+    params,
+    "translation",
+    Language.ORG_TO_UWU
+  );
 
   const [faces, setFaces] = useState(initialFaces);
   const [words, setWords] = useState(initialWords);
   const [actions, setActions] = useState(initialActions);
   const [stutters, setStutters] = useState(initialStutters);
   const [exclamations, setExclamations] = useState(initialExclamations);
+  const [language, setLanguage] = useState(initialLanguage);
 
   const [error, setError] = useState("");
   const [state, setState] = useState(State.IDLE);
   const [abort, setAbort] = useState<AbortController | null>(null);
 
-  const [language, setLanguage] = useState(Language.ORG_TO_UWU);
   const [uwuifier, setUwuifier] = useState(
     new Uwuifier({
       spaces: {
@@ -132,8 +137,7 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
     setAbort(controller);
     setState(State.LOADING);
 
-    const url = `https://rqautahsvsoneozemjth.supabase.co/functions/v1/un-uwuifier`;
-
+    const url = `/api/un-uwuifier`;
     const body = JSON.stringify({ input });
     const method = "POST";
     const signal = controller.signal;

@@ -52,7 +52,7 @@ export default function DemoField({
           value={value}
           className={
             state === State.LOADING || state === State.ERROR
-              ? `${styles.field__wrapper__input} ${styles.field__wrapper__input__loading}`
+              ? `${styles.field__wrapper__input} ${styles["field__wrapper__input--loading"]}`
               : `${styles.field__wrapper__input}`
           }
           readOnly={readonly}

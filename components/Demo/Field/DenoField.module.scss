@@ -85,7 +85,7 @@
       min-height: 8rem;
       font-family: inherit;
 
-      &__loading {
+      &--loading {
         filter: blur(5px);
         opacity: 0.5;
         overflow: hidden;
