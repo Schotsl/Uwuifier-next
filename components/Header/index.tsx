@@ -30,6 +30,7 @@ export default function Header() {
       <Image
         src={image}
         alt="Uwuifier"
+        sizes="(max-width: 600px) 84px, 244px"
         priority={true}
         className={styles.header__image}
       />
