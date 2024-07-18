@@ -15,11 +15,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname, useSearchParams } from "next/navigation";
 import { MutableRefObject, useState, useEffect, useRef } from "react";
 import {
+  faCheckSquare,
   faCopy,
   faGear,
   faRepeat,
   faShareFromSquare,
 } from "@fortawesome/free-solid-svg-icons";
+import DemoCopy from "./Copy";
+import DemoShare from "./Share";
 
 export default function Demo() {
   const { translateSentence, error, state, language, updateTranslation } =
@@ -143,8 +146,8 @@ export default function Demo() {
           </button>,
         ]}
         footerButtons={[
-          <Button key={0} icon={faCopy} />,
-          <Button key={1} icon={faShareFromSquare} label="Share text" />,
+          <DemoCopy key={0} output={output} />,
+          <DemoShare key={1} output={output} />,
         ]}
       />
     </div>

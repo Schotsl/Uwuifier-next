@@ -24,16 +24,30 @@
 
   text-decoration: none;
 
-  &__yellow {
-    color: $color-grey;
-    border-color: $color-yellow;
-    background: $color-yellow;
-  }
-
   &:hover {
     background: $color-grey;
     color: $color-white;
     border-color: $color-white;
     text-decoration: underline;
+  }
+
+  &--yellow {
+    color: $color-grey;
+    border-color: $color-yellow;
+    background: $color-yellow;
+  }
+
+  &--active {
+    animation: bounce 0.2s ease;
+
+    @keyframes bounce {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
   }
 }

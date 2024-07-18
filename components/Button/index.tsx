@@ -3,7 +3,7 @@
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./Button.module.scss";
-import React from "react";
+import React, { useState } from "react";
 
 type ButtonProps = {
   href?: string;
@@ -11,19 +11,23 @@ type ButtonProps = {
   label?: string;
   color?: "yellow" | "grey";
   className?: string;
+  onClick?: () => void;
 };
 
-const Button = ({
+export default function Button({
   href,
   icon,
   label,
   color = "grey",
   className,
-}: ButtonProps) => {
-  const buttonClass =
-    color === "yellow"
-      ? `${styles.button} ${styles.button__yellow} ${className}`
-      : `${styles.button} ${className}`;
+  onClick,
+}: ButtonProps) {
+  const [active, setActive] = useState(false);
+
+  let buttonClass = `${styles.button} ${className}`;
+
+  if (active) buttonClass += ` ${styles[`button--active`]}`;
+  if (color === "yellow") buttonClass += ` ${styles[`button--yellow`]}`;
 
   const buttonContent = (
     <>
@@ -37,16 +41,27 @@ const Button = ({
     </>
   );
 
-  // Conditionally render <a> or <button>
-  if (href) {
-    return (
-      <a className={buttonClass} href={href} target="_blank">
-        {buttonContent}
-      </a>
-    );
+  function handleClick() {
+    setActive(true);
+    setTimeout(() => {
+      setActive(false);
+    }, 200);
+
+    onClick && onClick();
   }
 
-  return <button className={buttonClass}>{buttonContent}</button>;
-};
-
-export default Button;
+  return href ? (
+    <a
+      href={href}
+      target="_blank"
+      onClick={handleClick}
+      className={buttonClass}
+    >
+      {buttonContent}
+    </a>
+  ) : (
+    <button className={buttonClass} onClick={handleClick}>
+      {buttonContent}
+    </button>
+  );
+}
