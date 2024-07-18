@@ -6,15 +6,76 @@ type ModalGroupSpacesProps = {
   faces: number;
   actions: number;
   stutters: number;
-  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (name: string, value: number) => void;
 };
 
 export default function ModalGroupSpaces({
   faces,
   actions,
   stutters,
-  handleChange,
+  onChange,
 }: ModalGroupSpacesProps) {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    const valueParsed = parseFloat(value);
+
+    if (name === "faces") {
+      const total = valueParsed + actions + stutters;
+
+      if (total > 1) {
+        const excess = total - 1;
+        const actionsRatio = actions / (actions + stutters);
+        const stuttersRatio = stutters / (actions + stutters);
+
+        onChange("actions", actions - excess * actionsRatio);
+        onChange("stutters", stutters - excess * stuttersRatio);
+      }
+
+      onChange("faces", valueParsed);
+      return;
+    }
+
+    if (name === "actions") {
+      const total = faces + valueParsed + stutters;
+
+      if (total > 1) {
+        const excess = total - 1;
+        const facesRatio = faces / (faces + stutters);
+        const stuttersRatio = stutters / (faces + stutters);
+
+        // setFaces(faces - excess * facesRatio);
+        // setStutters(stutters - excess * stuttersRatio);
+
+        onChange("faces", faces - excess * facesRatio);
+        onChange("stutters", stutters - excess * stuttersRatio);
+      }
+
+      onChange("actions", valueParsed);
+      return;
+    }
+
+    if (name === "stutters") {
+      const total = faces + actions + valueParsed;
+
+      if (total > 1) {
+        const excess = total - 1;
+        const facesRatio = faces / (faces + actions);
+        const actionsRatio = actions / (faces + actions);
+
+        // setFaces(faces - excess * facesRatio);
+        // setActions(actions - excess * actionsRatio);
+
+        onChange("faces", faces - excess * facesRatio);
+        onChange("actions", actions - excess * actionsRatio);
+      }
+
+      onChange("stutters", valueParsed);
+      return;
+      // setStutters(valueParsed);
+    }
+  };
+
   return (
     <div className={styles.group}>
       <div className={styles.group__input}>

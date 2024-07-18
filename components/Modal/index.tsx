@@ -3,13 +3,12 @@
 import styles from "./Modal.module.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import { useSearchParams, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Uwuifier from "uwuifier";
-import { getValue } from "@/helper";
+import { getValue, setValue } from "@/helper";
 import ModelTabs from "./Tabs";
 import ModalGroupWords from "./Group/Words";
 import ModalGroupExclamations from "./Group/Exclamations";
@@ -25,14 +24,17 @@ export default function Modal() {
   const router = useRouter();
   const modal = params.get("modal");
 
-  const [faces, setFaces] = useState(getValue(params, "faces", 0.5));
-  const [actions, setActions] = useState(getValue(params, "actions", 0.075));
-  const [stutters, setStutters] = useState(getValue(params, "stutters", 0.1));
+  const initialFaces = getValue<number>(params, "faces", 0.5);
+  const initialWords = getValue<number>(params, "words", 1);
+  const initialActions = getValue<number>(params, "actions", 0.075);
+  const initialStutters = getValue<number>(params, "stutters", 0.1);
+  const initialExclamations = getValue<number>(params, "exclamations", 0.5);
 
-  const [words, setWords] = useState(getValue(params, "words", 1));
-  const [exclamations, setExclamations] = useState(
-    getValue(params, "exclamations", 0.5)
-  );
+  const [faces, setFaces] = useState(initialFaces);
+  const [words, setWords] = useState(initialWords);
+  const [actions, setActions] = useState(initialActions);
+  const [stutters, setStutters] = useState(initialStutters);
+  const [exclamations, setExclamations] = useState(initialExclamations);
 
   useEffect(() => {
     const body = document.querySelector("body");
@@ -55,60 +57,40 @@ export default function Modal() {
       exclamations,
     });
 
-    const input =
-      "Hey! This site can help you make any old boring text nice and uwu. We can't imagine anyone would actually use this, but you gotta do what you gotta do.";
-    const ouput = uwuifier.uwuifySentence(input);
+    const input = `Hey! This site can help you make any old boring text nice and uwu. We can't imagine anyone would actually use this, but you gotta do what you gotta do.`;
+    const output = uwuifier.uwuifySentence(input);
 
-    setOutput(ouput);
+    setOutput(output);
   }, [words, faces, actions, stutters, exclamations]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    const newValue = parseFloat(value);
-
+  const handleChange = (name: string, value: number) => {
     if (name === "faces") {
-      const total = newValue + actions + stutters;
-      if (total > 1) {
-        const excess = total - 1;
-        const actionsRatio = actions / (actions + stutters);
-        const stuttersRatio = stutters / (actions + stutters);
-        setActions(actions - excess * actionsRatio);
-        setStutters(stutters - excess * stuttersRatio);
-      }
-      setFaces(newValue);
+      setFaces(value);
     } else if (name === "actions") {
-      const total = faces + newValue + stutters;
-      if (total > 1) {
-        const excess = total - 1;
-        const facesRatio = faces / (faces + stutters);
-        const stuttersRatio = stutters / (faces + stutters);
-        setFaces(faces - excess * facesRatio);
-        setStutters(stutters - excess * stuttersRatio);
-      }
-      setActions(newValue);
+      setActions(value);
     } else if (name === "stutters") {
-      const total = faces + actions + newValue;
-      if (total > 1) {
-        const excess = total - 1;
-        const facesRatio = faces / (faces + actions);
-        const actionsRatio = actions / (faces + actions);
-        setFaces(faces - excess * facesRatio);
-        setActions(actions - excess * actionsRatio);
-      }
-      setStutters(newValue);
-    } else {
-      // For other inputs like 'words' and 'exclamations' that do not affect the 1 limit
-      const setter = name === "words" ? setWords : setExclamations;
-      setter(newValue);
+      setStutters(value);
+    } else if (name === "words") {
+      setWords(value);
+    } else if (name === "exclamations") {
+      setExclamations(value);
     }
+
+    const updated = setValue(params, name, value);
+
+    router.replace(`${pathname}?${updated.toString()}`, { scroll: false });
   };
 
   const handleClick = (event: React.MouseEvent) => {
     const target = event.target as HTMLButtonElement;
 
-    if (target instanceof HTMLDialogElement) {
-      router.replace(pathname, { scroll: false });
-    }
+    if (target instanceof HTMLDialogElement) handleClose();
+  };
+
+  const handleClose = () => {
+    const updated = setValue(params, "modal", undefined);
+
+    router.replace(`${pathname}?${updated.toString()}`, { scroll: false });
   };
 
   return (
@@ -123,13 +105,13 @@ export default function Modal() {
             <ModelTabs active={active} onActive={setActive} />
 
             {active === "words" && (
-              <ModalGroupWords words={words} handleChange={handleChange} />
+              <ModalGroupWords words={words} onChange={handleChange} />
             )}
 
             {active === "exclamations" && (
               <ModalGroupExclamations
                 exclamations={exclamations}
-                handleChange={handleChange}
+                onChange={handleChange}
               />
             )}
 
@@ -138,7 +120,7 @@ export default function Modal() {
                 faces={faces}
                 actions={actions}
                 stutters={stutters}
-                handleChange={handleChange}
+                onChange={handleChange}
               />
             )}
 
@@ -153,16 +135,12 @@ export default function Modal() {
               />
             </div>
 
-            <Link
-              href={pathname}
-              scroll={false}
-              style={{ position: "absolute", right: "2rem", top: "2rem" }}
-            >
+            <button onClick={handleClose} className={styles.modal__form__close}>
               <FontAwesomeIcon
                 icon={faClose}
                 style={{ fontSize: 24, color: "#fff" }}
               />
-            </Link>
+            </button>
           </form>
         </dialog>
       )}

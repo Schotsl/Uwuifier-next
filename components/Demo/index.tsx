@@ -7,10 +7,11 @@ import React from "react";
 import Uwuifier from "uwuifier";
 
 import { State } from "@/types";
+import { setValue } from "@/helper";
 import { useCount } from "@/context/CountContext";
 import { MutableRefObject } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   faCopy,
   faShareFromSquare,
@@ -22,6 +23,7 @@ import { useState } from "react";
 import { useEffect, useRef } from "react";
 import Button from "@/components/Button";
 import DemoField from "./Field";
+import { useRouter } from "next/navigation";
 
 enum Translation {
   UWU_TO_ORG = "UWU_TO_ORG",
@@ -32,6 +34,8 @@ export default function Demo() {
   const [uwuifier, setUwuifier] = useState(new Uwuifier());
 
   const params = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const mode = params.get("mode");
 
@@ -157,6 +161,11 @@ export default function Demo() {
     setOutput(copy);
   }, [translation]);
 
+  const handleChange = (name: string, value?: string | number | boolean) => {
+    const updated = setValue(params, name, value);
+    router.replace(`${pathname}?${updated.toString()}`, { scroll: false });
+  };
+
   return (
     <div className={styles.demo}>
       <DemoField
@@ -176,28 +185,33 @@ export default function Demo() {
         language={translation === Translation.ORG_TO_UWU ? "UwU" : "Original"}
         readonly={true}
         headerButtons={[
-          <Link
+          <button
             key={"switch"}
-            href={`?mode=${translation === Translation.ORG_TO_UWU ? "uwu-to-eng" : "eng-to-uwu"}`}
-            scroll={false}
             className={styles.demo__switch}
+            onClick={() =>
+              handleChange(
+                "mode",
+                translation === Translation.ORG_TO_UWU
+                  ? Translation.UWU_TO_ORG
+                  : Translation.ORG_TO_UWU
+              )
+            }
           >
             <FontAwesomeIcon
               icon={faRepeat}
               className={styles.demo__switch__icon}
             />
-          </Link>,
-          <Link
+          </button>,
+          <button
             key={"settings"}
-            href="?modal=true"
-            scroll={false}
+            onClick={() => handleChange("modal", true)}
             className={styles.demo__switch}
           >
             <FontAwesomeIcon
               icon={faGear}
               className={styles.demo__switch__icon}
             />
-          </Link>,
+          </button>,
         ]}
         footerButtons={[
           <Button key={0} icon={faCopy} />,

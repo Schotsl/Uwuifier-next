@@ -23,6 +23,7 @@
     background: $color-grey;
 
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    max-height: 50rem;
     border-radius: $radius;
     flex-direction: column;
 
@@ -63,6 +64,13 @@
         font-family: inherit;
         border-radius: 1rem;
       }
+    }
+
+    &__close {
+      top: 2rem;
+      right: 2rem;
+      cursor: pointer;
+      position: absolute;
     }
   }
 }

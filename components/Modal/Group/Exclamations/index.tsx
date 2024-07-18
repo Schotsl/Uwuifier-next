@@ -4,13 +4,21 @@ import { ChangeEvent } from "react";
 
 type ModalGroupExclamationsProps = {
   exclamations: number;
-  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (name: string, value: number) => void;
 };
 
 export default function ModalGroupExclamations({
   exclamations,
-  handleChange,
+  onChange,
 }: ModalGroupExclamationsProps) {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    const valueParsed = parseFloat(value);
+
+    onChange(name, valueParsed);
+  };
+
   return (
     <div className={styles.group}>
       <div className={styles.group__input}>
