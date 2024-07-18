@@ -12,11 +12,11 @@ export function outputToEncrypted(translation: string, key: Buffer) {
   const vector = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv("aes-256-cbc", key, vector);
 
-  let output = cipher.update(translation, "utf8", "hex");
+  let encrypted = cipher.update(translation, "utf8", "hex");
 
-  output += cipher.final("hex");
+  encrypted += cipher.final("hex");
 
-  return { vector: vector.toString("hex"), output };
+  return { vector: vector.toString("hex"), encrypted };
 }
 
 export function encryptedToOutput(vector: string, output: string, key: Buffer) {

@@ -30,29 +30,31 @@ if (!SUPABASE_SERVICE_ROLE_KEY) {
   throw new Error("The Supabase service role key is missing");
 }
 
-export async function POST(request: Request) {
-  const body = await request.json();
-  const input = body.input;
-  const inputStripped = input.replace(/[\n\r]/g, "");
+async function fetchTranslation(input: string) {
+  const client = new OpenAI({ apiKey: OPENAI_API_KEY });
+  const response = await client.chat.completions.create({
+    model: OPENAI_API_MODEL,
+    messages: [
+      {
+        role: "system",
+        content: "Please un-uwuify this text",
+      },
+      {
+        role: "user",
+        content: input,
+      },
+    ],
+  });
 
-  if (!inputStripped) {
-    return NextResponse.json(
-      { message: "The input is missing from the body" },
-      { status: 400 }
-    );
-  }
+  const output = response.choices[0].message.content!;
+  return output;
+}
 
-  if (inputStripped.length > 512) {
-    return NextResponse.json(
-      { message: "The input can't be more than 512 characters" },
-      { status: 400 }
-    );
-  }
-
+async function fetchCache(
+  inputHashed: string,
+  inputKey: Buffer
+): Promise<string | null> {
   const supabaseClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
-
-  const inputHashed = inputToHash(inputStripped);
-  const inputKey = inputToKey(inputStripped);
 
   const { data, error: selectError } = await supabaseClient
     .from("sentences")
@@ -72,39 +74,66 @@ export async function POST(request: Request) {
       inputKey
     );
 
-    return NextResponse.json({ output: decryptedOutput });
+    return decryptedOutput;
   }
 
-  const client = new OpenAI({ apiKey: OPENAI_API_KEY });
-  const response = await client.chat.completions.create({
-    model: OPENAI_API_MODEL,
-    messages: [
-      {
-        role: "system",
-        content: "Please un-uwuify this text",
-      },
-      {
-        role: "user",
-        content: inputStripped,
-      },
-    ],
-  });
+  return null;
+}
 
-  const responseOutput = response.choices[0].message.content!;
+async function insertCache(
+  inputHashed: string,
+  inputKey: Buffer,
+  output: string
+) {
+  const supabaseClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-  const { vector, output } = outputToEncrypted(responseOutput, inputKey);
+  const { vector, encrypted } = outputToEncrypted(output, inputKey);
   const { error: inertError } = await supabaseClient.from("sentences").insert([
     {
       model: OPENAI_API_MODEL,
       input: inputHashed,
+      output: encrypted,
       vector,
-      output,
     },
   ]);
 
   if (inertError) {
     throw inertError;
   }
+}
 
-  return NextResponse.json({ output: responseOutput });
+export async function POST(request: Request) {
+  const body = await request.json();
+  const input = body.input;
+  const inputStripped = input.replace(/[\n\r]/g, "");
+
+  if (!inputStripped) {
+    return NextResponse.json(
+      { message: "The input is missing from the body" },
+      { status: 400 }
+    );
+  }
+
+  if (inputStripped.length > 512) {
+    return NextResponse.json(
+      { message: "The input can't be more than 512 characters" },
+      { status: 400 }
+    );
+  }
+
+  const inputHashed = inputToHash(inputStripped);
+  const inputKey = inputToKey(inputStripped);
+
+  const outputCached = await fetchCache(inputHashed, inputKey);
+
+  if (outputCached) {
+    return NextResponse.json({ output: outputCached });
+  }
+
+  const outputTranslated = await fetchTranslation(inputStripped);
+
+  // Once after is supported in Next I'd like to use it here
+  await insertCache(inputHashed, inputKey, outputTranslated);
+
+  return NextResponse.json({ output: outputTranslated });
 }
