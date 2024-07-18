@@ -23,6 +23,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import DemoCopy from "./Copy";
 import DemoShare from "./Share";
+import { usePlausible } from "next-plausible";
 
 export default function Demo() {
   const { translateSentence, error, state, language, updateTranslation } =
@@ -33,6 +34,7 @@ export default function Demo() {
   const router = useRouter();
   const params = useSearchParams();
   const pathname = usePathname();
+  const plausible = usePlausible();
 
   // prettier-ignore
   const [input, setInput] = useState(`According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground.`);
@@ -77,6 +79,10 @@ export default function Demo() {
     return () => clearTimeout(timeout.current!);
   }
 
+  function handleInput(input: string) {
+    awaitTranslation(input);
+  }
+
   function handleLanguage() {
     const language = Language.ORG_TO_UWU
       ? Language.UWU_TO_ORG
@@ -89,16 +95,16 @@ export default function Demo() {
     setOutput(tempInput);
 
     updateTranslation(language);
-  }
 
-  function handleInput(input: string) {
-    awaitTranslation(input);
+    plausible(`Switched language to ${language}`);
   }
 
   function handleModal() {
     const updated = setValue(params, "modal", true);
 
     router.replace(`${pathname}?${updated.toString()}`, { scroll: false });
+
+    plausible("Open settings");
   }
 
   useEffect(() => {

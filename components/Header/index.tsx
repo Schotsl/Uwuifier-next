@@ -14,11 +14,13 @@ import {
   faAppStoreIos,
   faGooglePlay,
 } from "@fortawesome/free-brands-svg-icons";
+import { usePlausible } from "next-plausible";
 
 export default function Header() {
   const { personal, global } = useCount();
 
   const uwuifier = new Uwuifier();
+  const plausible = usePlausible();
 
   const startSentence = uwuifier.uwuifySentence("And ");
   const endSentence = uwuifier.uwuifySentence(" of those were your fault!");
@@ -43,18 +45,20 @@ export default function Header() {
 
         <div className={styles.header__content__buttons}>
           <Button
-            label="Get on the App Store"
-            color="yellow"
             icon={faAppStoreIos}
             href="https://apps.apple.com/us/app/uwuifier/id1623454749"
+            label="Get on the App Store"
+            color="yellow"
+            onClick={() => plausible("App Store viewed")}
             className={styles.header__content__buttons__button}
           />
 
           <Button
-            label="Get on the Play Store"
-            color="yellow"
             icon={faGooglePlay}
             href="https://play.google.com/store/apps/details?id=com.sjorsvanholst.uwuifier"
+            label="Get on the Play Store"
+            color="yellow"
+            onClick={() => plausible("Play Store viewed")}
             className={styles.header__content__buttons__button}
           />
         </div>
