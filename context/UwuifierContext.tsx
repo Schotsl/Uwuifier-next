@@ -1,6 +1,11 @@
 "use client";
 
 import Uwuifier from "uwuifier";
+
+import { useRouter } from "next/navigation";
+import { Language, State } from "@/types";
+import { getValue, setValue } from "@/helper";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   createContext,
   useContext,
@@ -8,13 +13,19 @@ import {
   useState,
   useEffect,
 } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
-import { getValue, setValue } from "@/helper";
-import { useRouter } from "next/navigation";
 
 type UwuifierContextType = {
   uwuifySentence: (sentence: string) => string;
+  unuwuifySentence: (sentence: string) => Promise<string>;
+  translateSentence: (sentence: string) => Promise<string>;
+
   updateValue: (name: string, value: number) => void;
+  updateTranslation: (translation: Language) => void;
+
+  error: string;
+  state: State;
+  language: Language;
+
   faces: number;
   words: number;
   actions: number;
@@ -24,7 +35,16 @@ type UwuifierContextType = {
 
 const UwuifierContext = createContext<UwuifierContextType>({
   uwuifySentence: (sentence: string) => sentence,
+  unuwuifySentence: async (sentence: string) => sentence,
+  translateSentence: async (sentence: string) => sentence,
+
   updateValue: () => {},
+  updateTranslation: () => {},
+
+  error: "",
+  state: State.IDLE,
+  language: Language.ORG_TO_UWU,
+
   faces: 0.5,
   words: 1,
   actions: 0.075,
@@ -57,6 +77,11 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
   const [stutters, setStutters] = useState(initialStutters);
   const [exclamations, setExclamations] = useState(initialExclamations);
 
+  const [error, setError] = useState("");
+  const [state, setState] = useState(State.IDLE);
+  const [abort, setAbort] = useState<AbortController | null>(null);
+
+  const [language, setLanguage] = useState(Language.ORG_TO_UWU);
   const [uwuifier, setUwuifier] = useState(
     new Uwuifier({
       spaces: {
@@ -83,8 +108,57 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
     setUwuifier(uwuifier);
   }, [words, faces, actions, stutters, exclamations]);
 
-  function uwuifySentence(sentence: string) {
-    return uwuifier.uwuifySentence(sentence);
+  async function translateSentence(input: string) {
+    const output =
+      language === Language.UWU_TO_ORG
+        ? await unuwuifySentence(input)
+        : uwuifySentence(input);
+
+    return output;
+  }
+
+  function uwuifySentence(input: string) {
+    return uwuifier.uwuifySentence(input);
+  }
+
+  async function unuwuifySentence(input: string) {
+    if (abort) {
+      abort.abort();
+    }
+
+    const controller = new AbortController();
+    setAbort(controller);
+    setState(State.LOADING);
+
+    const url = `https://rqautahsvsoneozemjth.supabase.co/functions/v1/un-uwuifier`;
+
+    const body = JSON.stringify({ input });
+    const method = "POST";
+    const signal = controller.signal;
+    const headers = { "Content-Type": "application/json" };
+
+    try {
+      const response = await fetch(url, { body, method, headers, signal });
+      const responseJSON = await response.json();
+
+      if (responseJSON.error) {
+        setError(responseJSON.error);
+        setState(State.ERROR);
+        return;
+      }
+
+      setState(State.SUCCESS);
+      setAbort(null);
+
+      return responseJSON.output;
+    } catch (error: any) {
+      if (error.name === "AbortError") {
+        return;
+      }
+
+      setError(error.message);
+      setState(State.ERROR);
+    }
   }
 
   function updateValue(name: string, value: number) {
@@ -105,11 +179,25 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
     router.replace(`${pathname}?${updated.toString()}`, { scroll: false });
   }
 
+  function updateTranslation(translation: Language) {
+    setLanguage(translation);
+
+    const updated = setValue(params, "translation", translation);
+
+    router.replace(`${pathname}?${updated.toString()}`, { scroll: false });
+  }
+
   return (
     <UwuifierContext.Provider
       value={{
         uwuifySentence,
+        unuwuifySentence,
+        translateSentence,
         updateValue,
+        updateTranslation,
+        error,
+        state,
+        language,
         faces,
         words,
         actions,
