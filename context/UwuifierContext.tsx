@@ -91,7 +91,7 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
       },
       words: initialWords,
       exclamations: initialExclamations,
-    })
+    }),
   );
 
   useEffect(() => {

@@ -10,7 +10,7 @@ export function formatNumber(number: number) {
 export function getValue<T extends string | number | boolean>(
   params: URLSearchParams,
   key: string,
-  initial: T
+  initial: T,
 ): T {
   const value = params.get(key);
 
@@ -35,7 +35,7 @@ export function getValue<T extends string | number | boolean>(
 export function setValue(
   params: ReadonlyURLSearchParams,
   key: string,
-  value?: string | number | boolean
+  value?: string | number | boolean,
 ) {
   const searchParams = new URLSearchParams(params.toString());
 

@@ -2,34 +2,34 @@
 
 import styles from "./IntroDemo.module.scss";
 
-import Link from "next/link";
 import React from "react";
-import { useUwuifier } from "@/context/UwuifierContext";
-
-import { Language, State } from "@/types";
-import { setValue } from "@/helper";
-import { useCount } from "@/context/CountContext";
-import { MutableRefObject } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { usePathname, useSearchParams } from "next/navigation";
-import {
-  faCopy,
-  faShareFromSquare,
-  faRepeat,
-  faGear,
-} from "@fortawesome/free-solid-svg-icons";
-
-import { useState } from "react";
-import { useEffect, useRef } from "react";
 import Button from "@/components/Button";
 import DemoField from "./Field";
+
+import { Language } from "@/types";
+import { setValue } from "@/helper";
+import { useCount } from "@/context/CountContext";
 import { useRouter } from "next/navigation";
+import { useUwuifier } from "@/context/UwuifierContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { usePathname, useSearchParams } from "next/navigation";
+import { MutableRefObject, useState, useEffect, useRef } from "react";
+import {
+  faCopy,
+  faGear,
+  faRepeat,
+  faShareFromSquare,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Demo() {
   const { translateSentence, error, state, language, updateTranslation } =
     useUwuifier();
 
   const { onUwuified } = useCount();
+
+  const router = useRouter();
+  const params = useSearchParams();
+  const pathname = usePathname();
 
   // prettier-ignore
   const [input, setInput] = useState(`According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground.`);
@@ -92,6 +92,12 @@ export default function Demo() {
     awaitTranslation(input);
   }
 
+  function handleModal() {
+    const updated = setValue(params, "modal", true);
+
+    router.replace(`${pathname}?${updated.toString()}`, { scroll: false });
+  }
+
   useEffect(() => {
     awaitTranslation(input);
   }, []);
@@ -117,8 +123,8 @@ export default function Demo() {
         headerButtons={[
           <button
             key={"switch"}
-            className={styles.demo__switch}
             onClick={handleLanguage}
+            className={styles.demo__switch}
           >
             <FontAwesomeIcon
               icon={faRepeat}
@@ -127,7 +133,7 @@ export default function Demo() {
           </button>,
           <button
             key={"settings"}
-            // onClick={() => handleChange("modal", true)}
+            onClick={handleModal}
             className={styles.demo__switch}
           >
             <FontAwesomeIcon
