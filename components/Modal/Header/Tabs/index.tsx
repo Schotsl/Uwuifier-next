@@ -1,6 +1,6 @@
 import styles from "./ModalTabs.module.scss";
 
-type ModelTabsProps = {
+type ModelHeaderTabsProps = {
   active: string;
   onActive: (active: string) => void;
 };
@@ -11,9 +11,12 @@ const tabs = [
   { label: "Exclamations", value: "exclamations" },
 ];
 
-export default function ModelTabs({ active, onActive }: ModelTabsProps) {
+export default function ModelHeaderTabs({
+  active,
+  onActive,
+}: ModelHeaderTabsProps) {
   return (
-    <ul className={styles.tabs}>
+    <menu className={styles.tabs}>
       {tabs.map((tab) => (
         <li
           key={tab.value}
@@ -31,6 +34,6 @@ export default function ModelTabs({ active, onActive }: ModelTabsProps) {
           </button>
         </li>
       ))}
-    </ul>
+    </menu>
   );
 }

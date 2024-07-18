@@ -19,6 +19,7 @@ type UwuifierContextType = {
   unuwuifySentence: (sentence: string) => Promise<string>;
   translateSentence: (sentence: string) => Promise<string>;
 
+  resetValues: () => void;
   updateValue: (name: string, value: number) => void;
   updateTranslation: (translation: Language) => void;
 
@@ -38,6 +39,7 @@ const UwuifierContext = createContext<UwuifierContextType>({
   unuwuifySentence: async (sentence: string) => sentence,
   translateSentence: async (sentence: string) => sentence,
 
+  resetValues: () => {},
   updateValue: () => {},
   updateTranslation: () => {},
 
@@ -91,7 +93,7 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
       },
       words: initialWords,
       exclamations: initialExclamations,
-    }),
+    })
   );
 
   useEffect(() => {
@@ -161,6 +163,14 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
     }
   }
 
+  function resetValues() {
+    setFaces(0.5);
+    setWords(1);
+    setActions(0.075);
+    setStutters(0.1);
+    setExclamations(0.5);
+  }
+
   function updateValue(name: string, value: number) {
     if (name === "faces") {
       setFaces(value);
@@ -193,6 +203,7 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
         uwuifySentence,
         unuwuifySentence,
         translateSentence,
+        resetValues,
         updateValue,
         updateTranslation,
         error,

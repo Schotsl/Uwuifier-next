@@ -2,18 +2,19 @@
 
 import styles from "./Modal.module.scss";
 
-import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { setValue } from "@/helper";
 import { useRouter } from "next/navigation";
 import { useUwuifier } from "@/context/UwuifierContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClose, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
 
-import ModelTabs from "./Tabs";
+import ModelTabs from "./Header/Tabs";
 import ModalGroupWords from "./Group/Words";
 import ModalGroupSpaces from "./Group/Spaces";
 import ModalGroupExclamations from "./Group/Exclamations";
+import ModalHeader from "./Header";
 
 export default function Modal() {
   const params = useSearchParams();
@@ -25,17 +26,17 @@ export default function Modal() {
     actions,
     stutters,
     exclamations,
+    resetValues,
     updateValue,
     uwuifySentence,
   } = useUwuifier();
 
-  // prettier-ignore
-  const [input, setInput] = useState(`Hey! This site can help you make any old boring text nice and uwu. We can't imagine anyone would actually use this, but you gotta do what you gotta do.`);
-  const [output, setOutput] = useState(uwuifySentence(input));
-  const [active, setActive] = useState("spaces");
-
+  const input = `Hey! This site can help you make any old boring text nice and uwu. We can't imagine anyone would actually use this, but you gotta do what you gotta do.`;
   const router = useRouter();
   const modal = params.get("modal");
+
+  const [output, setOutput] = useState(uwuifySentence(input));
+  const [active, setActive] = useState("spaces");
 
   useEffect(() => {
     const body = document.querySelector("body");
@@ -74,7 +75,12 @@ export default function Modal() {
           className={styles.modal}
         >
           <form className={styles.modal__form} method="dialog">
-            <ModelTabs active={active} onActive={setActive} />
+            <ModalHeader
+              active={active}
+              setActive={setActive}
+              resetValues={resetValues}
+              handleClose={handleClose}
+            />
 
             {active === "words" && (
               <ModalGroupWords words={words} onChange={updateValue} />
@@ -106,13 +112,6 @@ export default function Modal() {
                 className={styles.modal__form__group__textarea}
               />
             </div>
-
-            <button onClick={handleClose} className={styles.modal__form__close}>
-              <FontAwesomeIcon
-                icon={faClose}
-                style={{ fontSize: 24, color: "#fff" }}
-              />
-            </button>
           </form>
         </dialog>
       )}
