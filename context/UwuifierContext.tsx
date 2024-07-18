@@ -21,7 +21,7 @@ type UwuifierContextType = {
 
   resetValues: () => void;
   updateValue: (name: string, value: number) => void;
-  updateTranslation: (translation: Language) => void;
+  switchLanguage: () => void;
 
   error: string;
   state: State;
@@ -41,7 +41,7 @@ const UwuifierContext = createContext<UwuifierContextType>({
 
   resetValues: () => {},
   updateValue: () => {},
-  updateTranslation: () => {},
+  switchLanguage: () => {},
 
   error: "",
   state: State.IDLE,
@@ -74,7 +74,7 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
   const initialExclamations = getValue<number>(params, "exclamations", 0.5);
   const initialLanguage = getValue<Language>(
     params,
-    "translation",
+    "language",
     Language.ORG_TO_UWU
   );
 
@@ -193,12 +193,19 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
     router.replace(`${pathname}?${updated.toString()}`, { scroll: false });
   }
 
-  function updateTranslation(translation: Language) {
-    setLanguage(translation);
+  function switchLanguage() {
+    setLanguage((previous) => {
+      const switched =
+        previous === Language.ORG_TO_UWU
+          ? Language.UWU_TO_ORG
+          : Language.ORG_TO_UWU;
 
-    const updated = setValue(params, "translation", translation);
+      const updated = setValue(params, "language", switched);
 
-    router.replace(`${pathname}?${updated.toString()}`, { scroll: false });
+      router.push(`${pathname}?${updated.toString()}`, { scroll: false });
+
+      return switched;
+    });
   }
 
   return (
@@ -209,7 +216,7 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
         translateSentence,
         resetValues,
         updateValue,
-        updateTranslation,
+        switchLanguage,
         error,
         state,
         language,

@@ -26,8 +26,14 @@ import DemoShare from "./Share";
 import { usePlausible } from "next-plausible";
 
 export default function Demo() {
-  const { translateSentence, error, state, language, updateTranslation } =
-    useUwuifier();
+  const {
+    uwuifySentence,
+    translateSentence,
+    error,
+    state,
+    language,
+    switchLanguage,
+  } = useUwuifier();
 
   const { onUwuified } = useCount();
 
@@ -37,9 +43,18 @@ export default function Demo() {
   const plausible = usePlausible();
 
   // prettier-ignore
-  const [input, setInput] = useState(`According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground.`);
+  const exampleNormal = `According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground.`;
+  const exampleUwuified = uwuifySentence(exampleNormal);
+
+  const [input, setInput] = useState(
+    language === Language.ORG_TO_UWU ? exampleNormal : exampleUwuified
+  );
+
+  const [output, setOutput] = useState(
+    language === Language.ORG_TO_UWU ? exampleUwuified : exampleNormal
+  );
+
   const [typed, setTyped] = useState(false);
-  const [output, setOutput] = useState("");
 
   // We'll use this over-typed ref to store the timeout
   const timeout: MutableRefObject<NodeJS.Timeout | null> = useRef(null);
@@ -74,9 +89,6 @@ export default function Demo() {
     const output = await translateSentence(input);
 
     setOutput(output);
-
-    // Clear the timer on unmount or if the input changes
-    return () => clearTimeout(timeout.current!);
   }
 
   function handleInput(input: string) {
@@ -84,17 +96,13 @@ export default function Demo() {
   }
 
   function handleLanguage() {
-    const language = Language.ORG_TO_UWU
-      ? Language.UWU_TO_ORG
-      : Language.ORG_TO_UWU;
-
     const tempInput = input;
     const tempOutput = output;
 
     setInput(tempOutput);
     setOutput(tempInput);
 
-    updateTranslation(language);
+    switchLanguage();
 
     plausible(`Switched language to ${language}`);
   }
@@ -106,10 +114,6 @@ export default function Demo() {
 
     plausible("Open settings");
   }
-
-  useEffect(() => {
-    awaitTranslation(input);
-  }, []);
 
   return (
     <div className={styles.demo}>
