@@ -4,7 +4,7 @@ import styles from "./IntroDemo.module.scss";
 
 import Link from "next/link";
 import React from "react";
-import Uwuifier from "uwuifier";
+import { useUwuifier } from "@/context/UwuifierContext";
 
 import { State } from "@/types";
 import { setValue } from "@/helper";
@@ -31,42 +31,15 @@ enum Translation {
 }
 
 export default function Demo() {
-  const [uwuifier, setUwuifier] = useState(new Uwuifier());
-
+  const { uwuifySentence } = useUwuifier();
   const params = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
 
   const mode = params.get("mode");
 
-  const stringFaces = params.get("faces");
-  const stringWords = params.get("words");
-  const stringActions = params.get("actions");
-  const stringStutters = params.get("stutters");
-  const stringExclamation = params.get("exclamations");
-
-  const faces = stringFaces ? parseFloat(stringFaces) : 0.5;
-  const words = stringWords ? parseFloat(stringWords) : 1;
-  const actions = stringActions ? parseFloat(stringActions) : 0.075;
-  const stutters = stringStutters ? parseFloat(stringStutters) : 0.1;
-  const exclamations = stringExclamation ? parseFloat(stringExclamation) : 0.5;
-
   const translation =
     mode === "eng-to-uwu" ? Translation.ORG_TO_UWU : Translation.UWU_TO_ORG;
-
-  useEffect(() => {
-    const uwuifier = new Uwuifier({
-      spaces: {
-        faces,
-        actions,
-        stutters,
-      },
-      words,
-      exclamations,
-    });
-
-    setUwuifier(uwuifier);
-  }, [words, faces, actions, stutters, exclamations]);
 
   const { onUwuified } = useCount();
 
@@ -76,7 +49,7 @@ export default function Demo() {
 
   // prettier-ignore
   const [input, setInput] = useState("According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground.");
-  const [output, setOutput] = useState(uwuifier.uwuifySentence(input));
+  const [output, setOutput] = useState(uwuifySentence(input));
 
   // We'll use this over-typed ref to store the timeout
   const timeout: MutableRefObject<NodeJS.Timeout | null> = useRef(null);
@@ -147,10 +120,10 @@ export default function Demo() {
       return;
     }
 
-    const uwuified = uwuifier.uwuifySentence(input);
+    const uwuified = uwuifySentence(input);
 
     setOutput(uwuified);
-  }, [input, uwuifier, translation]);
+  }, [input, translation]);
 
   useEffect(() => {
     setState(State.SUCCESS);
