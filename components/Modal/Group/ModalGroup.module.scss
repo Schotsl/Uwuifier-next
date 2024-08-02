@@ -1,7 +1,8 @@
 @import "styles/variables.scss";
 
 .group {
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   &__input {
     gap: 0.25rem;
