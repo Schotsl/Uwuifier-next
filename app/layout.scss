@@ -1,0 +1,98 @@
+@import "@/styles/variables.scss";
+@import "@/styles/mixins.scss";
+
+body,
+html {
+  width: 100vw;
+  min-height: 100vh;
+}
+
+body {
+  color: $color-white;
+  margin: 0;
+
+  font-size: 16px;
+  background: $color-background;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0px;
+  font-weight: 400;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+h1 {
+  max-width: 600px;
+  font-size: 2.5rem;
+}
+
+h2 {
+  opacity: 0.8;
+  overflow: hidden;
+  font-size: 2rem;
+
+  @include respond-to-md {
+    white-space: nowrap;
+  }
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 300;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  background: 0;
+}
+
+ul,
+li,
+ol,
+menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+main > div,
+main > header,
+main > section {
+  background: $color-background;
+
+  &:nth-child(odd) {
+    background: $color-grey;
+  }
+}
+
+dialog,
+main > div,
+main > header,
+main > section {
+  padding: 4rem 2rem;
+
+  @include respond-to-md {
+    padding: 4rem 4rem;
+  }
+
+  @include respond-to-lg {
+    padding: 4rem 8rem;
+  }
+
+  @include respond-to-xl {
+    padding: 4rem 12rem;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}

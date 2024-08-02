@@ -1,0 +1,54 @@
+@import "@/styles/variables.scss";
+
+.button {
+  gap: $spacing-default;
+  color: $color-white;
+  display: flex;
+  padding: 16px 32px;
+  overflow: hidden;
+  background: $color-background;
+
+  min-width: 56.5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.01);
+  font-size: $font-body;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  justify-content: center;
+  align-items: center;
+
+  border-color: $border-color;
+  border-width: $border-width;
+  border-style: $border-style;
+  border-radius: $radius;
+
+  text-decoration: none;
+
+  &:hover {
+    background: $color-grey;
+    color: $color-white;
+    border-color: $color-white;
+    text-decoration: underline;
+  }
+
+  &--yellow {
+    color: $color-grey;
+    background: $color-yellow;
+    font-weight: 600;
+    border-color: $color-yellow;
+  }
+
+  &--active {
+    animation: bounce 0.2s ease;
+
+    @keyframes bounce {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+  }
+}

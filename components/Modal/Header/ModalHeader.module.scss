@@ -1,0 +1,20 @@
+.header {
+  gap: 1.5rem;
+  align-items: center;
+  display: flex;
+
+  &__menu {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__item {
+      color: #fff;
+
+      &--close {
+        font-size: 22px;
+      }
+    }
+  }
+}

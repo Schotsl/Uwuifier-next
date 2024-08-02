@@ -1,0 +1,138 @@
+@import "@/styles/variables.scss";
+@import "@/styles/mixins.scss";
+
+.field {
+  gap: $spacing-editor-horizontal;
+  flex: 1;
+  padding: $spacing-editor-horizontal $spacing-editor-vertical;
+  position: relative;
+  padding-top: 0;
+
+  color: $color-white;
+  display: flex;
+  background: $color-grey;
+
+  align-items: center;
+  flex-direction: column;
+
+  border-top-left-radius: $radius;
+  border-top-right-radius: $radius;
+
+  @include respond-to-lg {
+    width: 50%;
+
+    border-top-left-radius: $radius;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: $radius;
+  }
+
+  &__label {
+    display: flex;
+    position: relative;
+
+    min-height: 50px;
+    align-items: center;
+
+    &__wrapper {
+      gap: 4px;
+      display: flex;
+
+      font-weight: 600;
+
+      &__language {
+        opacity: 0.5;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        margin-top: auto;
+        margin-bottom: 1px;
+
+        &::before {
+          content: "(";
+        }
+
+        &::after {
+          content: ")";
+        }
+      }
+    }
+
+    &::after {
+      width: 100%;
+      height: 3px;
+      bottom: 0;
+      content: "";
+      display: block;
+      position: absolute;
+      background: $color-white;
+    }
+  }
+
+  &__wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+
+    &__input {
+      color: inherit;
+      width: 100%;
+      border: none;
+      resize: none;
+      background: transparent;
+
+      min-height: 8rem;
+      font-family: inherit;
+
+      &--loading {
+        filter: blur(5px);
+        opacity: 0.5;
+        overflow: hidden;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &__error {
+      top: 50%;
+      left: 50%;
+      position: absolute;
+      transform: translate(-50%, -50%);
+
+      text-align: center;
+      font-weight: 600;
+    }
+  }
+
+  &:last-of-type {
+    color: $color-grey;
+    background: $color-yellow;
+
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+
+    border-bottom-left-radius: $radius;
+    border-bottom-right-radius: $radius;
+
+    @include respond-to-lg {
+      border-top-right-radius: $radius;
+      border-bottom-left-radius: 0;
+    }
+
+    .field__label {
+      &::after {
+        background: $color-grey;
+      }
+    }
+  }
+
+  &__buttons {
+    gap: $spacing-default;
+    width: 100%;
+    display: flex;
+    margin-top: auto;
+  }
+}

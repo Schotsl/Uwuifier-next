@@ -1,0 +1,45 @@
+@import "@/styles/variables.scss";
+@import "@/styles/mixins.scss";
+
+.header {
+  gap: 24px;
+  color: $color-white;
+  display: flex;
+  flex-direction: column;
+
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+
+  &__image {
+    width: 84px;
+    height: 84px;
+
+    @include respond-to-xl {
+      width: 244px;
+      height: 244px;
+    }
+  }
+
+  &__content {
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+
+    &__buttons {
+      gap: 24px;
+      display: flex;
+      margin-top: 24px;
+      flex-direction: column;
+
+      @include respond-to-md {
+        flex-direction: row;
+      }
+    }
+  }
+
+  @include respond-to-xl {
+    gap: 84px;
+
+    flex-direction: row;
+  }
+}

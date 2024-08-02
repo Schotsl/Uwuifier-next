@@ -1,0 +1,83 @@
+@import "styles/variables.scss";
+@import "styles/mixins.scss";
+
+.modal {
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+
+  &__form {
+    gap: 2rem;
+    color: $color-white;
+    padding: 2rem;
+    display: flex;
+    position: relative;
+    background: $color-grey;
+
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    max-height: 50rem;
+    border-radius: $radius;
+    flex-direction: column;
+
+    // TODO: Switch to variables
+    width: calc(100vw - 4rem);
+    height: calc(100vh - 8rem);
+
+    @include respond-to-md {
+      width: calc(100vw - 8rem);
+      height: calc(100vh - 8rem);
+    }
+
+    @include respond-to-lg {
+      width: calc(100vw - 12rem);
+      height: calc(100vh - 8rem);
+    }
+
+    @include respond-to-xl {
+      width: calc(100vw - 24rem);
+      height: calc(100vh - 8rem);
+    }
+
+    &__group {
+      gap: 0.75rem;
+      margin: auto 0 0;
+      display: flex;
+      flex-direction: column;
+
+      &__textarea {
+        color: #fff;
+        height: 6rem;
+        border: 1px solid #fff;
+        resize: none;
+        outline: none;
+        padding: 1rem 1.25rem;
+        background: $color-background;
+
+        font-family: inherit;
+        border-radius: 1rem;
+      }
+    }
+
+    &__close {
+      top: 2rem;
+      right: 2rem;
+      cursor: pointer;
+      position: absolute;
+    }
+
+    &__reset {
+      top: 2rem;
+      right: 10rem;
+      cursor: pointer;
+      position: absolute;
+    }
+  }
+}
