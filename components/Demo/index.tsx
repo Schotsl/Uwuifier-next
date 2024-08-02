@@ -24,6 +24,7 @@ import {
 import DemoCopy from "./Copy";
 import DemoShare from "./Share";
 import { usePlausible } from "next-plausible";
+import Icon from "../Icon";
 
 export default function Demo() {
   const {
@@ -134,26 +135,18 @@ export default function Demo() {
         language={language === Language.ORG_TO_UWU ? "UwU" : "Original"}
         readonly={true}
         headerButtons={[
-          <button
+          <Icon
             key={"switch"}
+            icon={faRepeat}
             onClick={handleLanguage}
             className={styles.demo__switch}
-          >
-            <FontAwesomeIcon
-              icon={faRepeat}
-              className={styles.demo__switch__icon}
-            />
-          </button>,
-          <button
+          />,
+          <Icon
             key={"settings"}
+            icon={faGear}
             onClick={handleModal}
             className={styles.demo__switch}
-          >
-            <FontAwesomeIcon
-              icon={faGear}
-              className={styles.demo__switch__icon}
-            />
-          </button>,
+          />,
         ]}
         footerButtons={[
           <DemoCopy key={0} output={output} />,

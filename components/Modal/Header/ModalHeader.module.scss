@@ -8,5 +8,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    &__item {
+      color: #fff;
+
+      &--reset {
+        font-size: 20px;
+      }
+
+      &--close {
+        font-size: 24px;
+      }
+    }
   }
 }

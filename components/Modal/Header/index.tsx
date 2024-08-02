@@ -4,6 +4,7 @@ import styles from "./ModalHeader.module.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faRefresh } from "@fortawesome/free-solid-svg-icons";
+import Icon from "@/components/Icon";
 
 type ModalHeaderProps = {
   active: string;
@@ -24,27 +25,19 @@ export default function ModalHeader({
 
       <menu className={styles.header__menu}>
         <li className={styles.header__menu__item}>
-          <button
+          <Icon
+            icon={faRefresh}
             onClick={resetValues}
-            className={styles.header__menu__item__button}
-          >
-            <FontAwesomeIcon
-              icon={faRefresh}
-              style={{ fontSize: 20, color: "#fff" }}
-            />
-          </button>
+            className={`${styles.header__menu__item} ${styles["header__menu__item--reset"]}`}
+          />
         </li>
 
         <li className={styles.header__menu__item}>
-          <button
+          <Icon
+            icon={faClose}
             onClick={handleClose}
-            className={styles.header__menu__item__button}
-          >
-            <FontAwesomeIcon
-              icon={faClose}
-              style={{ fontSize: 24, color: "#fff" }}
-            />
-          </button>
+            className={`${styles.header__menu__item} ${styles["header__menu__item--close"]}`}
+          />
         </li>
       </menu>
     </nav>

@@ -24,10 +24,6 @@
     align-items: center;
     justify-content: center;
 
-    &__icon {
-      color: inherit;
-    }
-
     &:hover {
       color: $color-grey;
       transform: scale(1.15);
