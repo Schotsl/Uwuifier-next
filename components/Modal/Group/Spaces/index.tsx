@@ -91,7 +91,7 @@ export default function ModalGroupSpaces({
           min="0"
           max="1"
           name="faces"
-          step="0.01"
+          step="0.001"
           value={faces}
           onChange={handleChange}
           className={styles.group__input__slider}
@@ -113,7 +113,7 @@ export default function ModalGroupSpaces({
           min="0"
           max="1"
           name="actions"
-          step="0.01"
+          step="0.001"
           value={actions}
           onChange={handleChange}
           className={styles.group__input__slider}
@@ -135,7 +135,7 @@ export default function ModalGroupSpaces({
           min="0"
           max="1"
           name="stutters"
-          step="0.01"
+          step="0.001"
           value={stutters}
           onChange={handleChange}
           className={styles.group__input__slider}

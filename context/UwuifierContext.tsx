@@ -66,16 +66,34 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
   const params = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const defaults = {
+    faces: 0.5,
+    words: 1,
+    actions: 0.075,
+    stutters: 0.1,
+    exclamations: 0.5,
+    language: Language.ORG_TO_UWU,
+  };
 
-  const initialFaces = getValue<number>(params, "faces", 0.5);
-  const initialWords = getValue<number>(params, "words", 1);
-  const initialActions = getValue<number>(params, "actions", 0.075);
-  const initialStutters = getValue<number>(params, "stutters", 0.1);
-  const initialExclamations = getValue<number>(params, "exclamations", 0.5);
+  const initialFaces = getValue<number>(params, "faces", defaults.faces);
+  const initialWords = getValue<number>(params, "words", defaults.words);
+  const initialActions = getValue<number>(params, "actions", defaults.actions);
+  const initialStutters = getValue<number>(
+    params,
+    "stutters",
+    defaults.stutters
+  );
+
+  const initialExclamations = getValue<number>(
+    params,
+    "exclamations",
+    defaults.exclamations
+  );
+
   const initialLanguage = getValue<Language>(
     params,
     "language",
-    Language.ORG_TO_UWU
+    defaults.language
   );
 
   const [faces, setFaces] = useState(initialFaces);
@@ -168,44 +186,43 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
   }
 
   function resetValues() {
-    setFaces(0.5);
-    setWords(1);
-    setActions(0.075);
-    setStutters(0.1);
-    setExclamations(0.5);
+    setFaces(defaults.faces);
+    setWords(defaults.words);
+    setActions(defaults.actions);
+    setStutters(defaults.stutters);
+    setExclamations(defaults.exclamations);
   }
 
-  function updateValue(name: string, value: number) {
+  function updateValue(name: string, value: number | Language) {
     if (name === "faces") {
-      setFaces(value);
+      setFaces(value as number);
     } else if (name === "actions") {
-      setActions(value);
+      setActions(value as number);
     } else if (name === "stutters") {
-      setStutters(value);
+      setStutters(value as number);
     } else if (name === "words") {
-      setWords(value);
+      setWords(value as number);
     } else if (name === "exclamations") {
-      setExclamations(value);
+      setExclamations(value as number);
+    } else if (name === "language") {
+      setLanguage(value as Language);
     }
 
-    const updated = setValue(params, name, value);
+    const updated =
+      defaults[name as keyof typeof defaults] === value
+        ? setValue(params, name, undefined)
+        : setValue(params, name, value);
 
     router.replace(`${pathname}?${updated.toString()}`, { scroll: false });
   }
 
   function switchLanguage() {
-    setLanguage((previous) => {
-      const switched =
-        previous === Language.ORG_TO_UWU
-          ? Language.UWU_TO_ORG
-          : Language.ORG_TO_UWU;
+    const switched =
+      language === Language.ORG_TO_UWU
+        ? Language.UWU_TO_ORG
+        : Language.ORG_TO_UWU;
 
-      const updated = setValue(params, "language", switched);
-
-      router.push(`${pathname}?${updated.toString()}`, { scroll: false });
-
-      return switched;
-    });
+    updateValue("language", switched);
   }
 
   return (

@@ -34,7 +34,7 @@ export default function ModalGroupExclamations({
           type="range"
           min="0"
           max="1"
-          step="0.01"
+          step="0.001"
           name="exclamations"
           value={exclamations}
           onChange={handleChange}
