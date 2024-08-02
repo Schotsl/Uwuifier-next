@@ -11,7 +11,8 @@
   &__tab {
     &__button {
       color: rgb(161, 161, 170);
-      padding: 0.75rem 1.5rem;
+      padding: 1rem 1.5rem;
+      font-size: $font-small;
       transition: all 0.2s ease-in-out;
       border-radius: 0.75rem;
     }

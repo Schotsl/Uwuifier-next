@@ -11,7 +11,7 @@
   min-width: 56.5px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.01);
   font-size: $font-body;
-  font-weight: 600;
+  font-weight: 500;
   white-space: nowrap;
   text-overflow: ellipsis;
   justify-content: center;
@@ -33,8 +33,9 @@
 
   &--yellow {
     color: $color-grey;
-    border-color: $color-yellow;
     background: $color-yellow;
+    font-weight: 600;
+    border-color: $color-yellow;
   }
 
   &--active {
