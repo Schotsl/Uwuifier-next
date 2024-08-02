@@ -105,24 +105,23 @@ async function insertCache(
 export async function POST(request: Request) {
   const body = await request.json();
   const input = body.input;
-  const inputStripped = input.replace(/[\n\r]/g, "");
 
-  if (!inputStripped) {
+  if (!input) {
     return NextResponse.json(
       { message: "The input is missing from the body" },
       { status: 400 }
     );
   }
 
-  if (inputStripped.length > 512) {
+  if (input.length > 512) {
     return NextResponse.json(
       { message: "The input can't be more than 512 characters" },
       { status: 400 }
     );
   }
 
-  const inputHashed = inputToHash(inputStripped);
-  const inputKey = inputToKey(inputStripped);
+  const inputHashed = inputToHash(input);
+  const inputKey = inputToKey(input);
 
   const outputCached = await fetchCache(inputHashed, inputKey);
 
@@ -130,7 +129,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ output: outputCached });
   }
 
-  const outputTranslated = await fetchTranslation(inputStripped);
+  const outputTranslated = await fetchTranslation(input);
 
   // Once after is supported in Next I'd like to use it here
   await insertCache(inputHashed, inputKey, outputTranslated);
