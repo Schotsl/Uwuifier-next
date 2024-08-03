@@ -3,9 +3,9 @@
 const { withPlausibleProxy } = require("next-plausible");
 const { withSentryConfig } = require("@sentry/nextjs");
 
-// Cut off the /security/ part of the Sentry report URL
+// Cut off at sentry.io
 const reportURL = process.env.NEXT_PUBLIC_SENTRY_REPORT;
-const reportURLStripped = reportURL.split("/security/")[0];
+const reportURLStripped = `${reportURL.split("sentry.io")[0]}sentry.io`;
 
 const contentSecurityPolicy = `
   img-src 'self';
