@@ -15,10 +15,26 @@ import { UwuifierProvider } from "@/context/UwuifierContext";
 
 config.autoAddCss = false;
 
+const url = new URL("https://uwuifier.com/");
+const title = "Uwuifier";
+const description = `This is the best app for all your uwuify, owoify and weeb needs! Uwuifier (also known as Owoifier translator) is the most complex uwu and owo translator / generator on the web. It allows you to translate any text, sentence or word (excluding URL’s and @’s) while giving you access to many vewy kawaii sentences, stutters, faces and even a text-to-speech translation!`;
+
 export const metadata: Metadata = {
-  title: "Uwuifier",
-  description:
-    "This is the best app for all your uwuify, owoify and weeb needs! Uwuifier (also known as Owoifier translator) is the most complex uwu and owo translator / generator on the web. It allows you to translate any text, sentence or word (excluding URL’s and @’s) while giving you access to many vewy kawaii sentences, stutters, faces and even a text-to-speech translation!",
+  title,
+  keywords: ["uwu", "owo", "weeb", "anime", "translator"],
+  description,
+  metadataBase: url,
+
+  openGraph: {
+    url,
+    type: "website",
+    title,
+    locale: "en_US",
+    siteName: title,
+    description,
+  },
+
+  authors: [{ name: "Sjors van Holst", url: "https://sjorsvanholst.nl" }],
 };
 
 const supabase = createServerComponentClient({ cookies });
