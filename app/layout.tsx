@@ -17,6 +17,8 @@ config.autoAddCss = false;
 
 export const metadata: Metadata = {
   title: "Uwuifier",
+  description:
+    "This is the best app for all your uwuify, owoify and weeb needs! Uwuifier (also known as Owoifier translator) is the most complex uwu and owo translator / generator on the web. It allows you to translate any text, sentence or word (excluding URL’s and @’s) while giving you access to many vewy kawaii sentences, stutters, faces and even a text-to-speech translation!",
 };
 
 const supabase = createServerComponentClient({ cookies });

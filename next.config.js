@@ -3,7 +3,9 @@
 const { withPlausibleProxy } = require("next-plausible");
 const { withSentryConfig } = require("@sentry/nextjs");
 
-const contentSecurityReport = process.env.NEXT_PUBLIC_SENTRY_REPORT;
+const reportURL = process.env.NEXT_PUBLIC_SENTRY_REPORT;
+const reportURLStripped = reportURL.substring(0, reportURL.lastIndexOf("/") + 1);
+
 const contentSecurityPolicy = `
   img-src 'self';
   font-src 'self';
@@ -11,9 +13,9 @@ const contentSecurityPolicy = `
   worker-src 'self' blob:;
   object-src 'none';
   script-src 'self' 'unsafe-inline' 'unsafe-eval';
-  connect-src 'self' ${contentSecurityReport} wss://rqautahsvsoneozemjth.supabase.co https://rqautahsvsoneozemjth.supabase.co;
+  connect-src 'self' ${reportURLStripped} wss://rqautahsvsoneozemjth.supabase.co https://rqautahsvsoneozemjth.supabase.co;
   report-to csp-endpoint;
-  report-uri ${contentSecurityReport};
+  report-uri ${reportURLStripped};
   upgrade-insecure-requests;
 `;
 
@@ -22,7 +24,7 @@ const reportTo = {
   max_age: 10886400,
   endpoints: [
     {
-      url: contentSecurityReport,
+      url: reportURL,
     },
   ],
 };
