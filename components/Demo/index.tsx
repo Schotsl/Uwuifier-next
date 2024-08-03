@@ -138,12 +138,18 @@ export default function Demo() {
           <Icon
             key={"switch"}
             icon={faRepeat}
+            aria={
+              language === Language.ORG_TO_UWU
+                ? "Switch to UwU"
+                : "Switch to Original"
+            }
             onClick={handleLanguage}
             className={styles.demo__switch}
           />,
           <Icon
             key={"settings"}
             icon={faGear}
+            aria="Open settings"
             onClick={handleModal}
             className={styles.demo__switch}
           />,

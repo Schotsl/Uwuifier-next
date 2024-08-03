@@ -25,6 +25,11 @@ export default function DemoCopy({ output }: DemoCopyProps) {
   }
 
   return (
-    <Button key={0} icon={copied ? faCheck : faCopy} onClick={handleCopy} />
+    <Button
+      key={0}
+      aria="Copy text"
+      icon={copied ? faCheck : faCopy}
+      onClick={handleCopy}
+    />
   );
 }

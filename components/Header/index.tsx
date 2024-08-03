@@ -47,6 +47,7 @@ export default function Header() {
         <div className={styles.header__content__buttons}>
           <Button
             icon={faAppStoreIos}
+            aria="Get on the App Store"
             href="https://apps.apple.com/us/app/uwuifier/id1623454749"
             label="Get on the App Store"
             color="yellow"
@@ -56,6 +57,7 @@ export default function Header() {
 
           <Button
             icon={faGooglePlay}
+            aria="Get on the Play Store"
             href="https://play.google.com/store/apps/details?id=com.sjorsvanholst.uwuifier"
             label="Get on the Play Store"
             color="yellow"

@@ -7,6 +7,7 @@ import React, { useState } from "react";
 
 type ButtonProps = {
   href?: string;
+  aria?: string;
   icon?: IconDefinition;
   label?: string;
   color?: "yellow" | "grey";
@@ -16,6 +17,7 @@ type ButtonProps = {
 
 export default function Button({
   href,
+  aria,
   icon,
   label,
   color = "grey",
@@ -60,7 +62,7 @@ export default function Button({
       {buttonContent}
     </a>
   ) : (
-    <button className={buttonClass} onClick={handleClick}>
+    <button className={buttonClass} onClick={handleClick} aria-label={aria}>
       {buttonContent}
     </button>
   );

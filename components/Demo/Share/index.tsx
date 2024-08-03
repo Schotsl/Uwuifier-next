@@ -24,6 +24,11 @@ export default function DemoShare({ output }: DemoShareProps) {
   }
 
   return (
-    <Button icon={faShareFromSquare} label="Share text" onClick={handleShare} />
+    <Button
+      icon={faShareFromSquare}
+      aria="Share text"
+      label="Share text"
+      onClick={handleShare}
+    />
   );
 }

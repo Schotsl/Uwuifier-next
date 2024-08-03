@@ -13,7 +13,7 @@ if (!SUPABASE_SERVICE_ROLE_KEY) {
   throw new Error("The Supabase service role key is missing");
 }
 
-export async function POST(request: Request) {
+export async function POST() {
   const supabaseClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
   const promiseSpoke = fetchPlausible("Spoke sentence");
