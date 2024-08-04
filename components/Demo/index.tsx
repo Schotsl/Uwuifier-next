@@ -28,12 +28,17 @@ import Icon from "../Icon";
 
 export default function Demo() {
   const {
-    uwuifySentence,
-    translateSentence,
     error,
     state,
     language,
+    faces,
+    words,
+    actions,
+    stutters,
+    exclamations,
+    uwuifySentence,
     switchLanguage,
+    translateSentence,
   } = useUwuifier();
 
   const { onUwuified } = useCount();
@@ -92,10 +97,6 @@ export default function Demo() {
     setOutput(output);
   }
 
-  function handleInput(input: string) {
-    awaitTranslation(input);
-  }
-
   function handleLanguage() {
     const tempInput = input;
     const tempOutput = output;
@@ -116,6 +117,17 @@ export default function Demo() {
     plausible("Open settings");
   }
 
+  useEffect(() => {
+    if (language !== Language.ORG_TO_UWU) {
+      return;
+    }
+
+    // Re-uwuify the input whenever the Uwuifier settings change
+    const uwuified = uwuifySentence(input);
+
+    setOutput(uwuified);
+  }, [faces, words, actions, stutters, exclamations]);
+
   return (
     <div className={styles.demo}>
       <DemoField
@@ -123,7 +135,7 @@ export default function Demo() {
         label="Input"
         value={input}
         language={language === Language.ORG_TO_UWU ? "Original" : "UwU"}
-        onChange={handleInput}
+        onChange={awaitTranslation}
       />
 
       <DemoField
