@@ -12,6 +12,7 @@ import { CountProvider } from "@/context/CountContext";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useSearchParams } from "next/navigation";
 import { UwuifierProvider } from "@/context/UwuifierContext";
+import Footer from "@/components/Footer";
 
 config.autoAddCss = false;
 
@@ -123,7 +124,10 @@ export default async function RootLayout({
               <meta name="msapplication-TileColor" content="#da532c" />
               <meta name="theme-color" content="#303030" />
             </head>
-            <body>{children}</body>
+            <body>
+              {children}
+              <Footer />
+            </body>
           </html>
         </UwuifierProvider>
       </CountProvider>

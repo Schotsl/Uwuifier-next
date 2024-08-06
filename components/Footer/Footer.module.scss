@@ -1,0 +1,20 @@
+.footer {
+  font-size: 0.85rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+  &__list {
+    gap: 0.5rem;
+    display: flex;
+
+    &__item {
+      &__link {
+        opacity: 0.8;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
