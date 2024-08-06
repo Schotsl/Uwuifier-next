@@ -1,10 +1,8 @@
 import styles from "../ModalGroup.module.scss";
 
-import { ChangeEvent } from "react";
-
 type ModalGroupWordsProps = {
   words: number;
-  onChange: (name: string, value: number) => void;
+  onChange: ([{ name, value }]: { name: string; value: number }[]) => void;
 };
 
 export default function ModalGroupWords({
@@ -16,7 +14,7 @@ export default function ModalGroupWords({
 
     const valueParsed = parseFloat(value);
 
-    onChange(name, valueParsed);
+    onChange([{ name, value: valueParsed }]);
   };
 
   return (

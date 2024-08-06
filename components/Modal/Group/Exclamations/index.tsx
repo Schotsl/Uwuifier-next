@@ -4,7 +4,7 @@ import { ChangeEvent } from "react";
 
 type ModalGroupExclamationsProps = {
   exclamations: number;
-  onChange: (name: string, value: number) => void;
+  onChange: ([{ name, value }]: { name: string; value: number }[]) => void;
 };
 
 export default function ModalGroupExclamations({
@@ -16,7 +16,7 @@ export default function ModalGroupExclamations({
 
     const valueParsed = parseFloat(value);
 
-    onChange(name, valueParsed);
+    onChange([{ name, value: valueParsed }]);
   };
 
   return (

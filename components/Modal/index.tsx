@@ -5,12 +5,9 @@ import styles from "./Modal.module.scss";
 import { setValue } from "@/helper";
 import { useRouter } from "next/navigation";
 import { useUwuifier } from "@/context/UwuifierContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
 
-import ModelTabs from "./Header/Tabs";
 import ModalGroupWords from "./Group/Words";
 import ModalGroupSpaces from "./Group/Spaces";
 import ModalGroupExclamations from "./Group/Exclamations";
@@ -27,7 +24,7 @@ export default function Modal() {
     stutters,
     exclamations,
     resetValues,
-    updateValue,
+    updateValues,
     uwuifySentence,
   } = useUwuifier();
 
@@ -83,13 +80,13 @@ export default function Modal() {
             />
 
             {active === "words" && (
-              <ModalGroupWords words={words} onChange={updateValue} />
+              <ModalGroupWords words={words} onChange={updateValues} />
             )}
 
             {active === "exclamations" && (
               <ModalGroupExclamations
                 exclamations={exclamations}
-                onChange={updateValue}
+                onChange={updateValues}
               />
             )}
 
@@ -98,7 +95,7 @@ export default function Modal() {
                 faces={faces}
                 actions={actions}
                 stutters={stutters}
-                onChange={updateValue}
+                onChange={updateValues}
               />
             )}
 

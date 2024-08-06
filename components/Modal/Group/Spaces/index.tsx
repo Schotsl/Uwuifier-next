@@ -1,12 +1,13 @@
-import styles from "../ModalGroup.module.scss";
-
 import { ChangeEvent } from "react";
+import { roundNumber } from "@/helper";
+
+import styles from "../ModalGroup.module.scss";
 
 type ModalGroupSpacesProps = {
   faces: number;
   actions: number;
   stutters: number;
-  onChange: (name: string, value: number) => void;
+  onChange: ([{ name, value }]: { name: string; value: number }[]) => void;
 };
 
 export default function ModalGroupSpaces({
@@ -15,65 +16,79 @@ export default function ModalGroupSpaces({
   stutters,
   onChange,
 }: ModalGroupSpacesProps) {
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.name;
+    const value = parseFloat(event.target.value);
 
-    const valueParsed = parseFloat(value);
+    let changes: { name: string; value: number }[] = [];
 
     if (name === "faces") {
-      const total = valueParsed + actions + stutters;
+      const total = roundNumber(value + actions + stutters, 2);
 
       if (total > 1) {
         const excess = total - 1;
         const actionsRatio = actions / (actions + stutters);
         const stuttersRatio = stutters / (actions + stutters);
 
-        onChange("actions", actions - excess * actionsRatio);
-        onChange("stutters", stutters - excess * stuttersRatio);
+        changes.push({
+          name: "actions",
+          value: roundNumber(actions - excess * actionsRatio, 2),
+        });
+
+        changes.push({
+          name: "stutters",
+          value: roundNumber(stutters - excess * stuttersRatio, 2),
+        });
       }
 
-      onChange("faces", valueParsed);
-      return;
+      changes.push({ name: "faces", value });
     }
 
     if (name === "actions") {
-      const total = faces + valueParsed + stutters;
+      const total = roundNumber(faces + value + stutters, 2);
 
       if (total > 1) {
         const excess = total - 1;
         const facesRatio = faces / (faces + stutters);
         const stuttersRatio = stutters / (faces + stutters);
 
-        // setFaces(faces - excess * facesRatio);
-        // setStutters(stutters - excess * stuttersRatio);
+        changes.push({
+          name: "faces",
+          value: roundNumber(faces - excess * facesRatio),
+        });
 
-        onChange("faces", faces - excess * facesRatio);
-        onChange("stutters", stutters - excess * stuttersRatio);
+        changes.push({
+          name: "stutters",
+          value: roundNumber(stutters - excess * stuttersRatio),
+        });
       }
 
-      onChange("actions", valueParsed);
-      return;
+      changes.push({ name: "actions", value });
     }
 
     if (name === "stutters") {
-      const total = faces + actions + valueParsed;
+      const total = roundNumber(faces + actions + value, 2);
 
       if (total > 1) {
         const excess = total - 1;
         const facesRatio = faces / (faces + actions);
         const actionsRatio = actions / (faces + actions);
 
-        // setFaces(faces - excess * facesRatio);
-        // setActions(actions - excess * actionsRatio);
+        changes.push({
+          name: "faces",
+          value: roundNumber(faces - excess * facesRatio),
+        });
 
-        onChange("faces", faces - excess * facesRatio);
-        onChange("actions", actions - excess * actionsRatio);
+        changes.push({
+          name: "actions",
+          value: roundNumber(actions - excess * actionsRatio),
+        });
       }
 
-      onChange("stutters", valueParsed);
-      return;
-      // setStutters(valueParsed);
+      changes.push({ name: "stutters", value });
     }
+
+    onChange(changes);
   };
 
   return (

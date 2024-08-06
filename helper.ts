@@ -1,5 +1,3 @@
-import { ReadonlyURLSearchParams } from "next/navigation";
-
 export function formatNumber(number: number) {
   const numberString = number.toString();
   const numberFormatted = numberString.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -7,10 +5,17 @@ export function formatNumber(number: number) {
   return numberFormatted;
 }
 
+export function roundNumber(number: number, precision = 0) {
+  const factor = Math.pow(10, precision);
+  const rounded = Math.round(number * factor) / factor;
+
+  return rounded;
+}
+
 export function getValue<T extends string | number | boolean>(
   params: URLSearchParams,
   key: string,
-  initial: T,
+  initial: T
 ): T {
   const value = params.get(key);
 
@@ -33,17 +38,30 @@ export function getValue<T extends string | number | boolean>(
 }
 
 export function setValue(
-  params: ReadonlyURLSearchParams,
-  key: string,
-  value?: string | number | boolean,
+  params: URLSearchParams,
+  name: string,
+  value?: string | number | boolean
 ) {
   const searchParams = new URLSearchParams(params.toString());
 
   if (value === undefined) {
-    searchParams.delete(key);
+    searchParams.delete(name);
   } else {
-    searchParams.set(key, value.toString());
+    searchParams.set(name, value.toString());
   }
 
   return searchParams;
+}
+
+export function setValues(
+  params: URLSearchParams,
+  values: { name: string; value: string | number | boolean | undefined }[]
+) {
+  let updated = params;
+
+  for (const { name, value } of values) {
+    updated = setValue(updated, name, value);
+  }
+
+  return updated;
 }

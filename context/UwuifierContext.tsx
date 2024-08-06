@@ -1,10 +1,9 @@
 "use client";
 
 import Uwuifier from "uwuifier";
-
 import { useRouter } from "next/navigation";
 import { Language, State } from "@/types";
-import { getValue, setValue } from "@/helper";
+import { getValue, setValue, setValues } from "@/helper";
 import { usePathname, useSearchParams } from "next/navigation";
 import {
   createContext,
@@ -20,7 +19,7 @@ type UwuifierContextType = {
   translateSentence: (sentence: string) => Promise<string>;
 
   resetValues: () => void;
-  updateValue: (name: string, value: number) => void;
+  updateValues: (updates: { name: string; value: number | Language }[]) => void;
   switchLanguage: () => void;
 
   error: string;
@@ -83,13 +82,11 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
     "stutters",
     defaults.stutters
   );
-
   const initialExclamations = getValue<number>(
     params,
     "exclamations",
     defaults.exclamations
   );
-
   const initialLanguage = getValue<Language>(
     params,
     "language",
@@ -193,27 +190,46 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
     setExclamations(defaults.exclamations);
   }
 
-  function updateValue(name: string, value: number | Language) {
-    if (name === "faces") {
-      setFaces(value as number);
-    } else if (name === "actions") {
-      setActions(value as number);
-    } else if (name === "stutters") {
-      setStutters(value as number);
-    } else if (name === "words") {
-      setWords(value as number);
-    } else if (name === "exclamations") {
-      setExclamations(value as number);
-    } else if (name === "language") {
-      setLanguage(value as Language);
-    }
+  function updateValues(updates: { name: string; value: number | Language }[]) {
+    let newFaces = faces;
+    let newWords = words;
+    let newActions = actions;
+    let newStutters = stutters;
+    let newExclamations = exclamations;
+    let newLanguage = language;
 
-    const updated =
-      defaults[name as keyof typeof defaults] === value
-        ? setValue(params, name, undefined)
-        : setValue(params, name, value);
+    const values = updates.map(({ name, value }) => {
+      if (name === "faces") {
+        newFaces = value as number;
+      } else if (name === "actions") {
+        newActions = value as number;
+      } else if (name === "stutters") {
+        newStutters = value as number;
+      } else if (name === "words") {
+        newWords = value as number;
+      } else if (name === "exclamations") {
+        newExclamations = value as number;
+      } else if (name === "language") {
+        newLanguage = value as Language;
+      }
+
+      return {
+        name,
+        value:
+          defaults[name as keyof typeof defaults] === value ? undefined : value,
+      };
+    });
+
+    const updated = setValues(params, values);
 
     router.replace(`${pathname}?${updated.toString()}`, { scroll: false });
+
+    setFaces(newFaces);
+    setWords(newWords);
+    setActions(newActions);
+    setStutters(newStutters);
+    setExclamations(newExclamations);
+    setLanguage(newLanguage);
   }
 
   function switchLanguage() {
@@ -222,7 +238,7 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
         ? Language.UWU_TO_ORG
         : Language.ORG_TO_UWU;
 
-    updateValue("language", switched);
+    updateValues([{ name: "language", value: switched }]);
   }
 
   return (
@@ -232,7 +248,7 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
         unuwuifySentence,
         translateSentence,
         resetValues,
-        updateValue,
+        updateValues,
         switchLanguage,
         error,
         state,
