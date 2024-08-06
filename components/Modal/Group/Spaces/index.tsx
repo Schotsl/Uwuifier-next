@@ -23,7 +23,7 @@ export default function ModalGroupSpaces({
     let changes: { name: string; value: number }[] = [];
 
     if (name === "faces") {
-      const total = roundNumber(value + actions + stutters, 2);
+      const total = roundNumber(value + actions + stutters, 4);
 
       if (total > 1) {
         const excess = total - 1;
@@ -32,12 +32,12 @@ export default function ModalGroupSpaces({
 
         changes.push({
           name: "actions",
-          value: roundNumber(actions - excess * actionsRatio, 2),
+          value: roundNumber(actions - excess * actionsRatio, 4),
         });
 
         changes.push({
           name: "stutters",
-          value: roundNumber(stutters - excess * stuttersRatio, 2),
+          value: roundNumber(stutters - excess * stuttersRatio, 4),
         });
       }
 
@@ -45,7 +45,7 @@ export default function ModalGroupSpaces({
     }
 
     if (name === "actions") {
-      const total = roundNumber(faces + value + stutters, 2);
+      const total = roundNumber(faces + value + stutters, 4);
 
       if (total > 1) {
         const excess = total - 1;
@@ -54,12 +54,12 @@ export default function ModalGroupSpaces({
 
         changes.push({
           name: "faces",
-          value: roundNumber(faces - excess * facesRatio),
+          value: roundNumber(faces - excess * facesRatio, 4),
         });
 
         changes.push({
           name: "stutters",
-          value: roundNumber(stutters - excess * stuttersRatio),
+          value: roundNumber(stutters - excess * stuttersRatio, 4),
         });
       }
 
@@ -67,7 +67,7 @@ export default function ModalGroupSpaces({
     }
 
     if (name === "stutters") {
-      const total = roundNumber(faces + actions + value, 2);
+      const total = roundNumber(faces + actions + value, 4);
 
       if (total > 1) {
         const excess = total - 1;
@@ -76,12 +76,12 @@ export default function ModalGroupSpaces({
 
         changes.push({
           name: "faces",
-          value: roundNumber(faces - excess * facesRatio),
+          value: roundNumber(faces - excess * facesRatio, 4),
         });
 
         changes.push({
           name: "actions",
-          value: roundNumber(actions - excess * actionsRatio),
+          value: roundNumber(actions - excess * actionsRatio, 4),
         });
       }
 

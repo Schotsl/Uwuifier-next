@@ -183,11 +183,13 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
   }
 
   function resetValues() {
-    setFaces(defaults.faces);
-    setWords(defaults.words);
-    setActions(defaults.actions);
-    setStutters(defaults.stutters);
-    setExclamations(defaults.exclamations);
+    updateValues([
+      { name: "faces", value: defaults.faces },
+      { name: "words", value: defaults.words },
+      { name: "actions", value: defaults.actions },
+      { name: "stutters", value: defaults.stutters },
+      { name: "exclamations", value: defaults.exclamations },
+    ]);
   }
 
   function updateValues(updates: { name: string; value: number | Language }[]) {
