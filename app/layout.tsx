@@ -127,10 +127,11 @@ export default async function RootLayout({
             <body>
               {children}
               <Footer />
+
+              {/* This has to be placed in the body */}
+              <SpeedInsights />
             </body>
           </html>
-
-          <SpeedInsights />
         </UwuifierProvider>
       </CountProvider>
     </PlausibleProvider>
