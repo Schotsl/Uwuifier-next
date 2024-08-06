@@ -10,7 +10,7 @@ import { ReactNode } from "react";
 import { Open_Sans } from "next/font/google";
 import { CountProvider } from "@/context/CountContext";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useSearchParams } from "next/navigation";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { UwuifierProvider } from "@/context/UwuifierContext";
 import Footer from "@/components/Footer";
 
@@ -83,54 +83,56 @@ export default async function RootLayout({
   const initialPersonal = loadPersonal();
 
   return (
-    <PlausibleProvider
-      domain="uwuifier.com"
-      enabled={true}
-      selfHosted={true}
-      customDomain="https://plausible.hedium.nl"
-    >
-      <CountProvider
-        initialGlobal={initialTotal}
-        initialPersonal={initialPersonal}
+    <SpeedInsights>
+      <PlausibleProvider
+        domain="uwuifier.com"
+        enabled={true}
+        selfHosted={true}
+        customDomain="https://plausible.hedium.nl"
       >
-        <UwuifierProvider>
-          <html lang="en" className={openSans.className}>
-            <head>
-              <link
-                rel="apple-touch-icon"
-                sizes="180x180"
-                href="/apple-touch-icon.png"
-              />
-              <link
-                rel="icon"
-                type="image/png"
-                sizes="32x32"
-                href="/favicon-32x32.png"
-              />
-              <link
-                rel="icon"
-                type="image/png"
-                sizes="16x16"
-                href="/favicon-16x16.png"
-              />
+        <CountProvider
+          initialGlobal={initialTotal}
+          initialPersonal={initialPersonal}
+        >
+          <UwuifierProvider>
+            <html lang="en" className={openSans.className}>
+              <head>
+                <link
+                  rel="apple-touch-icon"
+                  sizes="180x180"
+                  href="/apple-touch-icon.png"
+                />
+                <link
+                  rel="icon"
+                  type="image/png"
+                  sizes="32x32"
+                  href="/favicon-32x32.png"
+                />
+                <link
+                  rel="icon"
+                  type="image/png"
+                  sizes="16x16"
+                  href="/favicon-16x16.png"
+                />
 
-              <link rel="manifest" href="/site.webmanifest" />
-              <link
-                rel="mask-icon"
-                href="/safari-pinned-tab.svg"
-                color="#5bbad5"
-              />
+                <link rel="manifest" href="/site.webmanifest" />
+                <link
+                  rel="mask-icon"
+                  href="/safari-pinned-tab.svg"
+                  color="#5bbad5"
+                />
 
-              <meta name="msapplication-TileColor" content="#da532c" />
-              <meta name="theme-color" content="#303030" />
-            </head>
-            <body>
-              {children}
-              <Footer />
-            </body>
-          </html>
-        </UwuifierProvider>
-      </CountProvider>
-    </PlausibleProvider>
+                <meta name="msapplication-TileColor" content="#da532c" />
+                <meta name="theme-color" content="#303030" />
+              </head>
+              <body>
+                {children}
+                <Footer />
+              </body>
+            </html>
+          </UwuifierProvider>
+        </CountProvider>
+      </PlausibleProvider>
+    </SpeedInsights>
   );
 }

@@ -19,6 +19,7 @@
     "@sentry/nextjs": "^8.16.0",
     "@supabase/auth-helpers-nextjs": "latest",
     "@supabase/supabase-js": "latest",
+    "@vercel/speed-insights": "^1.0.12",
     "autoprefixer": "10.4.19",
     "cookies-next": "^4.1.1",
     "encoding": "^0.1.13",
