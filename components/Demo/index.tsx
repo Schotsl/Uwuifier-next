@@ -3,7 +3,6 @@
 import styles from "./IntroDemo.module.scss";
 
 import React from "react";
-import Button from "@/components/Button";
 import DemoField from "./Field";
 
 import { Language } from "@/types";
@@ -11,16 +10,9 @@ import { setValue } from "@/helper";
 import { useCount } from "@/context/CountContext";
 import { useRouter } from "next/navigation";
 import { useUwuifier } from "@/context/UwuifierContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname, useSearchParams } from "next/navigation";
 import { MutableRefObject, useState, useEffect, useRef } from "react";
-import {
-  faCheckSquare,
-  faCopy,
-  faGear,
-  faRepeat,
-  faShareFromSquare,
-} from "@fortawesome/free-solid-svg-icons";
+import { faGear, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import DemoCopy from "./Copy";
 import DemoShare from "./Share";
 import { usePlausible } from "next-plausible";
@@ -31,11 +23,6 @@ export default function Demo() {
     error,
     state,
     language,
-    faces,
-    words,
-    actions,
-    stutters,
-    exclamations,
     uwuifySentence,
     switchLanguage,
     translateSentence,
@@ -123,10 +110,10 @@ export default function Demo() {
     }
 
     // Re-uwuify the input whenever the Uwuifier settings change
-    const uwuified = uwuifySentence(input);
+    const output = uwuifySentence(input);
 
-    setOutput(uwuified);
-  }, [faces, words, actions, stutters, exclamations]);
+    setOutput(output);
+  }, [uwuifySentence]);
 
   return (
     <div className={styles.demo}>
@@ -147,17 +134,17 @@ export default function Demo() {
         language={language === Language.ORG_TO_UWU ? "UwU" : "Original"}
         readonly={true}
         headerButtons={[
-          <Icon
-            key={"switch"}
-            icon={faRepeat}
-            aria={
-              language === Language.ORG_TO_UWU
-                ? "Switch to UwU"
-                : "Switch to Original"
-            }
-            onClick={handleLanguage}
-            className={styles.demo__switch}
-          />,
+          // <Icon
+          //   key={"switch"}
+          //   icon={faRepeat}
+          //   aria={
+          //     language === Language.ORG_TO_UWU
+          //       ? "Switch to UwU"
+          //       : "Switch to Original"
+          //   }
+          //   onClick={handleLanguage}
+          //   className={styles.demo__switch}
+          // />,
           <Icon
             key={"settings"}
             icon={faGear}
