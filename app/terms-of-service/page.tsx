@@ -136,8 +136,8 @@ export default async function Page() {
         <section>
           <h3>Contact Me</h3>
           <p>
-            If you have any questions or concerns about these Terms,
-            please contact me at{" "}
+            If you have any questions or concerns about these Terms, please
+            contact me at{" "}
             <a href="mailto:uwuifier@sjorsvanholst.nl">
               uwuifier@sjorsvanholst.nl
             </a>

@@ -39,7 +39,7 @@ const UwuifierContext = createContext<UwuifierContextType>({
   translateSentence: async (sentence: string) => sentence,
 
   resetValues: () => {},
-  updateValue: () => {},
+  updateValues: () => {},
   switchLanguage: () => {},
 
   error: "",

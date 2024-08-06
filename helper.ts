@@ -15,7 +15,7 @@ export function roundNumber(number: number, precision = 0) {
 export function getValue<T extends string | number | boolean>(
   params: URLSearchParams,
   key: string,
-  initial: T
+  initial: T,
 ): T {
   const value = params.get(key);
 
@@ -40,7 +40,7 @@ export function getValue<T extends string | number | boolean>(
 export function setValue(
   params: URLSearchParams,
   name: string,
-  value?: string | number | boolean
+  value?: string | number | boolean,
 ) {
   const searchParams = new URLSearchParams(params.toString());
 
@@ -55,7 +55,7 @@ export function setValue(
 
 export function setValues(
   params: URLSearchParams,
-  values: { name: string; value: string | number | boolean | undefined }[]
+  values: { name: string; value: string | number | boolean | undefined }[],
 ) {
   let updated = params;
 
