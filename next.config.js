@@ -8,13 +8,13 @@ const reportURL = process.env.NEXT_PUBLIC_SENTRY_REPORT;
 const reportURLStripped = `${reportURL.split("sentry.io")[0]}sentry.io`;
 
 const contentSecurityPolicy = `
-  img-src 'self';
+  img-src 'self' blob: data:';
   font-src 'self';
   style-src 'self' 'unsafe-inline';
   worker-src 'self' blob:;
   object-src 'none';
   script-src 'self' 'unsafe-inline' 'unsafe-eval';
-  connect-src 'self' ${reportURLStripped} wss://rqautahsvsoneozemjth.supabase.co https://rqautahsvsoneozemjth.supabase.co;
+  connect-src 'self' data: ${reportURLStripped} wss://rqautahsvsoneozemjth.supabase.co https://rqautahsvsoneozemjth.supabase.co;
   report-to csp-endpoint;
   report-uri ${reportURLStripped};
   upgrade-insecure-requests;
