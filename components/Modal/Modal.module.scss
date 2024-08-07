@@ -4,6 +4,7 @@
 .modal {
   top: 0;
   left: 0;
+  padding: 0;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -28,8 +29,8 @@
     flex-direction: column;
 
     // TODO: Switch to variables
-    width: calc(100vw - 4rem);
-    height: calc(100vh - 8rem);
+    width: calc(100vw - 2rem);
+    height: calc(100vh - 2rem);
 
     @include respond-to-md {
       width: calc(100vw - 8rem);
@@ -60,8 +61,6 @@
         outline: none;
         padding: 1rem 1.25rem;
         background: $color-background;
-
-        font-family: inherit;
         border-radius: 1rem;
       }
     }
