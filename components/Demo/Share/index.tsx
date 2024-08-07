@@ -16,11 +16,17 @@ export default function DemoShare({ output }: DemoShareProps) {
       return;
     }
 
+    try {
     navigator.share({
       text: output,
     });
+  } catch (error: Error) {
+    // No need to report this abort error
+    if (error.name === 'AbortError') {
+      return;
+    }
 
-    plausible("Shared text");
+    throw error;
   }
 
   return (
