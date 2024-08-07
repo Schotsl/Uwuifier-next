@@ -6,6 +6,8 @@
   width: 100%;
   display: flex;
   padding: 0.25rem;
+  overflow: hidden;
+  max-height: 58px;
 
   background: $color-background;
   border-radius: 1rem;
@@ -13,6 +15,7 @@
 
   @include respond-to-sm {
     width: auto;
+    overflow: unset;
     flex-direction: row;
   }
 
@@ -21,9 +24,22 @@
       width: 100%;
       color: rgb(161, 161, 170);
       padding: 1rem 1.5rem;
+      position: relative;
       font-size: $font-small;
       transition: all 0.2s ease-in-out;
       border-radius: 0.75rem;
+
+      &__arrow {
+        top: 50%;
+        right: 1.5rem;
+        position: absolute;
+        transform: translateY(-50%);
+        font-size: 18px;
+
+        @include respond-to-sm {
+          display: none;
+        }
+      }
     }
 
     &--active {
@@ -33,5 +49,9 @@
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
       }
     }
+  }
+
+  &--open {
+    max-height: unset;
   }
 }
