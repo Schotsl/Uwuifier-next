@@ -1,7 +1,14 @@
+@import "@/styles/mixins";
+
 .header {
   gap: 1.5rem;
-  align-items: center;
   display: flex;
+  align-items: center;
+  flex-direction: column-reverse;
+
+  @include respond-to-sm {
+    flex-direction: row;
+  }
 
   &__menu {
     width: 100%;

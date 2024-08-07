@@ -1,15 +1,24 @@
 @import "@/styles/variables";
+@import "@/styles/mixins";
 
 .tabs {
   gap: 0.25rem;
-  padding: 0.25rem;
+  width: 100%;
   display: flex;
+  padding: 0.25rem;
 
   background: $color-background;
   border-radius: 1rem;
+  flex-direction: column;
+
+  @include respond-to-sm {
+    width: auto;
+    flex-direction: row;
+  }
 
   &__tab {
     &__button {
+      width: 100%;
       color: rgb(161, 161, 170);
       padding: 1rem 1.5rem;
       font-size: $font-small;
