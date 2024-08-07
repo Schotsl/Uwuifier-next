@@ -17,16 +17,17 @@ export default function DemoShare({ output }: DemoShareProps) {
     }
 
     try {
-    navigator.share({
-      text: output,
-    });
-  } catch (error: Error) {
-    // No need to report this abort error
-    if (error.name === 'AbortError') {
-      return;
-    }
+      navigator.share({
+        text: output,
+      });
+    } catch (error: any) {
+      // No need to report this abort error
+      if (error.name === "AbortError") {
+        return;
+      }
 
-    throw error;
+      throw error;
+    }
   }
 
   return (
