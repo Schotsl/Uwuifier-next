@@ -17,12 +17,30 @@ import Footer from "@/components/Footer";
 config.autoAddCss = false;
 
 const url = new URL("https://uwuifier.com/");
-const title = "Uwuifier";
-const description = `This is the best app for all your uwuify, owoify and weeb needs! Uwuifier (also known as Owoifier translator) is the most complex uwu and owo translator / generator on the web. It allows you to translate any text, sentence or word (excluding URL’s and @’s) while giving you access to many vewy kawaii sentences, stutters, faces and even a text-to-speech translation!`;
+const alt = "Uwuifier banner of an exploding face";
+const title = "Uwuifier translator";
+const image = "https://uwuifier.com/banner-1200x630.png";
+const description = `Discover the ultimate app and website to transform your text with fun and cute uwu and owo styles. Uwuifier, also known as the Owoifier Translator, is the most advanced uwu and owo text generator on the web. Customize your translations to convert any text, sentence, or word into adorable, stutter-filled, and emotive phrases. Excluding URLs and @mentions, this tool provides a wide range of kawaii options. Plus, it offers an un-uwuifier feature to filter and revert any annoying uwuified texts from your friends back to normal. Perfect for all your weeb and playful text transformation needs!`;
 
 export const metadata: Metadata = {
   title,
-  keywords: ["uwu", "owo", "weeb", "anime", "translator"],
+  keywords: [
+    "uwuify",
+    "owoify",
+    "uwuifier",
+    "owoifier",
+    "uwu generator",
+    "owo generator",
+    "kawaii text",
+    "cute text generator",
+    "uwu filter",
+    "owo filter",
+    "text to uwu",
+    "text to owo",
+    "uwu translator",
+    "owo translator",
+    "un-uwuifier",
+  ],
   description,
   metadataBase: url,
 
@@ -30,6 +48,7 @@ export const metadata: Metadata = {
     url,
     type: "website",
     title,
+    images: [{ url: image, alt, width: 1200, height: 630 }],
     locale: "en_US",
     siteName: title,
     description,
