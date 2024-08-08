@@ -134,17 +134,17 @@ export default function Demo() {
         language={language === Language.ORG_TO_UWU ? "UwU" : "Original"}
         readonly={true}
         headerButtons={[
-          // <Icon
-          //   key={"switch"}
-          //   icon={faRepeat}
-          //   aria={
-          //     language === Language.ORG_TO_UWU
-          //       ? "Switch to UwU"
-          //       : "Switch to Original"
-          //   }
-          //   onClick={handleLanguage}
-          //   className={styles.demo__switch}
-          // />,
+          <Icon
+            key={"switch"}
+            icon={faRepeat}
+            aria={
+              language === Language.ORG_TO_UWU
+                ? "Switch to UwU"
+                : "Switch to Original"
+            }
+            onClick={handleLanguage}
+            className={styles.demo__switch}
+          />,
           <Icon
             key={"settings"}
             icon={faGear}

@@ -80,17 +80,17 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
   const initialStutters = getValue<number>(
     params,
     "stutters",
-    defaults.stutters
+    defaults.stutters,
   );
   const initialExclamations = getValue<number>(
     params,
     "exclamations",
-    defaults.exclamations
+    defaults.exclamations,
   );
   const initialLanguage = getValue<Language>(
     params,
     "language",
-    defaults.language
+    defaults.language,
   );
 
   const [faces, setFaces] = useState(initialFaces);
@@ -113,7 +113,7 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
       },
       words: initialWords,
       exclamations: initialExclamations,
-    })
+    }),
   );
 
   useEffect(() => {

@@ -55,7 +55,7 @@ export default function ModelHeaderTabs({
   const tabsCopy = [...tabs];
   const tabsSorted = isMobile
     ? tabsCopy.sort((a, b) =>
-        a.value === active ? -1 : b.value === active ? 1 : 0
+        a.value === active ? -1 : b.value === active ? 1 : 0,
       )
     : tabs;
 
