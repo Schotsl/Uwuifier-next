@@ -18,7 +18,7 @@ config.autoAddCss = false;
 
 const url = new URL("https://uwuifier.com/");
 const alt = "Uwuifier banner of an exploding face";
-const title = "Uwuifier translator";
+const title = "Uwuifier Translator";
 const image = "https://uwuifier.com/banner-1200x630.png";
 const description = `Discover the ultimate app and website to transform your text with fun and cute uwu and owo styles. Uwuifier, also known as the Owoifier Translator, is the most advanced uwu and owo text generator on the web. Customize your translations to convert any text, sentence, or word into adorable, stutter-filled, and emotive phrases. Excluding URLs and @mentions, this tool provides a wide range of kawaii options. Plus, it offers an un-uwuifier feature to filter and revert any annoying uwuified texts from your friends back to normal. Perfect for all your weeb and playful text transformation needs!`;
 
