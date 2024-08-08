@@ -31,7 +31,6 @@ if (!SUPABASE_SERVICE_ROLE_KEY) {
 }
 
 async function fetchTranslation(input: string) {
-  console.log(input);
   const client = new OpenAI({ apiKey: OPENAI_API_KEY });
   const response = await client.chat.completions.create({
     model: OPENAI_API_MODEL,
@@ -67,7 +66,7 @@ async function fetchTranslation(input: string) {
 
 async function fetchCache(
   inputHashed: string,
-  inputKey: Buffer,
+  inputKey: Buffer
 ): Promise<string | null> {
   const supabaseClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
@@ -86,7 +85,7 @@ async function fetchCache(
     const decryptedOutput = encryptedToOutput(
       data[0].vector,
       data[0].output,
-      inputKey,
+      inputKey
     );
 
     return decryptedOutput;
@@ -98,7 +97,7 @@ async function fetchCache(
 async function insertCache(
   inputHashed: string,
   inputKey: Buffer,
-  output: string,
+  output: string
 ) {
   const supabaseClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
@@ -124,14 +123,14 @@ export async function POST(request: Request) {
   if (!input) {
     return NextResponse.json(
       { message: "The input is missing from the body" },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
   if (input.length > 512) {
     return NextResponse.json(
       { message: "The input can't be more than 512 characters" },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
