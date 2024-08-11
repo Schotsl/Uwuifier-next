@@ -101,7 +101,7 @@ export default function Demo() {
 
     router.replace(`${pathname}?${updated.toString()}`, { scroll: false });
 
-    plausible("Open settings");
+    plausible("Opened settings");
   }
 
   useEffect(() => {

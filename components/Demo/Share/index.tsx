@@ -28,6 +28,8 @@ export default function DemoShare({ output }: DemoShareProps) {
 
       throw error;
     }
+
+    plausible("Shared sentence");
   }
 
   return (

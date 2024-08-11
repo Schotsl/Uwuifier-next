@@ -21,7 +21,7 @@ export default function DemoCopy({ output }: DemoCopyProps) {
       setCopied(false);
     }, 2000);
 
-    plausible("Copied text");
+    plausible("Copied sentence");
   }
 
   return (
