@@ -3,6 +3,7 @@ import "./layout.scss";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import PlausibleProvider from "next-plausible";
 
+import { Arimo } from "next/font/google";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { cookies } from "next/headers";
 import { Metadata } from "next";
@@ -12,6 +13,7 @@ import { CountProvider } from "@/context/CountContext";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { UwuifierProvider } from "@/context/UwuifierContext";
+
 import Footer from "@/components/Footer";
 
 config.autoAddCss = false;
@@ -58,9 +60,15 @@ export const metadata: Metadata = {
 };
 
 const supabase = createServerComponentClient({ cookies });
-const openSans = Open_Sans({
-  weight: ["400", "700", "600"],
+const arimo = Arimo({
+  weight: ["400"],
   subsets: ["latin"],
+  variable: "--font-arimo",
+});
+const openSans = Open_Sans({
+  weight: ["400", "600", "800"],
+  subsets: ["latin"],
+  variable: "--font-open-sans",
 });
 
 async function loadStatistics() {
@@ -113,7 +121,7 @@ export default async function RootLayout({
         initialPersonal={initialPersonal}
       >
         <UwuifierProvider>
-          <html lang="en" className={openSans.className}>
+          <html lang="en" className={`${openSans.variable} ${arimo.variable}`}>
             <head>
               <link
                 rel="apple-touch-icon"
