@@ -80,17 +80,17 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
   const initialStutters = getValue<number>(
     params,
     "stutters",
-    defaults.stutters,
+    defaults.stutters
   );
   const initialExclamations = getValue<number>(
     params,
     "exclamations",
-    defaults.exclamations,
+    defaults.exclamations
   );
   const initialLanguage = getValue<Language>(
     params,
     "language",
-    defaults.language,
+    defaults.language
   );
 
   const [faces, setFaces] = useState(initialFaces);
@@ -113,7 +113,7 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
       },
       words: initialWords,
       exclamations: initialExclamations,
-    }),
+    })
   );
 
   useEffect(() => {
@@ -131,12 +131,15 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
   }, [words, faces, actions, stutters, exclamations]);
 
   async function translateSentence(input: string) {
-    const output =
-      language === Language.UWU_TO_ORG
-        ? await unuwuifySentence(input)
-        : uwuifySentence(input);
+    // If the input is empty we don't need to translate anything
+    if (!input.trim()) {
+      return input;
+    }
 
-    return output;
+    // Otherwise we'll translate the input
+    return language === Language.UWU_TO_ORG
+      ? await unuwuifySentence(input)
+      : uwuifySentence(input);
   }
 
   function uwuifySentence(input: string) {
