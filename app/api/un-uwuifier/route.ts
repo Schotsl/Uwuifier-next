@@ -112,6 +112,14 @@ async function insertCache(
   ]);
 
   if (inertError) {
+    // Incase of a race condition where the same input is inserted twice
+    if (
+      inertError.message ===
+      `duplicate key value violates unique constraint "sentences_pkey"`
+    ) {
+      return;
+    }
+
     throw inertError;
   }
 }
