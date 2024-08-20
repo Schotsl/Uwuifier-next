@@ -1,6 +1,6 @@
 "use client";
 
-import Uwuifier from "uwuifier";
+import Uwuifier, { DEFAULTS } from "uwuifier";
 import { useRouter } from "next/navigation";
 import { Language, State } from "@/types";
 import { getValue, setValue, setValues } from "@/helper";
@@ -66,12 +66,12 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const defaults = {
-    faces: 0.5,
-    words: 1,
-    actions: 0.075,
-    stutters: 0.1,
-    exclamations: 0.5,
+    words: DEFAULTS.WORDS,
+    faces: DEFAULTS.SPACES.faces,
+    actions: DEFAULTS.SPACES.actions,
+    stutters: DEFAULTS.SPACES.stutters,
     language: Language.ORG_TO_UWU,
+    exclamations: DEFAULTS.EXCLAMATIONS,
   };
 
   const initialFaces = getValue<number>(params, "faces", defaults.faces);
