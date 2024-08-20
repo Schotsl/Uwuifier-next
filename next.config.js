@@ -54,9 +54,13 @@ module.exports = withPlausibleProxy({
       },
     },
     {
-      org: "sjors-van-holst-0c97a3b77",
+      org: process.env.NEXT_PUBLIC_SENTRY_ORG,
+      project: process.env.NEXT_PUBLIC_SENTRY_PROJECT,
+
       silent: !process.env.CI,
-      project: "uwuifier",
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+
+      // Enable source maps and React annotations
       widenClientFileUpload: true,
       reactComponentAnnotation: {
         enabled: true,
