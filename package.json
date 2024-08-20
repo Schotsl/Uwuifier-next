@@ -30,7 +30,7 @@
     "react-hook-form": "^7.51.2",
     "sass": "^1.74.1",
     "typescript": "5.4.5",
-    "uwuifier": "^4.0.5",
+    "uwuifier": "^4.2.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
