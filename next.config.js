@@ -13,7 +13,7 @@ const contentSecurityPolicy = `
   style-src 'self' 'unsafe-inline';
   worker-src 'self' blob:;
   object-src 'none';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval';
+  script-src 'self' blob: 'unsafe-inline' 'unsafe-eval';
   connect-src 'self' data: ${reportURLStripped} wss://rqautahsvsoneozemjth.supabase.co https://rqautahsvsoneozemjth.supabase.co;
   report-to csp-endpoint;
   report-uri ${reportURLStripped};
