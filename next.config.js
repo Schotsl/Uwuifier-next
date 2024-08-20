@@ -55,16 +55,11 @@ module.exports = withPlausibleProxy({
     },
     {
       org: "sjors-van-holst-0c97a3b77",
-      silent: true,
-      release: "1.0.0",
+      silent: !process.env.CI,
       project: "uwuifier",
-    },
-    {
-      disableLogger: true,
-      hideSourceMaps: true,
-      transpileClientSDK: true,
       widenClientFileUpload: true,
-      automaticVercelMonitors: true,
-    },
-  ),
-);
+      reactComponentAnnotation: {
+        enabled: true,
+      }
+    }
+  ));
