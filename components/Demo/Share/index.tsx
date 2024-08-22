@@ -21,10 +21,11 @@ export default function DemoShare({ output }: DemoShareProps) {
         text: output,
       });
     } catch (error: any) {
+      const errorStringified = JSON.stringify(error);
+      const errorAborted = errorStringified.includes("AbortError");
+
       // No need to report this abort error
-      if (error.name === "AbortError") {
-        return;
-      }
+      if (errorAborted) return;
 
       throw error;
     }
