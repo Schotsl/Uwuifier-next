@@ -22,7 +22,9 @@ export default function DemoShare({ output }: DemoShareProps) {
       });
     } catch (error: any) {
       const errorStringified = JSON.stringify(error);
-      const errorAborted = errorStringified.includes("AbortError");
+      const errorAborted =
+        errorStringified.includes("AbortError") ||
+        errorStringified.includes("cancellation of share");
 
       // No need to report this abort error
       if (errorAborted) return;
