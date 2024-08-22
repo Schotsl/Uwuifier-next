@@ -3,7 +3,7 @@
 import Uwuifier, { DEFAULTS } from "uwuifier";
 import { useRouter } from "next/navigation";
 import { Language, State } from "@/types";
-import { getValue, setValue, setValues } from "@/helper";
+import { getValue, setValues, safeNumber } from "@/helper";
 import { usePathname, useSearchParams } from "next/navigation";
 import {
   createContext,
@@ -107,24 +107,24 @@ export const UwuifierProvider = ({ children }: UwuifierProviderProps) => {
   const [uwuifier, setUwuifier] = useState(
     new Uwuifier({
       spaces: {
-        faces: initialFaces,
-        actions: initialActions,
-        stutters: initialStutters,
+        faces: safeNumber(initialFaces),
+        actions: safeNumber(initialActions),
+        stutters: safeNumber(initialStutters),
       },
-      words: initialWords,
-      exclamations: initialExclamations,
+      words: safeNumber(initialWords),
+      exclamations: safeNumber(initialExclamations),
     })
   );
 
   useEffect(() => {
     const uwuifier = new Uwuifier({
       spaces: {
-        faces,
-        actions,
-        stutters,
+        faces: safeNumber(faces),
+        actions: safeNumber(actions),
+        stutters: safeNumber(stutters),
       },
-      words,
-      exclamations,
+      words: safeNumber(words),
+      exclamations: safeNumber(exclamations),
     });
 
     setUwuifier(uwuifier);

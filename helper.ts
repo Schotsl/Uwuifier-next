@@ -1,22 +1,38 @@
-export function formatNumber(number: number) {
+export const formatNumber = (number: number) => {
   const numberString = number.toString();
   const numberFormatted = numberString.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
   return numberFormatted;
-}
+};
 
-export function roundNumber(number: number, precision = 0) {
+export const roundNumber = (number: number, precision = 0) => {
   const factor = Math.pow(10, precision);
   const rounded = Math.round(number * factor) / factor;
 
   return rounded;
-}
+};
 
-export function getValue<T extends string | number | boolean>(
+export const safeNumber = (number: number) => {
+  if (number === undefined) {
+    return 0;
+  }
+
+  if (number < 0) {
+    return 0;
+  }
+
+  if (number > 1) {
+    return 1;
+  }
+
+  return number;
+};
+
+export const getValue = <T extends string | number | boolean>(
   params: URLSearchParams,
   key: string,
-  initial: T,
-): T {
+  initial: T
+): T => {
   const value = params.get(key);
 
   if (value === null) {
@@ -35,13 +51,13 @@ export function getValue<T extends string | number | boolean>(
   }
 
   return value as T;
-}
+};
 
-export function setValue(
+export const setValue = (
   params: URLSearchParams,
   name: string,
-  value?: string | number | boolean,
-) {
+  value?: string | number | boolean
+) => {
   const searchParams = new URLSearchParams(params.toString());
 
   if (value === undefined) {
@@ -51,12 +67,12 @@ export function setValue(
   }
 
   return searchParams;
-}
+};
 
-export function setValues(
+export const setValues = (
   params: URLSearchParams,
-  values: { name: string; value: string | number | boolean | undefined }[],
-) {
+  values: { name: string; value: string | number | boolean | undefined }[]
+) => {
   let updated = params;
 
   for (const { name, value } of values) {
@@ -64,4 +80,4 @@ export function setValues(
   }
 
   return updated;
-}
+};
