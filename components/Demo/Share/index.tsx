@@ -9,7 +9,7 @@ type DemoShareProps = {
 export default function DemoShare({ output }: DemoShareProps) {
   const plausible = usePlausible();
 
-  function handleShare() {
+  async function handleShare() {
     // Check if the share API is available
     if (!navigator.share) {
       alert("The share API is not supported in your browser.");
@@ -17,14 +17,13 @@ export default function DemoShare({ output }: DemoShareProps) {
     }
 
     try {
-      navigator.share({
+      await navigator.share({
         text: output,
       });
     } catch (error: any) {
-      const errorStringified = JSON.stringify(error);
       const errorAborted =
-        errorStringified.includes("AbortError") ||
-        errorStringified.includes("cancellation of share");
+        error.name === "AbortError" ||
+        error.message.includes("cancellation of share");
 
       // No need to report this abort error
       if (errorAborted) return;
