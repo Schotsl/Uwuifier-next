@@ -31,7 +31,7 @@ export const safeNumber = (number: number) => {
 export const getValue = <T extends string | number | boolean>(
   params: URLSearchParams,
   key: string,
-  initial: T
+  initial: T,
 ): T => {
   const value = params.get(key);
 
@@ -56,7 +56,7 @@ export const getValue = <T extends string | number | boolean>(
 export const setValue = (
   params: URLSearchParams,
   name: string,
-  value?: string | number | boolean
+  value?: string | number | boolean,
 ) => {
   const searchParams = new URLSearchParams(params.toString());
 
@@ -71,7 +71,7 @@ export const setValue = (
 
 export const setValues = (
   params: URLSearchParams,
-  values: { name: string; value: string | number | boolean | undefined }[]
+  values: { name: string; value: string | number | boolean | undefined }[],
 ) => {
   let updated = params;
 

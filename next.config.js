@@ -64,6 +64,7 @@ module.exports = withPlausibleProxy({
       widenClientFileUpload: true,
       reactComponentAnnotation: {
         enabled: true,
-      }
-    }
-  ));
+      },
+    },
+  ),
+);

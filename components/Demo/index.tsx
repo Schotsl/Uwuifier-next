@@ -40,11 +40,11 @@ export default function Demo() {
   const exampleUwuified = uwuifySentence(exampleNormal);
 
   const [input, setInput] = useState(
-    language === Language.ORG_TO_UWU ? exampleNormal : exampleUwuified
+    language === Language.ORG_TO_UWU ? exampleNormal : exampleUwuified,
   );
 
   const [output, setOutput] = useState(
-    language === Language.ORG_TO_UWU ? exampleUwuified : exampleNormal
+    language === Language.ORG_TO_UWU ? exampleUwuified : exampleNormal,
   );
 
   const [typed, setTyped] = useState(false);
