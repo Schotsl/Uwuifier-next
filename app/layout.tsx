@@ -75,46 +75,11 @@ const openSans = Open_Sans({
   variable: "--font-open-sans",
 });
 
-async function loadStatistics(supabase: SupabaseClient) {
-  try {
-    const { data, error } = await supabase
-      .from("statistics")
-      .select("uwuified_sentence")
-      .single();
-
-    if (error) {
-      throw error;
-    }
-
-    if (!data) {
-      return 0;
-    }
-
-    return data.uwuified_sentence;
-  } catch (error) {
-    return 0;
-  }
-}
-
-function loadPersonal() {
-  const store = cookies();
-
-  const personal = store.get("personal")?.value || "0";
-  const personalParsed = parseInt(personal);
-
-  return personalParsed;
-}
-
 export default async function RootLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  const supabase = createServerComponentClient({ cookies });
-
-  const initialTotal = await loadStatistics(supabase);
-  const initialPersonal = loadPersonal();
-
   return (
     <PlausibleProvider
       domain="uwuifier.com"
@@ -122,10 +87,7 @@ export default async function RootLayout({
       selfHosted={true}
       customDomain="https://plausible.hedium.nl"
     >
-      <CountProvider
-        initialGlobal={initialTotal}
-        initialPersonal={initialPersonal}
-      >
+      <CountProvider>
         <UwuifierProvider>
           <html lang="en" className={`${openSans.variable} ${arimo.variable}`}>
             <head>

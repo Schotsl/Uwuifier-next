@@ -1,5 +1,6 @@
 "use client";
-import { setCookie } from "cookies-next";
+
+import { setCookie, getCookie } from "cookies-next";
 import { usePlausible } from "next-plausible";
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -13,13 +14,21 @@ import {
 
 type CountContextType = {
   global: number;
+  globalLoading: boolean;
+
   personal: number;
+  personalLoading: boolean;
+
   onUwuified: () => void;
 };
 
 const CountContext = createContext<CountContextType>({
   global: 0,
+  globalLoading: true,
+
   personal: 0,
+  personalLoading: true,
+
   onUwuified: () => {},
 });
 
@@ -28,19 +37,16 @@ export const useCount = () => {
 };
 
 type CountProviderProps = {
-  initialGlobal: number;
-  initialPersonal: number;
   children: ReactNode;
 };
 
-export const CountProvider = ({
-  initialGlobal,
-  initialPersonal,
-  children,
-}: CountProviderProps) => {
+export const CountProvider = ({ children }: CountProviderProps) => {
   const [offset, setOffset] = useState(0);
-  const [global, setGlobal] = useState(initialGlobal);
-  const [personal, setPersonal] = useState(initialPersonal);
+  const [global, setGlobal] = useState(0);
+  const [globalLoading, setGlobalLoading] = useState(true);
+
+  const [personal, setPersonal] = useState(0);
+  const [personalLoading, setPersonalLoading] = useState(true);
 
   const supabase = createClientComponentClient();
   const plausible = usePlausible();
@@ -57,7 +63,7 @@ export const CountProvider = ({
         },
         (payload: any) => {
           setGlobal(payload.new.uwuified_sentence - offset);
-        },
+        }
       )
       .subscribe();
 
@@ -65,6 +71,32 @@ export const CountProvider = ({
       channel.unsubscribe();
     };
   };
+
+  const loadStatistics = async () => {
+    const { data, error } = await supabase
+      .from("statistics")
+      .select("uwuified_sentence")
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data) {
+      return;
+    }
+
+    setGlobal(data.uwuified_sentence - offset);
+    setGlobalLoading(false);
+  };
+
+  function loadPersonal() {
+    const personal = getCookie("personal") || "0";
+    const personalParsed = parseInt(personal!);
+
+    setPersonal(personalParsed);
+    setPersonalLoading(false);
+  }
 
   const onUwuified = () => {
     setOffset((previous) => previous + 1);
@@ -91,10 +123,15 @@ export const CountProvider = ({
 
   useEffect(() => {
     subscribeCount();
+
+    loadPersonal();
+    loadStatistics();
   });
 
   return (
-    <CountContext.Provider value={{ global, personal, onUwuified }}>
+    <CountContext.Provider
+      value={{ global, globalLoading, personal, personalLoading, onUwuified }}
+    >
       {children}
     </CountContext.Provider>
   );
