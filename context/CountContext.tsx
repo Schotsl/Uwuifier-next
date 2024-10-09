@@ -90,13 +90,16 @@ export const CountProvider = ({ children }: CountProviderProps) => {
     setGlobalLoading(false);
   };
 
-  function loadPersonal() {
+  const loadPersonal = async () => {
     const personal = getCookie("personal") || "0";
     const personalParsed = parseInt(personal!);
 
+    // Wait for one second
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     setPersonal(personalParsed);
     setPersonalLoading(false);
-  }
+  };
 
   const onUwuified = () => {
     setOffset((previous) => previous + 1);
