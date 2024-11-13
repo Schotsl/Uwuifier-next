@@ -12,7 +12,7 @@ const contentSecurityPolicy = `
   style-src 'self' 'unsafe-inline';
   worker-src 'self' blob:;
   object-src 'none';
-  script-src 'self' blob: 'unsafe-inline' 'unsafe-eval';
+  script-src 'self' blob: 'unsafe-inline' 'unsafe-eval' https://plausible.hedium.nl;
   connect-src 'self' data: ${reportURLStripped} https://plausible.io wss://rqautahsvsoneozemjth.supabase.co https://rqautahsvsoneozemjth.supabase.co;
   report-to csp-endpoint;
   report-uri ${reportURLStripped};
