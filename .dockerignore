@@ -1,0 +1,5 @@
+.git
+.next
+.env.keys
+
+node_modules
