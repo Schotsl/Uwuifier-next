@@ -1,0 +1,4 @@
+allowBuilds:
+  '@parcel/watcher': true
+  '@sentry/cli': true
+  unrs-resolver: true

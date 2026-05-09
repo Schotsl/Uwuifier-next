@@ -1,4 +1,4 @@
-FROM node:22-bookworm-slim
+FROM node:24-bookworm-slim
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 RUN corepack enable \
-  && corepack prepare pnpm@10.23.0 --activate
+  && corepack prepare pnpm@11.0.6 --activate
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
