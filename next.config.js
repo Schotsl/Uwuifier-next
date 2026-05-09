@@ -5,9 +5,7 @@ const { withSentryConfig } = require("@sentry/nextjs");
 
 // Cut off at sentry.io
 const reportURL = process.env.NEXT_PUBLIC_SENTRY_REPORT;
-const reportURLStripped = reportURL
-  ? `${reportURL.split("sentry.io")[0]}sentry.io`
-  : "";
+const reportURLStripped = `${reportURL.split("sentry.io")[0]}sentry.io`;
 
 const contentSecurityPolicy = `
   img-src 'self' data: blob:;
