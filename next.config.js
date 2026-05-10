@@ -4,8 +4,7 @@ const dotenvx = require("@dotenvx/dotenvx");
 const { withPlausibleProxy } = require("next-plausible");
 const { withSentryConfig } = require("@sentry/nextjs");
 
-const envFile =
-  process.env.NODE_ENV === "production" ? ".env.production" : ".env";
+const envFile = process.env.NODE_ENV === "production" ? ".env.production" : ".env";
 
 dotenvx.config({ path: envFile, envKeysFile: ".env.keys" });
 
