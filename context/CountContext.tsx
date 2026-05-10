@@ -125,11 +125,13 @@ export const CountProvider = ({ children }: CountProviderProps) => {
   };
 
   useEffect(() => {
-    subscribeCount();
+    const unsubscribe = subscribeCount();
 
     loadPersonal();
     loadStatistics();
-  });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <CountContext.Provider
